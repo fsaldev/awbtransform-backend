@@ -276,6 +276,17 @@ def new_employee_pdf():
 
     return jsonify(user.to_json())
 
+@app.route('/')
+@cross_origin()
+def index():
+    return app.send_static_file('index.html')
+
+@app.errorhandler(404)
+def not_found(e):
+    return app.send_static_file('index.html')
+
 if __name__ == "__main__":
     app.listen(process.env.PORT or 5000, ...)
-    app.run(debug=True)
+    app = Flask(__name__, static_folder='./build', static_url_path='/')
+    app.run(host='0.0.0.0', debug=True)
+

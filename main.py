@@ -8,7 +8,7 @@ from flask_mongoengine.wtf import model_form
 import hashlib
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['MONGODB_SETTINGS'] = {
     'db': 'awbTransport1',
     'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
@@ -287,6 +287,5 @@ def not_found(e):
 
 if __name__ == "__main__":
     app.listen(process.env.PORT or 5000, ...)
-    app = Flask(__name__, static_folder='./build', static_url_path='/')
-    app.run(host='0.0.0.0', debug=True)
+    app.run(debug=True)
 

@@ -264,6 +264,15 @@ def login():
 
     return jsonify(user.to_json())
 
+@app.route('/api/new_employee_information_pdf', methods=['POST'])
+@cross_origin()
+def new_employee_pdf():
+    record = json.loads(request.data)
+    user = DriversData.objects(user_name=record['user_name']).first()
+    if not user:
+        return jsonify({'error': 'User Name Not Exists'})
+
+    return jsonify(user.to_json())
 
 if __name__ == "__main__":
     app.run(debug=True)

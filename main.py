@@ -1,4 +1,6 @@
 import json
+from multiprocessing import process
+
 from flask import Flask, request, jsonify
 from flask_cors import cross_origin
 from flask_mongoengine import MongoEngine
@@ -275,4 +277,5 @@ def new_employee_pdf():
     return jsonify(user.to_json())
 
 if __name__ == "__main__":
+    app.listen(process.env.PORT or 5000, ...)
     app.run(debug=True)

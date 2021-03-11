@@ -1,12 +1,12 @@
+import base64
 import json
 from multiprocessing import process
-
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template, make_response
 from flask_cors import cross_origin
 from flask_mongoengine import MongoEngine
 from flask_mongoengine.wtf import model_form
 import hashlib
-
+import pdfkit
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['MONGODB_SETTINGS'] = {
@@ -16,7 +16,7 @@ app.config['MONGODB_SETTINGS'] = {
 }
 db = MongoEngine()
 db.init_app(app)
-
+# wkhtmltopdf = Wkhtmltopdf(app)
 
 class EmploymentHistory(db.EmbeddedDocument):
     employmentHistoryfrom = db.DateField()
@@ -71,7 +71,6 @@ class Reference(db.EmbeddedDocument):
     referencePhoneNumber = db.StringField()
     referenceAddress = db.StringField()
 
-
 class DriversData(db.Document):
     user_name = db.StringField()
     password = db.StringField()
@@ -86,6 +85,9 @@ class DriversData(db.Document):
     state = db.StringField()
     zipCode = db.StringField()
     lastThreeYearResidenceCheck = db.BooleanField()
+    maritial_status = db.StringField()
+    NumberofDependantsUnder17 = db.IntField()
+    NumberofDependantsOver17 = db.IntField()
     #lastyearaddressses
     addresses = db.ListField(db.EmbeddedDocumentField(Address))
 
@@ -203,27 +205,16 @@ class DriversData(db.Document):
 
 driverForm = model_form(DriversData)
 
-@app.route('/api/create_record', methods=['PUT'])
-@cross_origin()
-def create_record():
-    user = DriversData()
-    obj = json.loads(request.data)
-    for key in obj.keys():
-        user[key] = obj[key]
-    user.save()
-    return jsonify(user.to_json())
-
-
-
-@app.route('/api/update_record', methods=['POST'])
+@app.route('/api/update_record_form1', methods=['POST'])
 @cross_origin()
 def update_record():
     record = json.loads(request.data)
-    user = DriversData.objects(name=record['name']).first()
+    user = DriversData.objects(user_name=record['user_name']).first()
     if not user:
         return jsonify({'error': 'data not found'})
-    else:
-        user.update(email=record['email'])
+
+    user.update(first_name=record['first_name'])
+    user = DriversData.objects(user_name=record['user_name']).first()
     return jsonify(user.to_json())
 
 @app.route('/api/delete_record', methods=['DELETE'])
@@ -266,16 +257,6 @@ def login():
 
     return jsonify(user.to_json())
 
-@app.route('/api/new_employee_information_pdf', methods=['POST'])
-@cross_origin()
-def new_employee_pdf():
-    record = json.loads(request.data)
-    user = DriversData.objects(user_name=record['user_name']).first()
-    if not user:
-        return jsonify({'error': 'User Name Not Exists'})
-
-    return jsonify(user.to_json())
-
 @app.route('/')
 @cross_origin()
 def index():
@@ -285,7 +266,75 @@ def index():
 def not_found(e):
     return app.send_static_file('index.html')
 
+@app.route('/api/pdf/new_employee', methods=['GET'])
+@cross_origin()
+def new_employeee_pdf():
+    u_name = request.args.get("user_name")
+    if u_name:
+        user = DriversData.objects(user_name=u_name).first()
+        if not user:
+            return jsonify({'error': 'User Name Not Found'})
+
+        first_name = user.first_name
+        last_name = user.last_name
+        dateofBirth = user.dateofBirth
+        socialSecurity = user.socialSecurity
+        address = user.address
+        maritial_status = user.maritial_status
+        NumberofDependantsUnder17 = user.NumberofDependantsUnder17
+        NumberofDependantsOver17 = user.NumberofDependantsOver17
+        gender = user.gender
+
+        data = {
+            "first_name": first_name,
+            "last_name": last_name,
+            "gender": gender,
+            "dateOfBirth": dateofBirth,
+            "maritial_status": maritial_status,
+            "social_security": socialSecurity,
+            "address": address,
+            "NumberofDependantsUnder17": NumberofDependantsUnder17,
+            "NumberofDependantsOver17": NumberofDependantsOver17,
+
+        }
+        html = render_template("new_employee.html", data=data)
+        pdf = pdfkit.from_string(html, False )
+        resp = make_response(pdf)
+        resp.headers['Content-Type'] = 'application/pdf'
+        resp.headers['Content-Disposition'] = 'attachment; filename=new_employee '+u_name+'.pdf'
+
+        return resp
+    else:
+        return json.dumps({"message": "Invalid Data", "code": "201"})
+
+def image_file_path_to_base64_string(filepath: str) -> str:
+  with open(filepath, 'rb') as f:
+    return base64.b64encode(f.read()).decode()
+
+@app.route('/api/pdf/formi9', methods=['GET'])
+@cross_origin()
+def form_i_9():
+    data = {
+    "expireon": "never",
+    "img_string": image_file_path_to_base64_string('./templates/img/logo.gif')
+    }
+    html = render_template("form19.html", data=data)
+    options = {
+        'page-size': 'A4',
+        'encoding': 'utf-8',
+        'margin-top': '0cm',
+        'margin-bottom': '0cm',
+        'margin-left': '0cm',
+        'margin-right': '0cm'
+    }
+    pdf = pdfkit.from_string(html, False ,options=options)
+    resp = make_response(pdf)
+    resp.headers['Content-Type'] = 'application/pdf'
+    resp.headers['Content-Disposition'] = 'attachment; filename=form19.pdf'
+
+    return resp
 if __name__ == "__main__":
-    app.listen(process.env.PORT or 5000, ...)
     app.run(debug=True)
+    app.listen(process.env.PORT or 5000, ...)
+
 

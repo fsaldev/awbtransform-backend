@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+<table>
+  <tr>
+      <th colspan="2"><h2 align="center">New Employee Information</h2></th>
+  </tr>
+  <tr>
+    <td>First Name</td>
+    <td>{{data.first_name}}</td>
+  </tr>
+  <tr>
+    <td>Middle Name</td>
+    <td>{{data.last_name}}</td>
+  </tr>
+  <tr>
+    <td>Gender</td>
+    <td>{{data.gender}}</td>
+  </tr>
+  <tr>
+    <td>Date Of Birth</td>
+    <td>{{data.dateOfBirth}}</td>
+  </tr>
+  <tr>
+    <td>Social Security #</td>
+    <td>{{data.social_security}}</td>
+  </tr>
+  <tr>
+    <td>Complete Address</td>
+    <td>{{data.address}}</td>
+  </tr>
+  <tr>
+    <td>Maritial Status</td>
+    <td>{{data.maritial_status}}</td>
+  </tr>
+  <tr>
+    <td>Number of Dependants Under 17</td>
+    <td>{{data.NumberofDependantsUnder17}}</td>
+  </tr>
+  <tr>
+    <td>Number of Dependants Over 17</td>
+    <td>{{data.NumberofDependantsOver17}}</td>
+  </tr>
+  <tr>
+    <td>Do you want direct deposit if yes then need copy of voided check</td>
+    <td>Yes</td>
+  </tr>
+</table>
+<table>
+  <tr>
+      <th colspan="2"><h2 align="center">Keep below documents for your records</h2></th>
+  </tr>
+  <tr>
+    <td>Form I-9 </td>
+    <td>completed and signed</td>
+  </tr>
+  <tr>
+      <td>Form W-4</td>
+      <td>completed and signed</td>
+  </tr>
+   <tr>
+      <td>Copy of Driver License</td>
+      <td>clear readable copy</td>
+  </tr>
+  <tr>
+      <td>Copy of social security card</td>
+      <td>clear readable copy</td>
+  </tr>
+  <tr>
+      <td>Copy of his/her immigration status document</td>
+      <td>clear readable copy</td>
+  </tr>
+</table>
+
+</body>
+</html>

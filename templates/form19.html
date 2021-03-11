@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    body{
+        font-size: small;
+    }
+    .img-class{
+        background-color: white;
+        width: 100px;
+        height: 100px;
+        color: black;
+    }
+    .table1 {
+        border-collapse: collapse;
+    }
+    .table1 td {
+        border: 1px solid black;
+    }
+    .table1 td p{
+        margin-left: 4px;
+    }
+    .box {
+        float: left;
+        width: 15px;
+        height: 30px;
+        margin-top: -5px;
+        border: 1px solid black;
+    }
+    .box1 {
+        float: left;
+        width: 15px;
+        height: 30px;
+        margin-top: -5px;
+        border: 1px solid transparent;
+        text-align: center;
+    }
+   
+</style>
+</head>
+<body>
+    <table width="80%" align="center">
+        <tr>
+            <th><img  src="data:image/png;base64,{{data.img_string }}" class="img-class"></th>
+            <th> 
+                <h3 style="font-weight: bolder;font-size:20px;">Employment Eligibility Verification
+                <br> Department of Homeland Security</h3>
+                <p> U.S. Citizenship and Immigration Services </p>
+            </th>
+            <th>
+                <h3 style="font-weight: bolder;font-size:20px;">USCIS
+                Form I-9</h3>
+                <p> OMB No. 1615-0047 <br/>Expires {{data.expireon}}</p>
+            </th>
+        </tr>
+        <tbody>
+            <tr>
+                <td colspan="3">
+                    <div style="border: 5px solid black;"></div>
+                    <div style="border: 1px solid grey;margin-top: 5px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <p style="font-weight:bolder; text-align: justify;margin-top: -1px;" >
+                        &rarr; START HERE: Read instructions carefully before completing this form. The instructions must be available, 
+                        either in paper or electronically, during completion of this form. Employers are liable for errors in the completion of this form
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <p style="text-align:justify;margin-top:-10px">
+                        <span style="font-weight: bolder">ANTI-DISCRIMINATION NOTICE:</span> It is illegal to discriminate against work-authorized individuals. Employers CANNOT specify which document(s) an employee may present to establish employment authorization and identity.
+                            The refusal to hire or continue to employ an individual because the documentation presented has a future expiration date may also constitute illegal discriminatio
+                    </p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table width="80%" align="center" class="table1" style="margin-top: -20px;">
+            <tr >
+                <td colspan="5" style="background-color: #C0C1C4;">
+                    <p>
+                        <b>
+                            Section  1. Employee Information and Attestation 
+                        </b>
+                        <i>
+                            (Employees must complete and sign Section 1 of Form I-9 no later
+                            than the first day of employment, but not before accepting a job offer.)
+                        </i>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>
+                         Last Name (<i>Family Name</i>)
+                    </p>
+                    <p> {{data.last_name}}</p>
+                </td>
+                <td>
+                    <p>
+                         First Name (<i>Given Name</i>)
+                    </p>
+                    <p> {{data.first_name}}</p>
+                </td>
+                <td>
+                    <p>
+                        Middle (<i>Initial</i>) 
+                    </p>
+                    <p> {{data.middle}}</p>
+                </td>
+                <td colspan="2">
+                    <p>
+                        Other Last Name Used (<i>If any</i>)
+                    </p>
+                    <p> {{data.middle}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>
+                         Adress (<i>Street Number and Name</i>)
+                    </p>
+                    <p> {{data.address}}</p>
+                </td>
+                <td>
+                    <p>
+                         Apt. Number  
+                    </p>
+                    <p> {{data.apt_number}}</p>
+                </td>
+                <td>
+                    <p>
+                         City or Town
+                    </p>
+                    <p> {{data.city}}</p>
+                </td>
+                <td>
+                    <p>
+                        State  
+                    </p>
+                <p> {{data.state}}</p>   
+                </td>
+                <td>
+                    <p>
+                        Zip Code  
+                    </p>
+                    <p> {{data.zip_code}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>
+                         Date Of Birth (<i>mm/dd/yyyy</i>)
+                    </p>
+                    <p> {{data.dateofBirth}}</p>
+                </td>
+                <td colspan="2">
+                    <p>
+                         Social Security Number  
+                    </p>
+                    <div class="box" style="margin-left:4px;">{{data.social_security1}}</div>                    
+                    <div class="box">{{data.social_security2}}</div>
+                    <div class="box">{{data.social_security3}}</div>
+                    <div class="box1">-</div>
+                    <div class="box">{{data.social_security4}}</div>
+                    <div class="box">{{data.social_security5}}</div>
+                    <div class="box1">-</div>
+                    <div class="box">{{data.social_security6}}</div>
+                    <div class="box">{{data.social_security7}}</div>
+                    <div class="box">{{data.social_security8}}</div>
+                    <div class="box">{{data.social_security9}}</div>
+                </td>
+                <td>
+                    <p>
+                        Employee's E-mail Address
+                    </p>
+                    <p> {{data.email}}</p>
+                </td>
+                <td>
+                    <p>
+                        Employee's Telephone Number
+                    </p>
+                    <p> {{data.phone_number}}</p>
+                </td>
+            </tr>
+          </table>
+          <table width="80%" align="center" style="margin-top:5px;">
+                <tbody>
+                    <tr>
+                        <td>
+                             <b>
+                                 I am aware that federal law provides for imprisonment and/or fines for false statements or use of false documents in
+                                 connection with the completion of this form.
+                             </b>
+                        </td>
+                    
+                    </tr> 
+                    <tr>
+                        <td>
+                             <b>
+                                I attest, under penalty of perjury, that I am (check one of the following boxes):
+                             </b>
+                        </td>
+                    
+                    </tr>        
+                </tbody>
+          </table>
+          <table class="table1" width="80%" align="center" style="margin-top:5px;">
+            <tbody>
+                <tr>
+                    <td>
+                        <div style="width: 100%;">
+                            <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;" value={{data.united_state_citizen}} >
+                            <p>
+                                1. A citizen of the United States
+                            </p>
+                        </div>
+                        
+                    </td>
+                </tr>    
+                <tr>
+                    <td>
+                        <div style="width: 100%;">
+                            <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;" value={{data.united_state_citizen}} >
+                            <p>
+                                2. A noncitizen national of the United States (<i>See instructions</i>)
+                            </p>
+                        </div>
+                    </td>
+                </tr>   
+                <tr>
+                    <td>
+                        <div style="width: 100%;">
+                            <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;" value={{data.united_state_citizen}} >
+                            <p>
+                                3. A lawful permanent resident &emsp; (<i>Alien Registration Number/USCIS Numbe</i>) &emsp;&emsp;&emsp;
+                                <u>{{data.alien_registration_number}}</u>
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+          </table>
+          <table class="table1" width="80%" align="center">
+            <tbody>      
+                <tr>
+                    <td style="width: 70%;">
+                        <div style="width: 100%;">
+                            <div>
+                                <div style="width: 70%; float: left;">
+                                    <input type="checkbox" style="width: 15px;float: left; margin-top:15px; margin-right: 15px;" value={{data.united_state_citizen}} >
+                                    <p>
+                                    4. An alien authorized to work until
+                                    (expiration date, if applicable, mm/dd/yyyy):
+                                    <br>Some aliens may write "N/A" in the expiration date field. (<i>See Instructions</i>)
+                                    </p>
+                                    <p>
+                                        Aliens authorized to work must provide only one of the following document numbers to complete Form I-9:
+                                        An Alien Registration Number/USCIS Number OR Form I-94 Admission Number OR Foreign Passport         
+                                    </p>
+                                    <div>
+                                        <p>
+                                            <span style="float: left;">
+                                                1. Alien Registration Number/USCIS Number
+                                            </span>
+                                            <span style="padding-left: 125px;">
+                                                <u>
+                                                    {{data.alien_registration_number}}
+                                                </u>
+                                            </span>
+                                            <br/>
+                                            <span style="font-weight: bolder; padding-left:60px;">OR</span>
+                                        </p>
+                                        <p>
+                                            <span style="float: left;">
+                                             2. Form I-94 Admission Number
+                                            </span>
+                                            <span style="padding-left: 125px;">
+                                                <u>
+                                                    {{data.formi94_reg}}
+                                                </u>
+                                            </span>
+                                            <br/>
+                                            <span style="font-weight: bolder; padding-left:60px;">OR</span>
+                                        </p>
+                                        <p>
+                                            <span style="float: left;">
+                                                3. Foreign Passport Number:
+                                                <br/>
+                                                <br/>
+                                                <span style="padding-left:20px ;">Country of Issuance:</span>
+                                            </span>
+                                            <span>
+                                                <u>
+                                                    <span style="padding-left: 150px;">
+                                                        {{data.foreign_passport_number}}
+                                                    </span>
+                                                    <br/>
+                                                    <br/>
+                                                    <span style="padding-left:150px;">
+                                                        {{data.issuance_country}}
+                                                    </span>
+
+                                                </u>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div style="padding-top: 30px;">
+                                    <u>{{data.alien}}</u>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <p style="text-align: center; vertical-align: top;">
+                            QR Code - Section 1  <br/>
+                            Do Not Write In This Space
+                        </p>
+                    </td>
+                </tr>       
+            </tbody>
+      </table>
+      <table class="table1" width="80%" align="center" style="margin-top:5px;">
+            <tbody>
+                <tr>
+                    <td style="width:60%;">
+                        <p style="float: left;">
+                            Signature of Employee
+                        </p>
+                        <p>
+                            {{data.signature}}
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            Today's Date (<i>mm/dd/yyyy</i>)
+                        </p>
+                        <p>
+                            {{data.todayDate}}
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+      </table>
+      <table class="table1" width="80%" align="center" style="margin-top:5px;">
+        <tbody>
+            <tr>
+                <td style="background-color: #C0C1C4;">
+                    <p>
+                        <b>
+                            Preparer and/or Translator Certification (check one): 
+                        </b>
+                        <div style="width: 100%; float: left; margin-top: -20px; ">
+                            <input type="checkbox" style="float: left;margin-top: 14px;">
+                            <p style="float: left;padding-right: 70px;">
+                                I did not use a preparer or translator
+                            </p>
+                            <input type="checkbox" style="float:left; margin-top: 14px;">
+                            <p>
+                                A preparer(s) and/or translator(s) assisted the employee in completing Section 1
+                            </p>
+                        </div>
+                        <div style="width: 70%;">
+                            
+                        </div>
+                    </p>
+                    
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table align="center" width="80%" style="margin-top: -15px;">
+        <tbody>
+            <tr>
+                <td>
+                    <p style="text-align: justify; font-weight: bolder;">
+                        I attest, under penalty of perjury, that I have assisted in the completion of Section 1 of this form and that to the best of my
+                    knowledge the information is true and correct.
+                    </p>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table1" width="80%" align="center" style="margin-top:-15px;">
+        <tbody>
+            <tr>
+                <td style="width:70%;">
+                    <p style="float: left;">
+                        Signature of Preparer or Translator
+                    </p>
+                    <p>
+                        {{data.signature}}
+                    </p>
+                </td>
+                <td>
+                    <p>
+                        Today's Date (<i>mm/dd/yyyy</i>)
+                    </p>
+                    <p>
+                        {{data.todayDate}}
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table1" width="80%" align="center" >
+        <tbody>
+            <tr>
+                <td style="width:60%;">
+                    <p style="float: left;">
+                        Last Name (<i>Family Name</i>)
+                    </p>
+                    <p>
+                        {{data.signature}}
+                    </p>
+                </td>
+                <td>
+                    <p>
+                        First Name (<i>Given Name</i>)
+                    </p>
+                    <p>
+                        {{data.todayDate}}
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table> 
+    <table class="table1" width="80%" align="center" >
+        <tbody>
+            <tr>
+                <td style="width:50%;">
+                    <p style="float: left;">
+                        Address (<i>Street Number and Name</i>)
+                    </p>
+                    <p>
+                        {{data.signature}}
+                    </p>
+                </td>
+                <td style="width:30%;">
+                    <p>
+                        City or Town
+                    </p>
+                    <p>
+                        {{data.todayDate}}
+                    </p>
+                </td>
+                <td style="width:10%;">
+                    <p>
+                        State
+                    </p>
+                    <p>
+                        {{data.todayDate}}
+                    </p>
+                </td> 
+                <td style="width:10%;">
+                    <p>
+                        Zip Code
+                    </p>
+                    <p>
+                        {{data.todayDate}}
+                    </p>
+                </td>
+
+            </tr>
+        </tbody>
+    </table> 
+    <table width="80%" align="center" style="margin-top:40px;" >
+        <tbody>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <i>Employer Completes Next Page</i>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div style="border: 1px solid black; margin-top: 5px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>Form I-9 {{data.date}}</p>
+                </td>
+                <td>
+                    <p style="text-align: right;">Page 1 of 3</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>    
+</body>
+</html>
+

@@ -205,7 +205,14 @@ class DriversData(db.Document):
 
 driverForm = model_form(DriversData)
 
-@app.route('/api/update_record_form1', methods=['POST'])
+def image_file_path_to_base64_string(filepath: str) -> str:
+  with open(filepath, 'rb') as f:
+    return base64.b64encode(f.read()).decode()
+
+def split_words(word):
+    return [char for char in word]
+
+@app.route('/api/update_record', methods=['POST'])
 @cross_origin()
 def update_record():
     record = json.loads(request.data)
@@ -213,8 +220,10 @@ def update_record():
     if not user:
         return jsonify({'error': 'data not found'})
 
-    user.update(first_name=record['first_name'])
-    user = DriversData.objects(user_name=record['user_name']).first()
+    for i in record.keys():
+        if i in user:
+            user.__setattr__(i, record[i])
+    user.save()
     return jsonify(user.to_json())
 
 @app.route('/api/delete_record', methods=['DELETE'])
@@ -256,11 +265,6 @@ def login():
         return jsonify({'error': 'User Name Not Exists'})
 
     return jsonify(user.to_json())
-
-@app.route('/')
-@cross_origin()
-def index():
-    return app.send_static_file('index.html')
 
 @app.errorhandler(404)
 def not_found(e):
@@ -307,32 +311,80 @@ def new_employeee_pdf():
     else:
         return json.dumps({"message": "Invalid Data", "code": "201"})
 
-def image_file_path_to_base64_string(filepath: str) -> str:
-  with open(filepath, 'rb') as f:
-    return base64.b64encode(f.read()).decode()
+
+expireson = "2021-03-13"
+img_string = image_file_path_to_base64_string('./templates/img/logo.gif')
+last_name = "Manzoor"
+first_name = " Ubaid"
+middle = "Ullah"
+address = "H No 15 Bilal Park Sham Nagar"
+apt_number = "123456"
+city = "Lahore"
+state = "Punjab"
+zip_code = "54000"
+dateofBirth = "26/11/1998"
+s = split_words("123456789")
+phone_number = "(092)11234567896"
+email = "ubaidmanzoor987@gmail.com"
+united_state_citizen = True
+non_united_state_citizen = False
+lawful_permanent_resident = False
+alien_authorized = False
+alien_registration_number = '090078601'
+data = {
+    "expireson": expireson,
+    "img_string": img_string,
+    "last_name": last_name,
+    "first_name":  first_name,
+    "middle": middle,
+    "address": address,
+    "apt_number": apt_number,
+    "city": city,
+    "state": state,
+    "zip_code": zip_code,
+    "dateofBirth": dateofBirth,
+    "social_security1": s[0],
+    "social_security2": s[1],
+    "social_security3": s[2],
+    "social_security4": s[3],
+    "social_security5": s[4],
+    "social_security6": s[5],
+    "social_security7": s[6],
+    "social_security8": s[7],
+    "social_security9": s[8],
+    "email": email,
+    "phone_number": phone_number,
+    "united_state_citizen": united_state_citizen,
+    "non_united_state_citizen": non_united_state_citizen,
+    "lawful_permanent_resident": lawful_permanent_resident,
+    "alien_authorized": alien_authorized,
+    "alien_registration_number": alien_registration_number,
+}
+
+@app.route('/')
+@cross_origin()
+def index():
+    # return app.send_static_file('index.html')
+    return render_template("form19.html", data=data)
 
 @app.route('/api/pdf/formi9', methods=['GET'])
 @cross_origin()
 def form_i_9():
-    data = {
-    "expireon": "never",
-    "img_string": image_file_path_to_base64_string('./templates/img/logo.gif')
-    }
-    html = render_template("form19.html", data=data)
     options = {
         'page-size': 'A4',
         'encoding': 'utf-8',
-        'margin-top': '0cm',
+        'margin-top': '1cm',
         'margin-bottom': '0cm',
         'margin-left': '0cm',
         'margin-right': '0cm'
     }
-    pdf = pdfkit.from_string(html, False ,options=options)
+    html = render_template("form19.html", data=data)
+    pdf = pdfkit.from_string(html, False, options=options)
     resp = make_response(pdf)
     resp.headers['Content-Type'] = 'application/pdf'
     resp.headers['Content-Disposition'] = 'attachment; filename=form19.pdf'
-
     return resp
+
 if __name__ == "__main__":
     app.run(debug=True)
     app.listen(process.env.PORT or 5000, ...)

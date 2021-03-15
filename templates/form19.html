@@ -1,193 +1,171 @@
-<!DOCTYPE html>
-<html>
-<head>
-<style>
-    body{
-        font-size: small;
-    }
-    .img-class{
-        background-color: white;
-        width: 100px;
-        height: 100px;
-        color: black;
-    }
-    .table1 {
-        border-collapse: collapse;
-    }
-    .table1 td {
-        border: 1px solid black;
-    }
-    .table1 td p{
-        margin-left: 4px;
-    }
-    .box {
-        float: left;
-        width: 15px;
-        height: 30px;
-        margin-top: -5px;
-        border: 1px solid black;
-    }
-    .box1 {
-        float: left;
-        width: 15px;
-        height: 30px;
-        margin-top: -5px;
-        border: 1px solid transparent;
-        text-align: center;
-    }
-   
-</style>
-</head>
+{% extends "header.html" %}
+{% block body %}
 <body>
-    <table width="80%" align="center">
-        <tr>
-            <th><img  src="data:image/png;base64,{{data.img_string }}" class="img-class"></th>
-            <th> 
-                <h3 style="font-weight: bolder;font-size:20px;">Employment Eligibility Verification
-                <br> Department of Homeland Security</h3>
-                <p> U.S. Citizenship and Immigration Services </p>
-            </th>
-            <th>
-                <h3 style="font-weight: bolder;font-size:20px;">USCIS
-                Form I-9</h3>
-                <p> OMB No. 1615-0047 <br/>Expires {{data.expireon}}</p>
-            </th>
-        </tr>
-        <tbody>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-3 text-left">
+                <img  src="data:image/png;base64,{{data.img_string }}" class="img-class">
+            </div>
+            <div class="col-xs-6 text-center" >
+                    <h3>Employment Eligibility Verification
+                    <br> Department of Homeland Security</h3>
+                    <p> U.S. Citizenship and Immigration Services </p>
+            </div>
+            <div class="col-xs-3 text-right">
+                <h3>USCIS Form I-9</h3>
+                <p> OMB No. 1615-0047 <br/>Expires {{data.expireson}}</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-xs-12" style="border: 5px solid black;"></div>
+            <div class="col-xs-12" style="border: 1px solid grey;margin-top: 5px;"></div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 p-0" >
+                <p>
+                    <b>
+                    &rarr; START HERE: Read instructions carefully before completing this form. The instructions must be available, 
+                    either in paper or electronically, during completion of this form. Employers are liable for errors in the completion of this form
+                    </b>
+                </p>
+            </div> 
+            <div class="col-xs-12 p-0">
+                <p style="text-align: justify;">
+                    <b>ANTI-DISCRIMINATION NOTICE :</b> It is illegal to discriminate against work-authorized individuals. Employers CANNOT specify which document(s) an employee may present to establish employment authorization and identity.
+                        The refusal to hire or continue to employ an individual because the documentation presented has a future expiration date may also constitute illegal discriminatio
+                </p>
+            </div>   
+        </div>
+        <div class="row">
+            <div class="col-xs-12 employee">
+                <p>
+                    <b>
+                        Section  1. Employee Information and Attestation 
+                    </b>
+                    <i>
+                        (Employees must complete and sign Section 1 of Form I-9 no later
+                        than the first day of employment, but not before accepting a job offer.)
+                    </i>
+                </p>
+            </div>
+        </div>
+        <div class="row">    
+            <div class="col-xs-4 left-border ">
+                <p>
+                    Last Name (<i>Family Name</i>)
+                </p>
+                <p> {{data.last_name}}</p>
+            </div>
+            <div class="col-xs-3 left-border">
+                <p>
+                    First Name (<i>Given Name</i>)
+               </p>
+               <p> {{data.first_name}}</p>
+            </div>
+            <div class="col-xs-2 left-border">
+                <p>
+                    Middle (<i>Initial</i>) 
+                </p>
+                <p> {{data.middle}}</p>
+            </div>
+            <div class="col-xs-3 left-border right-border">
+                <p>
+                    Other Last Name Used (<i>If any</i>)
+                </p>
+                <p> {{data.last_name}}</p>
+            </div>
+        </div>
+        <div class="row">    
+            <div class="col-xs-5 top-border left-border">
+                <p>
+                    Adress (<i>Street Number and Name</i>)
+                </p>
+                <p> {{data.address}}</p>
+            </div>
+            <div class="col-xs-2 left-border top-border">
+                <p>
+                    Apt. Number  
+               </p>
+               <p> {{data.apt_number}}</p>
+            </div>
+            <div class="col-xs-2 left-border top-border">
+                <p>
+                    City or Town
+               </p>
+               <p> {{data.city}}</p>
+            </div>
+            <div class="col-xs-1 left-border top-border">
+                <p>
+                    State  
+                </p>
+                <p> {{data.state}}</p>
+            </div>
+            <div class="col-xs-2 left-border top-border right-border">
+                <p>
+                    Zip Code  
+                </p>
+                <p> {{data.zip_code}}</p>
+            </div>
+        </div>
+        <div class="row bottom-border">    
+            <div class="col-xs-3 top-border left-border">
+                <p>
+                    Date of Birth (<i>mm/dd/yyyy</i>)
+                </p>
+                <p> {{data.dateofBirth}}</p>
+            </div>
+            <div class="col-xs-3 left-border top-border">
+                <p>
+                    Social Security Number  
+               </p>
+               <div class="box" style="margin-left:4px;">{{data.social_security1}}</div>                    
+               <div class="box">{{data.social_security2}}</div>
+               <div class="box">{{data.social_security3}}</div>
+               <div class="box1">-</div>
+               <div class="box">{{data.social_security4}}</div>
+               <div class="box">{{data.social_security5}}</div>
+               <div class="box1">-</div>
+               <div class="box">{{data.social_security6}}</div>
+               <div class="box">{{data.social_security7}}</div>
+               <div class="box">{{data.social_security8}}</div>
+               <div class="box">{{data.social_security9}}</div>
+            </div>
+            <div class="col-xs-3 left-border top-border">
+                <p>
+                    Employee's E-mail Address
+                </p>
+                <p> {{data.email}}</p>
+            </div>
+            <div class="col-xs-3 top-border left-border">
+                <p>
+                    Employee's Telephone Number
+                </p>
+                <p> {{data.phone_number}}</p>
+            </div>
+            
+        </div>
+    </div>
+        <table width = "95%" align="center" class="table1" style="margin-top: -10px;">
+            
             <tr>
                 <td colspan="3">
-                    <div style="border: 5px solid black;"></div>
-                    <div style="border: 1px solid grey;margin-top: 5px;"></div>
+                    <div style="width:100px">
+                        
+                    </div>
                 </td>
-            </tr>
-            <tr>
                 <td colspan="3">
-                    <p style="font-weight:bolder; text-align: justify;margin-top: -1px;" >
-                        &rarr; START HERE: Read instructions carefully before completing this form. The instructions must be available, 
-                        either in paper or electronically, during completion of this form. Employers are liable for errors in the completion of this form
-                    </p>
+                    
                 </td>
-            </tr>
-            <tr>
                 <td colspan="3">
-                    <p style="text-align:justify;margin-top:-10px">
-                        <span style="font-weight: bolder">ANTI-DISCRIMINATION NOTICE:</span> It is illegal to discriminate against work-authorized individuals. Employers CANNOT specify which document(s) an employee may present to establish employment authorization and identity.
-                            The refusal to hire or continue to employ an individual because the documentation presented has a future expiration date may also constitute illegal discriminatio
-                    </p>
+                   
                 </td>
-            </tr>
-            </tbody>
-        </table>
-        <table width="80%" align="center" class="table1" style="margin-top: -20px;">
-            <tr >
-                <td colspan="5" style="background-color: #C0C1C4;">
-                    <p>
-                        <b>
-                            Section  1. Employee Information and Attestation 
-                        </b>
-                        <i>
-                            (Employees must complete and sign Section 1 of Form I-9 no later
-                            than the first day of employment, but not before accepting a job offer.)
-                        </i>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p>
-                         Last Name (<i>Family Name</i>)
-                    </p>
-                    <p> {{data.last_name}}</p>
-                </td>
-                <td>
-                    <p>
-                         First Name (<i>Given Name</i>)
-                    </p>
-                    <p> {{data.first_name}}</p>
-                </td>
-                <td>
-                    <p>
-                        Middle (<i>Initial</i>) 
-                    </p>
-                    <p> {{data.middle}}</p>
-                </td>
-                <td colspan="2">
-                    <p>
-                        Other Last Name Used (<i>If any</i>)
-                    </p>
-                    <p> {{data.middle}}</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p>
-                         Adress (<i>Street Number and Name</i>)
-                    </p>
-                    <p> {{data.address}}</p>
-                </td>
-                <td>
-                    <p>
-                         Apt. Number  
-                    </p>
-                    <p> {{data.apt_number}}</p>
-                </td>
-                <td>
-                    <p>
-                         City or Town
-                    </p>
-                    <p> {{data.city}}</p>
-                </td>
-                <td>
-                    <p>
-                        State  
-                    </p>
-                <p> {{data.state}}</p>   
-                </td>
-                <td>
-                    <p>
-                        Zip Code  
-                    </p>
-                    <p> {{data.zip_code}}</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p>
-                         Date Of Birth (<i>mm/dd/yyyy</i>)
-                    </p>
-                    <p> {{data.dateofBirth}}</p>
-                </td>
-                <td colspan="2">
-                    <p>
-                         Social Security Number  
-                    </p>
-                    <div class="box" style="margin-left:4px;">{{data.social_security1}}</div>                    
-                    <div class="box">{{data.social_security2}}</div>
-                    <div class="box">{{data.social_security3}}</div>
-                    <div class="box1">-</div>
-                    <div class="box">{{data.social_security4}}</div>
-                    <div class="box">{{data.social_security5}}</div>
-                    <div class="box1">-</div>
-                    <div class="box">{{data.social_security6}}</div>
-                    <div class="box">{{data.social_security7}}</div>
-                    <div class="box">{{data.social_security8}}</div>
-                    <div class="box">{{data.social_security9}}</div>
-                </td>
-                <td>
-                    <p>
-                        Employee's E-mail Address
-                    </p>
-                    <p> {{data.email}}</p>
-                </td>
-                <td>
-                    <p>
-                        Employee's Telephone Number
-                    </p>
-                    <p> {{data.phone_number}}</p>
+                <td colspan="3">
+                    
                 </td>
             </tr>
           </table>
-          <table width="80%" align="center" style="margin-top:5px;">
+          <table width = "95%" align="center" style="margin-top:5px;">
                 <tbody>
                     <tr>
                         <td>
@@ -208,12 +186,16 @@
                     </tr>        
                 </tbody>
           </table>
-          <table class="table1" width="80%" align="center" style="margin-top:5px;">
+          <table class="table1" width = "95%" align="center" style="margin-top:5px;">
             <tbody>
                 <tr>
                     <td>
                         <div style="width: 100%;">
-                            <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;" value={{data.united_state_citizen}} >
+                            {% if data.united_state_citizen == True %}
+                                <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;" checked>
+                            {% else %}
+                                <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;">
+                            {% endif %} 
                             <p>
                                 1. A citizen of the United States
                             </p>
@@ -224,7 +206,11 @@
                 <tr>
                     <td>
                         <div style="width: 100%;">
-                            <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;" value={{data.united_state_citizen}} >
+                            {% if data.non_united_state_citizen == True %}
+                                <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;" checked>
+                            {% else %}
+                                <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;">
+                            {% endif %} 
                             <p>
                                 2. A noncitizen national of the United States (<i>See instructions</i>)
                             </p>
@@ -234,7 +220,11 @@
                 <tr>
                     <td>
                         <div style="width: 100%;">
-                            <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;" value={{data.united_state_citizen}} >
+                            {% if data.lawful_permanent_resident == True %}
+                                <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;" checked>
+                            {% else %}
+                                <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;">
+                            {% endif %} 
                             <p>
                                 3. A lawful permanent resident &emsp; (<i>Alien Registration Number/USCIS Numbe</i>) &emsp;&emsp;&emsp;
                                 <u>{{data.alien_registration_number}}</u>
@@ -244,75 +234,83 @@
                 </tr>
             </tbody>
           </table>
-          <table class="table1" width="80%" align="center">
+          <table class="table1" width = "95%" align="center">
             <tbody>      
                 <tr>
-                    <td style="width: 70%;">
-                        <div style="width: 100%;">
-                            <div>
-                                <div style="width: 70%; float: left;">
-                                    <input type="checkbox" style="width: 15px;float: left; margin-top:15px; margin-right: 15px;" value={{data.united_state_citizen}} >
-                                    <p>
+                    <td>
+                        <div style="display: grid;">
+                            <div style="width:77%; float: left;">
+                                {% if data.alien_authorized == True %}
+                                <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;" checked>
+                                {% else %}
+                                    <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;">
+                                {% endif %} 
+                                <p>
                                     4. An alien authorized to work until
                                     (expiration date, if applicable, mm/dd/yyyy):
-                                    <br>Some aliens may write "N/A" in the expiration date field. (<i>See Instructions</i>)
-                                    </p>
-                                    <p>
-                                        Aliens authorized to work must provide only one of the following document numbers to complete Form I-9:
-                                        An Alien Registration Number/USCIS Number OR Form I-94 Admission Number OR Foreign Passport         
-                                    </p>
-                                    <div>
-                                        <p>
-                                            <span style="float: left;">
-                                                1. Alien Registration Number/USCIS Number
-                                            </span>
-                                            <span style="padding-left: 125px;">
-                                                <u>
-                                                    {{data.alien_registration_number}}
-                                                </u>
-                                            </span>
-                                            <br/>
-                                            <span style="font-weight: bolder; padding-left:60px;">OR</span>
-                                        </p>
-                                        <p>
-                                            <span style="float: left;">
-                                             2. Form I-94 Admission Number
-                                            </span>
-                                            <span style="padding-left: 125px;">
-                                                <u>
-                                                    {{data.formi94_reg}}
-                                                </u>
-                                            </span>
-                                            <br/>
-                                            <span style="font-weight: bolder; padding-left:60px;">OR</span>
-                                        </p>
-                                        <p>
-                                            <span style="float: left;">
-                                                3. Foreign Passport Number:
-                                                <br/>
-                                                <br/>
-                                                <span style="padding-left:20px ;">Country of Issuance:</span>
-                                            </span>
-                                            <span>
-                                                <u>
-                                                    <span style="padding-left: 150px;">
-                                                        {{data.foreign_passport_number}}
-                                                    </span>
-                                                    <br/>
-                                                    <br/>
-                                                    <span style="padding-left:150px;">
-                                                        {{data.issuance_country}}
-                                                    </span>
-
-                                                </u>
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div style="padding-top: 30px;">
-                                    <u>{{data.alien}}</u>
-                                </div>
+                                    <br><span style="padding-left:45px;">Some aliens may write "N/A" in the expiration date field. (<i>See Instructions</i>)</span>
+                                </p>
                             </div>
+                            <div style="padding-top: 6px;">
+                                <p style="text-align: center;">
+                                    <u>{{data.alien_registration_number}}</u>
+                                </p>
+                            </div>
+                        </div>
+                        <br/>
+                        <div style="width: 100%;">
+                            <p style="padding-left:45px">
+                                <i>
+                                    Aliens authorized to work must provide only one of the following document numbers to complete Form I-9:
+                                An Alien Registration Number/USCIS Number OR Form I-94 Admission Number OR Foreign Passport
+                                </i>         
+                            </p>
+                        </div>
+                        <!-- 
+                        <div>
+                            <p style="padding-left:10px">
+                                <span style="float: left;">
+                                    <b>1.</b>&nbsp; Alien Registration Number/USCIS Number
+                                </span>
+                                <span style="padding-left: 125px;">
+                                    <u>
+                                        {{data.alien_registration_number}}
+                                    </u>
+                                </span>
+                                <br/>
+                                <span style="font-weight: bolder; padding-left:60px;">OR</span>
+                            </p>
+                            <p style="padding-left:10px"> 
+                                <span style="float: left;">
+                                    <b>2.</b>&nbsp; Form I-94 Admission Number
+                                </span>
+                                <span style="padding-left: 125px;">
+                                    <u>
+                                        {{data.formi94_reg}}
+                                    </u>
+                                </span>
+                                <br/>
+                                <span style="font-weight: bolder; padding-left:60px;">OR</span>
+                            </p>
+                            <p style="padding-left:10px">
+                                <span style="float: left;">
+                                    <b>3.</b>&nbsp; Foreign Passport Number:<br/><br/>
+                                    <span style="padding-left:20px;">Country of Issuance:</span>
+                                </span>
+                                <span>
+                                    <u>
+                                        <span style="padding-left: 150px;">
+                                            {{data.foreign_passport_number}}
+                                        </span>
+                                        <br/>
+                                        <br/>
+                                        <span style="padding-left:150px;">
+                                            {{data.issuance_country}}
+                                        </span>
+
+                                    </u>
+                                </span>
+                            </p> -->
                         </div>
                     </td>
                     <td>
@@ -324,7 +322,7 @@
                 </tr>       
             </tbody>
       </table>
-      <table class="table1" width="80%" align="center" style="margin-top:5px;">
+      <table class="table1" width = "95%" align="center" style="margin-top:5px;">
             <tbody>
                 <tr>
                     <td style="width:60%;">
@@ -346,7 +344,7 @@
                 </tr>
             </tbody>
       </table>
-      <table class="table1" width="80%" align="center" style="margin-top:5px;">
+      <table class="table1" width = "95%" align="center" style="margin-top:5px;">
         <tbody>
             <tr>
                 <td style="background-color: #C0C1C4;">
@@ -354,18 +352,15 @@
                         <b>
                             Preparer and/or Translator Certification (check one): 
                         </b>
-                        <div style="width: 100%; float: left; margin-top: -20px; ">
-                            <input type="checkbox" style="float: left;margin-top: 14px;">
+                        <div style="width: 100%; float: left;">
+                            <input type="checkbox" style="float: left">
                             <p style="float: left;padding-right: 70px;">
                                 I did not use a preparer or translator
                             </p>
-                            <input type="checkbox" style="float:left; margin-top: 14px;">
+                            <input type="checkbox" style="float:left;">
                             <p>
                                 A preparer(s) and/or translator(s) assisted the employee in completing Section 1
                             </p>
-                        </div>
-                        <div style="width: 70%;">
-                            
                         </div>
                     </p>
                     
@@ -373,7 +368,7 @@
             </tr>
         </tbody>
     </table>
-    <table align="center" width="80%" style="margin-top: -15px;">
+    <table align="center" width = "95%" style="margin-top:-5px;">
         <tbody>
             <tr>
                 <td>
@@ -386,7 +381,7 @@
 
         </tbody>
     </table>
-    <table class="table1" width="80%" align="center" style="margin-top:-15px;">
+    <table class="table1" width = "95%" align="center" style="margin-top:-10px;">
         <tbody>
             <tr>
                 <td style="width:70%;">
@@ -408,7 +403,7 @@
             </tr>
         </tbody>
     </table>
-    <table class="table1" width="80%" align="center" >
+    <table class="table1" width = "95%" align="center" >
         <tbody>
             <tr>
                 <td style="width:60%;">
@@ -430,7 +425,7 @@
             </tr>
         </tbody>
     </table> 
-    <table class="table1" width="80%" align="center" >
+    <table class="table1" width = "95%" align="center" >
         <tbody>
             <tr>
                 <td style="width:50%;">
@@ -469,7 +464,7 @@
             </tr>
         </tbody>
     </table> 
-    <table width="80%" align="center" style="margin-top:40px;" >
+    <table width = "95%" align="center" style="margin-top:40px;" >
         <tbody>
             <tr>
                 <td colspan="2" style="text-align: center;">
@@ -492,5 +487,4 @@
         </tbody>
     </table>    
 </body>
-</html>
-
+{% endblock %}

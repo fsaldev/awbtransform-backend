@@ -1,5 +1,6 @@
 import base64
 import json
+import os
 from multiprocessing import process
 from flask import Flask, request, jsonify, render_template, make_response
 from flask_cors import cross_origin
@@ -7,6 +8,7 @@ from flask_mongoengine import MongoEngine
 from flask_mongoengine.wtf import model_form
 import hashlib
 import pdfkit
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['MONGODB_SETTINGS'] = {
@@ -56,6 +58,9 @@ class Address(db.EmbeddedDocument):
     lastYearAddressfrom = db.DateField()
     lastYearAddressTo = db.DateField()
 
+class Resume(db.EmbeddedDocument):
+    file_name = db.StringField()
+
 class Licence(db.EmbeddedDocument):
     stateOfLicence = db.StringField()
     licenceNumber = db.StringField()
@@ -88,6 +93,8 @@ class DriversData(db.Document):
     maritial_status = db.StringField()
     NumberofDependantsUnder17 = db.IntField()
     NumberofDependantsOver17 = db.IntField()
+
+    resume = db.ListField(db.EmbeddedDocumentField(Resume))
     #lastyearaddressses
     addresses = db.ListField(db.EmbeddedDocumentField(Address))
 
@@ -212,13 +219,32 @@ def image_file_path_to_base64_string(filepath: str) -> str:
 def split_words(word):
     return [char for char in word]
 
+@app.route('/api/files/upload', methods=['POST'])
+@cross_origin()
+def upload_file():
+    upload_folder = "./output"
+    record = json.loads(request.data)
+    user = DriversData.objects(user_name=record['user_name']).first()
+    if not user:
+        return jsonify({'error': 'Incorrect UserName and Data not found'})
+
+    target = os.path.join(upload_folder, user.user_name)
+    if not os.path.isdir(target):
+        os.mkdir(target)
+    file = request.files['file']
+    filename = secure_filename(file.filename)
+    destination = "/".join([target, filename])
+    file.save(destination)
+
+    return jsonify({"message": "Successfully Uploded File"})
+
 @app.route('/api/update_record', methods=['POST'])
 @cross_origin()
 def update_record():
     record = json.loads(request.data)
     user = DriversData.objects(user_name=record['user_name']).first()
     if not user:
-        return jsonify({'error': 'data not found'})
+        return jsonify({'error': 'Incorrect UserName and Data not found'})
 
     for i in record.keys():
         if i == 'user_name':
@@ -229,12 +255,20 @@ def update_record():
                 for j in record[i][k]:
                     a.__setattr__(j, record[i][k][j])
                 user.addresses.append(a)
+
+        if i == 'employmentHistory':
+            for k in range(len(record[i])):
+                a = EmploymentHistory()
+                for j in record[i][k]:
+                    a.__setattr__(j, record[i][k][j])
+                user.employmentHistory.append(a)
+
         if i in user._fields:
-            if i == 'addresses':
+            if i == 'addresses' or i == 'employmentHistory':
                 continue
             user.__setattr__(i, record[i])
     user.save()
-    return json.dumps({"message":"success",data: user.to_json()})
+    return jsonify({"message": "Successfully Updated User", "data": user.to_json()})
 
 @app.route('/api/delete_record', methods=['DELETE'])
 @cross_origin()
@@ -259,12 +293,14 @@ def register():
     obj = json.loads(request.data)
     for key in obj.keys():
         if key == "password":
-            result = hashlib.sha3_256(str(obj[key]).encode())
-            user[key] = result.hexdigest()
+            res = str(obj[key]).encode('ascii')
+            base64_bytes = base64.b64encode(res)
+            base64_string = base64_bytes.decode("ascii")
+            user[key] = base64_string
         else:
             user[key] = obj[key]
     user.save()
-    return jsonify({"data": user.to_json()})
+    return jsonify({"message": "Successfully Registered", "data":user.to_json()})
 
 @app.route('/api/login', methods=['POST'])
 @cross_origin()
@@ -272,13 +308,19 @@ def login():
     record = json.loads(request.data)
     user = DriversData.objects(user_name=record['user_name']).first()
     if not user:
-        return jsonify({'error': 'User Name Not Exists'})
+        return json.dumps({'error': 'User Name Not Exists'})
+    password = user.password
+    password = str(password).encode("ascii")
+    sample_string_bytes = base64.b64decode(password)
+    password = sample_string_bytes.decode("ascii")
+    if record['password'] == password:
+        return jsonify({"message": "Login Successfully", "data": user.to_json()})
 
-    return jsonify(user.to_json())
+    return json.dumps({'error': 'Incorect User Name and Password'})
 
 @app.errorhandler(404)
 def not_found(e):
-    return app.send_static_file('index.html')
+    return render_template("page404.html")
 
 @app.route('/api/pdf/new_employee', methods=['GET'])
 @cross_origin()
@@ -321,65 +363,73 @@ def new_employeee_pdf():
     else:
         return json.dumps({"message": "Invalid Data", "code": "201"})
 
-
-expireson = "2021-03-13"
-img_string = image_file_path_to_base64_string('./templates/img/logo.gif')
-last_name = "Manzoor"
-first_name = " Ubaid"
-middle = "Ullah"
-address = "H No 15 Bilal Park Sham Nagar"
-apt_number = "123456"
-city = "Lahore"
-state = "Punjab"
-zip_code = "54000"
-dateofBirth = "26/11/1998"
-s = split_words("123456789")
-phone_number = "(092)11234567896"
-email = "ubaidmanzoor987@gmail.com"
-united_state_citizen = True
-non_united_state_citizen = False
-lawful_permanent_resident = False
-alien_authorized = False
-alien_registration_number = '090078601'
-data = {
-    "expireson": expireson,
-    "img_string": img_string,
-    "last_name": last_name,
-    "first_name":  first_name,
-    "middle": middle,
-    "address": address,
-    "apt_number": apt_number,
-    "city": city,
-    "state": state,
-    "zip_code": zip_code,
-    "dateofBirth": dateofBirth,
-    "social_security1": s[0],
-    "social_security2": s[1],
-    "social_security3": s[2],
-    "social_security4": s[3],
-    "social_security5": s[4],
-    "social_security6": s[5],
-    "social_security7": s[6],
-    "social_security8": s[7],
-    "social_security9": s[8],
-    "email": email,
-    "phone_number": phone_number,
-    "united_state_citizen": united_state_citizen,
-    "non_united_state_citizen": non_united_state_citizen,
-    "lawful_permanent_resident": lawful_permanent_resident,
-    "alien_authorized": alien_authorized,
-    "alien_registration_number": alien_registration_number,
-}
+def form_i9_data():
+    expireson = "2021-03-13"
+    img_string = image_file_path_to_base64_string('./templates/img/logo.gif')
+    last_name = "Manzoor"
+    first_name = " Ubaid"
+    middle = "Ullah"
+    address = "H No 15 Bilal Park Sham Nagar"
+    apt_number = "123456"
+    city = "Lahore"
+    state = "Punjab"
+    zip_code = "54000"
+    dateofBirth = "26/11/1998"
+    s = split_words("123456789")
+    phone_number = "(092)11234567896"
+    email = "ubaidmanzoor987@gmail.com"
+    united_state_citizen = True
+    non_united_state_citizen = False
+    lawful_permanent_resident = False
+    alien_authorized = False
+    alien_registration_number = '090078601'
+    data = {
+        "expireson": expireson,
+        "img_string": img_string,
+        "last_name": last_name,
+        "first_name": first_name,
+        "middle": middle,
+        "address": address,
+        "apt_number": apt_number,
+        "city": city,
+        "state": state,
+        "zip_code": zip_code,
+        "dateofBirth": dateofBirth,
+        "social_security1": s[0],
+        "social_security2": s[1],
+        "social_security3": s[2],
+        "social_security4": s[3],
+        "social_security5": s[4],
+        "social_security6": s[5],
+        "social_security7": s[6],
+        "social_security8": s[7],
+        "social_security9": s[8],
+        "email": email,
+        "phone_number": phone_number,
+        "united_state_citizen": united_state_citizen,
+        "non_united_state_citizen": non_united_state_citizen,
+        "lawful_permanent_resident": lawful_permanent_resident,
+        "alien_authorized": alien_authorized,
+        "alien_registration_number": alien_registration_number,
+    }
+    return data
 
 @app.route('/')
 @cross_origin()
 def index():
-    # return app.send_static_file('index.html')
-    return render_template("form19.html", data=data)
+    return app.send_static_file('index.html')
+
+@app.route("/api/html/formi9")
+@cross_origin()
+def form_i9_html():
+    data = form_i9_data()
+    return render_template("formi9.html", data=data)
+
 
 @app.route('/api/pdf/formi9', methods=['GET'])
 @cross_origin()
 def form_i_9():
+    data = form_i9_data()
     options = {
         'page-size': 'A4',
         'encoding': 'utf-8',
@@ -388,11 +438,11 @@ def form_i_9():
         'margin-left': '0cm',
         'margin-right': '0cm'
     }
-    html = render_template("form19.html", data=data)
+    html = render_template("formi9.html", data=data)
     pdf = pdfkit.from_string(html, False, options=options)
     resp = make_response(pdf)
     resp.headers['Content-Type'] = 'application/pdf'
-    resp.headers['Content-Disposition'] = 'attachment; filename=form19.pdf'
+    resp.headers['Content-Disposition'] = 'attachment; filename=formi9.pdf'
     return resp
 
 if __name__ == "__main__":

@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify, render_template, make_response
 from flask_cors import cross_origin
 from flask_mongoengine import MongoEngine
 from flask_mongoengine.wtf import model_form
-import hashlib
+
 import pdfkit
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
@@ -56,6 +56,9 @@ class Address(db.EmbeddedDocument):
     lastYearAddressfrom = db.DateField()
     lastYearAddressTo = db.DateField()
 
+class Resume(db.EmbeddedDocument):
+    file_name = db.StringField()
+
 class Licence(db.EmbeddedDocument):
     stateOfLicence = db.StringField()
     licenceNumber = db.StringField()
@@ -88,6 +91,8 @@ class DriversData(db.Document):
     maritial_status = db.StringField()
     NumberofDependantsUnder17 = db.IntField()
     NumberofDependantsOver17 = db.IntField()
+    resume = db.ListField(db.EmbeddedDocumentField(Resume))
+
     #lastyearaddressses
     addresses = db.ListField(db.EmbeddedDocumentField(Address))
 
@@ -237,6 +242,9 @@ def delete_record():
         user.delete()
     return jsonify(user.to_json())
 
+
+obj = AES.new('This is a key123', AES.MODE_CBC, 'This is an IV456')
+
 @app.route('/api/register', methods=['PUT'])
 @cross_origin()
 def register():
@@ -249,8 +257,8 @@ def register():
     obj = json.loads(request.data)
     for key in obj.keys():
         if key == "password":
-            result = hashlib.sha3_256(str(obj[key]).encode())
-            user[key] = result.hexdigest()
+            result = obj.encrypt(str(obj[key]))
+            user[key] = result
         else:
             user[key] = obj[key]
     user.save()
@@ -311,65 +319,72 @@ def new_employeee_pdf():
     else:
         return json.dumps({"message": "Invalid Data", "code": "201"})
 
-
-expireson = "2021-03-13"
-img_string = image_file_path_to_base64_string('./templates/img/logo.gif')
-last_name = "Manzoor"
-first_name = " Ubaid"
-middle = "Ullah"
-address = "H No 15 Bilal Park Sham Nagar"
-apt_number = "123456"
-city = "Lahore"
-state = "Punjab"
-zip_code = "54000"
-dateofBirth = "26/11/1998"
-s = split_words("123456789")
-phone_number = "(092)11234567896"
-email = "ubaidmanzoor987@gmail.com"
-united_state_citizen = True
-non_united_state_citizen = False
-lawful_permanent_resident = False
-alien_authorized = False
-alien_registration_number = '090078601'
-data = {
-    "expireson": expireson,
-    "img_string": img_string,
-    "last_name": last_name,
-    "first_name":  first_name,
-    "middle": middle,
-    "address": address,
-    "apt_number": apt_number,
-    "city": city,
-    "state": state,
-    "zip_code": zip_code,
-    "dateofBirth": dateofBirth,
-    "social_security1": s[0],
-    "social_security2": s[1],
-    "social_security3": s[2],
-    "social_security4": s[3],
-    "social_security5": s[4],
-    "social_security6": s[5],
-    "social_security7": s[6],
-    "social_security8": s[7],
-    "social_security9": s[8],
-    "email": email,
-    "phone_number": phone_number,
-    "united_state_citizen": united_state_citizen,
-    "non_united_state_citizen": non_united_state_citizen,
-    "lawful_permanent_resident": lawful_permanent_resident,
-    "alien_authorized": alien_authorized,
-    "alien_registration_number": alien_registration_number,
-}
+def data_get():
+    expireson = "2021-03-13"
+    img_string = image_file_path_to_base64_string('./templates/img/logo.gif')
+    last_name = "Manzoor"
+    first_name = " Ubaid"
+    middle = "Ullah"
+    address = "H No 15 Bilal Park Sham Nagar"
+    apt_number = "123456"
+    city = "Lahore"
+    state = "Punjab"
+    zip_code = "54000"
+    dateofBirth = "26/11/1998"
+    s = split_words("123456789")
+    phone_number = "(092)11234567896"
+    email = "ubaidmanzoor987@gmail.com"
+    united_state_citizen = True
+    non_united_state_citizen = False
+    lawful_permanent_resident = False
+    alien_authorized = False
+    alien_registration_number = '090078601'
+    data = {
+        "expireson": expireson,
+        "img_string": img_string,
+        "last_name": last_name,
+        "first_name":  first_name,
+        "middle": middle,
+        "address": address,
+        "apt_number": apt_number,
+        "city": city,
+        "state": state,
+        "zip_code": zip_code,
+        "dateofBirth": dateofBirth,
+        "social_security1": s[0],
+        "social_security2": s[1],
+        "social_security3": s[2],
+        "social_security4": s[3],
+        "social_security5": s[4],
+        "social_security6": s[5],
+        "social_security7": s[6],
+        "social_security8": s[7],
+        "social_security9": s[8],
+        "email": email,
+        "phone_number": phone_number,
+        "united_state_citizen": united_state_citizen,
+        "non_united_state_citizen": non_united_state_citizen,
+        "lawful_permanent_resident": lawful_permanent_resident,
+        "alien_authorized": alien_authorized,
+        "alien_registration_number": alien_registration_number,
+    }
+    return data
 
 @app.route('/')
 @cross_origin()
 def index():
-    # return app.send_static_file('index.html')
+    return app.send_static_file('index.html')
+
+@app.route('/api/forms/formi9')
+@cross_origin()
+def returnformi9():
+    data = data_get()
     return render_template("form19.html", data=data)
 
 @app.route('/api/pdf/formi9', methods=['GET'])
 @cross_origin()
 def form_i_9():
+    data = data_get()
     options = {
         'page-size': 'A4',
         'encoding': 'utf-8',
@@ -382,7 +397,7 @@ def form_i_9():
     pdf = pdfkit.from_string(html, False, options=options)
     resp = make_response(pdf)
     resp.headers['Content-Type'] = 'application/pdf'
-    resp.headers['Content-Disposition'] = 'attachment; filename=form19.pdf'
+    resp.headers['Content-Disposition'] = 'attachment; filename=formi9.pdf'
     return resp
 
 if __name__ == "__main__":

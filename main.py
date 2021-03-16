@@ -221,10 +221,20 @@ def update_record():
         return jsonify({'error': 'data not found'})
 
     for i in record.keys():
-        if i in user:
+        if i == 'user_name':
+            continue
+        if i == 'addresses':
+            for k in range(len(record[i])):
+                a = Address()
+                for j in record[i][k]:
+                    a.__setattr__(j, record[i][k][j])
+                user.addresses.append(a)
+        if i in user._fields:
+            if i == 'addresses':
+                continue
             user.__setattr__(i, record[i])
     user.save()
-    return jsonify(user.to_json())
+    return json.dumps({"message":"success",data: user.to_json()})
 
 @app.route('/api/delete_record', methods=['DELETE'])
 @cross_origin()

@@ -83,7 +83,7 @@ class DriversData(db.Document):
     last_name = db.StringField()
     phone_number = db.StringField()
     email = db.StringField()
-    dateofBirth = db.StringField()
+    dateofBirth = db.DateField()
     socialSecurity = db.StringField()
     address = db.StringField()
     city = db.StringField()
@@ -246,8 +246,7 @@ def upload_file():
     id = str(uuid.uuid4())
     destination = "/".join([target, id+filename])
     file.save(destination)
-    user.__setattr__(resume=id)
-    user.save()
+    user.update(resume= id)
     return jsonify({"message": "Successfully Uploded File"})
 
 def string_to_date(record_string):
@@ -298,7 +297,8 @@ def update_record():
         record["employeeDate"] = string_to_date(record["employeeDate"])
     if 'nameOfPersonProvidingInformationDate' in record:
         record['nameOfPersonProvidingInformationDate'] = string_to_date(record['nameOfPersonProvidingInformationDate'])
-
+    if 'dateofBirth' in record:
+        record['dateofBirth'] = string_to_date(record['dateofBirth'])
     user = DriversData.objects(user_name=record['user_name']).first()
     if not user:
         return jsonify({'error': 'Incorrect UserName and Data not found'})
@@ -307,6 +307,7 @@ def update_record():
         if i == 'user_name':
             continue
         if i == 'addresses':
+            user.addresses.clear()
             for k in range(len(record[i])):
                 a = Address()
                 for j in record[i][k]:
@@ -335,6 +336,7 @@ def update_record():
                 user.employmentExperienceHistory.append(a)
 
         if i == 'applicantAddresses':
+            user.applicantAddresses.clear()
             for k in range(len(record[i])):
                 a = Address()
                 for j in record[i][k]:
@@ -349,22 +351,22 @@ def update_record():
                 user.employmentHistory.append(a)
 
         if i in user._fields:
-            if i == 'addresses' or i == 'employmentHistory' or i == 'applicantAddresses' or i == 'employmentExperienceHistory' or i == 'employmentAccidentsHistory' or i == 'violations':
+            if i == 'addresses' or i == 'employmentHistory' or i=='resume' or i == 'applicantAddresses' or i == 'employmentExperienceHistory' or i == 'employmentAccidentsHistory' or i == 'violations':
                 continue
             user.__setattr__(i, record[i])
     user.save()
     return jsonify({"message": "Successfully Updated User", "data": user.to_json()})
 
-@app.route('/api/delete_record', methods=['DELETE'])
+@app.route('/api/delete_record', methods=['POST'])
 @cross_origin()
 def delete_record():
     record = json.loads(request.data)
-    user = DriversData.objects(name=record['name']).first()
+    user = DriversData.objects(user_name=record['user_name']).first()
     if not user:
-        return jsonify({'error': 'data not found'})
+        return jsonify({'error': 'user not found'})
     else:
         user.delete()
-    return jsonify(user.to_json())
+    return jsonify({"message":"Delete User "+record['user_name']+"Successfully"})
 
 @app.route('/api/register', methods=['PUT'])
 @cross_origin()

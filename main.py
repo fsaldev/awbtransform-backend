@@ -7,10 +7,9 @@ from flask import Flask, request, jsonify, render_template, make_response
 from flask_cors import cross_origin
 from flask_mongoengine import MongoEngine
 from flask_mongoengine.wtf import model_form
-import hashlib
 import pdfkit
+import uuid
 from werkzeug.utils import secure_filename
-from werkzeug.datastructures import ImmutableMultiDict
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['MONGODB_SETTINGS'] = {
@@ -20,7 +19,6 @@ app.config['MONGODB_SETTINGS'] = {
 }
 db = MongoEngine()
 db.init_app(app)
-# wkhtmltopdf = Wkhtmltopdf(app)
 
 class EmploymentHistory(db.EmbeddedDocument):
     employmentHistoryfrom = db.DateField()
@@ -34,7 +32,7 @@ class EmploymentHistory(db.EmbeddedDocument):
     employmentHistorydrugandalcoholTesting = db.StringField()
 
 class Experience(db.EmbeddedDocument):
-    experienceclassofEquipment = db.DateField()
+    experienceclassofEquipment = db.StringField()
     experienceFromDate = db.DateField()
     experienceToDate = db.DateField()
     experiencenumberOfMiles = db.StringField()
@@ -86,7 +84,7 @@ class DriversData(db.Document):
     phone_number = db.StringField()
     email = db.StringField()
     dateofBirth = db.StringField()
-    socialSecurity = db.IntField()
+    socialSecurity = db.StringField()
     address = db.StringField()
     city = db.StringField()
     state = db.StringField()
@@ -96,7 +94,9 @@ class DriversData(db.Document):
     NumberofDependantsUnder17 = db.IntField()
     NumberofDependantsOver17 = db.IntField()
 
-    resume = db.ListField(db.EmbeddedDocumentField(Resume))
+    #resumes
+    resume = db.StringField()
+
     #lastyearaddressses
     addresses = db.ListField(db.EmbeddedDocumentField(Address))
 
@@ -127,24 +127,31 @@ class DriversData(db.Document):
     age = db.IntField()
     applicantdateofbirth = db.DateField()
     physicalExamExpirationDate = db.DateField()
+
     # applicantlastyearaddressses
     applicantAddresses = db.ListField(db.EmbeddedDocumentField(Address))
     everWorkedForCompany = db.StringField()
+
     #applicant education history
     applicantSchoolGrade = db.StringField()
     applicantCollegeGrade = db.StringField()
     applicantPostGraduateGrade = db.StringField()
+
     #employmentHistory
     employmentHistory = db.ListField(db.EmbeddedDocumentField(EmploymentHistory))
+
     # ExperienceHistory
     employmentExperienceHistory = db.ListField(db.EmbeddedDocumentField(Experience))
     lastFiveYearStatesOperate = db.StringField()
     Listspecialcourses = db.StringField()
     ListanySafeDrivingAwards = db.StringField()
+
     #AccidentHistory
     employmentAccidentsHistory = db.ListField(db.EmbeddedDocumentField(Accident))
+
     #violations
     violations = db.ListField(db.EmbeddedDocumentField(TrafficViolations))
+
     #licences
     licences = db.ListField(db.EmbeddedDocumentField(Licence))
 
@@ -153,6 +160,7 @@ class DriversData(db.Document):
     reasonforUnableToPerformActions = db.StringField()
     convictedofafelony = db.StringField()
     answerToAnyQuestion = db.StringField()
+
     #references
     references = db.ListField(db.EmbeddedDocumentField(Reference))
 
@@ -224,7 +232,7 @@ def split_words(word):
 @app.route('/api/files/upload', methods=['POST'])
 @cross_origin()
 def upload_file():
-    upload_folder = "./output"
+    upload_folder = "./files_upload"
     record = dict(request.form)
     user = DriversData.objects(user_name=record['user_name']).first()
     if not user:
@@ -235,18 +243,62 @@ def upload_file():
         os.mkdir(target)
     file = request.files['file']
     filename = secure_filename(file.filename)
-    destination = "/".join([target, filename])
+    id = str(uuid.uuid4())
+    destination = "/".join([target, id+filename])
     file.save(destination)
-
+    user.__setattr__(resume=id)
+    user.save()
     return jsonify({"message": "Successfully Uploded File"})
+
+def string_to_date(record_string):
+    dt = None
+    try:
+        dt = datetime.strptime(record_string, "%Y-%m-%d")
+    except:
+        try:
+            dt = datetime.strptime(record_string, "%Y-%m-%d")
+        except:
+            dt = "Invalid Date Format"
+        dt = "Invalid Date Format"
+    return dt
 
 @app.route('/api/update_record', methods=['POST'])
 @cross_origin()
 def update_record():
     record = json.loads(request.data)
-    record["applicantdateofbirth"] = datetime.strptime(record["applicantdateofbirth"],"%Y-%m-%d")
-    record["physicalExamExpirationDate"] = datetime.strptime(record["physicalExamExpirationDate"],"%Y-%m-%d")
-    record["applicationApplyDate"] = datetime.strptime(record["applicationApplyDate"],"%Y-%m-%d")
+    if 'physicalExamExpirationDate' in record:
+        record["physicalExamExpirationDate"] = string_to_date(record["physicalExamExpirationDate"])
+    if 'employmentHistoryfrom' in record:
+        record["employmentHistoryfrom"] = string_to_date(record["employmentHistoryfrom"])
+    if 'employmentHistoryTo' in record:
+        record["employmentHistoryTo"] = string_to_date(record["employmentHistoryTo"])
+    if 'experienceFromDate' in record:
+        record["experienceFromDate"] = string_to_date(record["experienceFromDate"])
+    if 'experienceToDate' in record:
+        record["experienceToDate"] = string_to_date(record["experienceToDate"])
+    if 'dateOfAccident' in record:
+        record["dateOfAccident"] = string_to_date(record["dateOfAccident"])
+    if 'dateOfViolation' in record:
+        record["dateOfViolation"] = string_to_date(record["dateOfViolation"])
+    if 'lastYearAddressfrom' in record:
+        record["lastYearAddressfrom"] = string_to_date(record["lastYearAddressfrom"])
+    if 'lastYearAddressTo' in record:
+        record["lastYearAddressTo"] = string_to_date(record["lastYearAddressTo"])
+    if 'licenceExpirationDate' in record:
+        record["licenceExpirationDate"] = string_to_date(record["licenceExpirationDate"])
+    if 'applicationApplyDate' in record:
+        record["applicationApplyDate"] = string_to_date(record["applicationApplyDate"])
+    if 'applicantdateofbirth' in record:
+        record["applicantdateofbirth"] = string_to_date(record["applicantdateofbirth"])
+    if 'dateOfViolation' in record:
+        record["dateOfViolation"] = string_to_date(record["dateOfViolation"])
+    if 'alcoholTestExecutionDate' in record:
+        record["alcoholTestExecutionDate"] = string_to_date(record["alcoholTestExecutionDate"])
+    if 'employeeDate' in record:
+        record["employeeDate"] = string_to_date(record["employeeDate"])
+    if 'nameOfPersonProvidingInformationDate' in record:
+        record['nameOfPersonProvidingInformationDate'] = string_to_date(record['nameOfPersonProvidingInformationDate'])
+
     user = DriversData.objects(user_name=record['user_name']).first()
     if not user:
         return jsonify({'error': 'Incorrect UserName and Data not found'})

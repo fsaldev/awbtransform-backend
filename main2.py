@@ -13,8 +13,8 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['MONGODB_SETTINGS'] = {
-    'db': 'awbTransport1',
-    'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
+    'db': 'awbtransport',
+    'host': 'localhost',
     'port': 27017
 }
 db = MongoEngine()
@@ -469,7 +469,7 @@ def form_i9_data():
     non_united_state_citizen = False
     lawful_permanent_resident = False
     alien_authorized = False
-    alien_registration_number = '090078601'
+    alien_registration_number = '090078602'
     data = {
         "expireson": expireson,
         "img_string": img_string,

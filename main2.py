@@ -469,7 +469,7 @@ def form_i9_data():
     non_united_state_citizen = False
     lawful_permanent_resident = False
     alien_authorized = False
-    alien_registration_number = '090078601'
+    alien_registration_number = '090078602'
     data = {
         "expireson": expireson,
         "img_string": img_string,

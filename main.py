@@ -1,6 +1,7 @@
 import base64
 import json
 import os
+from datetime import datetime
 from multiprocessing import process
 from flask import Flask, request, jsonify, render_template, make_response
 from flask_cors import cross_origin
@@ -9,6 +10,7 @@ from flask_mongoengine.wtf import model_form
 import hashlib
 import pdfkit
 from werkzeug.utils import secure_filename
+from werkzeug.datastructures import ImmutableMultiDict
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['MONGODB_SETTINGS'] = {
@@ -28,8 +30,8 @@ class EmploymentHistory(db.EmbeddedDocument):
     employmentHistoryaddress = db.StringField()
     employmentHistorycompanyPhone = db.StringField()
     employmentHistoryreasonForLeaving = db.StringField()
-    employmentHistorysubjecttotheFMCSRs = db.BooleanField()
-    employmentHistorydrugandalcoholTesting = db.BooleanField()
+    employmentHistorysubjecttotheFMCSRs = db.StringField()
+    employmentHistorydrugandalcoholTesting = db.StringField()
 
 class Experience(db.EmbeddedDocument):
     experienceclassofEquipment = db.DateField()
@@ -89,7 +91,7 @@ class DriversData(db.Document):
     city = db.StringField()
     state = db.StringField()
     zipCode = db.StringField()
-    lastThreeYearResidenceCheck = db.BooleanField()
+    lastThreeYearResidenceCheck = db.StringField()
     maritial_status = db.StringField()
     NumberofDependantsUnder17 = db.IntField()
     NumberofDependantsOver17 = db.IntField()
@@ -100,9 +102,9 @@ class DriversData(db.Document):
 
     startTime = db.StringField()
     hearAbout = db.StringField()
-    eligibletoWorkInUnitedState = db.BooleanField()
-    classAExperienceLevel = db.BooleanField()
-    willingForDrugTest = db.BooleanField()
+    eligibletoWorkInUnitedState = db.StringField()
+    classAExperienceLevel = db.StringField()
+    willingForDrugTest = db.StringField()
     gender = db.StringField()
     veteranStatus = db.StringField()
 
@@ -127,7 +129,7 @@ class DriversData(db.Document):
     physicalExamExpirationDate = db.DateField()
     # applicantlastyearaddressses
     applicantAddresses = db.ListField(db.EmbeddedDocumentField(Address))
-    everWorkedForCompany = db.BooleanField()
+    everWorkedForCompany = db.StringField()
     #applicant education history
     applicantSchoolGrade = db.StringField()
     applicantCollegeGrade = db.StringField()
@@ -146,10 +148,10 @@ class DriversData(db.Document):
     #licences
     licences = db.ListField(db.EmbeddedDocumentField(Licence))
 
-    deniedLicences = db.BooleanField()
-    permitLicences = db.BooleanField()
-    reasonforUnableToPerformActions = db.BooleanField()
-    convictedofafelony = db.BooleanField()
+    deniedLicences = db.StringField()
+    permitLicences = db.StringField()
+    reasonforUnableToPerformActions = db.StringField()
+    convictedofafelony = db.StringField()
     answerToAnyQuestion = db.StringField()
     #references
     references = db.ListField(db.EmbeddedDocumentField(Reference))
@@ -193,12 +195,12 @@ class DriversData(db.Document):
     prevEmployeedesignatedEmployeeReprsentative = db.StringField()
 
     #results
-    employeeAlcoholTestRateHigher = db.BooleanField()
-    employeeverifiedDrugTest = db.BooleanField()
-    employeerefuseTest = db.BooleanField()
-    employeeotherViolations = db.BooleanField()
-    prevEmployeeReportDrug = db.BooleanField()
-    answeredYes = db.BooleanField()
+    employeeAlcoholTestRateHigher = db.StringField()
+    employeeverifiedDrugTest = db.StringField()
+    employeerefuseTest = db.StringField()
+    employeeotherViolations = db.StringField()
+    prevEmployeeReportDrug = db.StringField()
+    answeredYes = db.StringField()
 
     #IIB
     nameOfPersonProvidingInformation = db.StringField()
@@ -223,7 +225,7 @@ def split_words(word):
 @cross_origin()
 def upload_file():
     upload_folder = "./output"
-    record = json.loads(request.data)
+    record = dict(request.form)
     user = DriversData.objects(user_name=record['user_name']).first()
     if not user:
         return jsonify({'error': 'Incorrect UserName and Data not found'})
@@ -242,6 +244,9 @@ def upload_file():
 @cross_origin()
 def update_record():
     record = json.loads(request.data)
+    record["applicantdateofbirth"] = datetime.strptime(record["applicantdateofbirth"],"%Y-%m-%d")
+    record["physicalExamExpirationDate"] = datetime.strptime(record["physicalExamExpirationDate"],"%Y-%m-%d")
+    record["applicationApplyDate"] = datetime.strptime(record["applicationApplyDate"],"%Y-%m-%d")
     user = DriversData.objects(user_name=record['user_name']).first()
     if not user:
         return jsonify({'error': 'Incorrect UserName and Data not found'})
@@ -256,6 +261,34 @@ def update_record():
                     a.__setattr__(j, record[i][k][j])
                 user.addresses.append(a)
 
+        if i == 'violations':
+            for k in range(len(record[i])):
+                a = TrafficViolations()
+                for j in record[i][k]:
+                    a.__setattr__(j, record[i][k][j])
+                user.violations.append(a)
+
+        if i == 'employmentAccidentsHistory':
+            for k in range(len(record[i])):
+                a = Accident()
+                for j in record[i][k]:
+                    a.__setattr__(j, record[i][k][j])
+                user.employmentAccidentsHistory.append(a)
+
+        if i == 'employmentExperienceHistory':
+            for k in range(len(record[i])):
+                a = Experience()
+                for j in record[i][k]:
+                    a.__setattr__(j, record[i][k][j])
+                user.employmentExperienceHistory.append(a)
+
+        if i == 'applicantAddresses':
+            for k in range(len(record[i])):
+                a = Address()
+                for j in record[i][k]:
+                    a.__setattr__(j, record[i][k][j])
+                user.applicantAddresses.append(a)
+
         if i == 'employmentHistory':
             for k in range(len(record[i])):
                 a = EmploymentHistory()
@@ -264,7 +297,7 @@ def update_record():
                 user.employmentHistory.append(a)
 
         if i in user._fields:
-            if i == 'addresses' or i == 'employmentHistory':
+            if i == 'addresses' or i == 'employmentHistory' or i == 'applicantAddresses' or i == 'employmentExperienceHistory' or i == 'employmentAccidentsHistory' or i == 'violations':
                 continue
             user.__setattr__(i, record[i])
     user.save()
@@ -314,7 +347,7 @@ def login():
     sample_string_bytes = base64.b64decode(password)
     password = sample_string_bytes.decode("ascii")
     if record['password'] == password:
-        return jsonify({"message": "Login Successfully", "data": user.to_json()})
+        return jsonify(user.to_json())
 
     return json.dumps({'error': 'Incorect User Name and Password'})
 

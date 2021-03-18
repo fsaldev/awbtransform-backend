@@ -14,7 +14,8 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['MONGODB_SETTINGS'] = {
     'db': 'awbtransport',
-    'host': 'localhost',
+    'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
+    #'host': 'localhost',
     'port': 27017
 }
 db = MongoEngine()
@@ -189,7 +190,7 @@ class DriversData(db.Document):
     newEmployeerState = db.StringField()
     newEmployeerpostalCode = db.StringField()
     newEmployeerphone = db.StringField()
-    newEmployeerphone = db.StringField()
+    newEmployeerFax = db.StringField() # newEmployeerphone => changed => newEmployeerFax
     newEmployeedesignatedEmployeeReprsentative = db.StringField()
 
     # Ib Data
@@ -199,7 +200,7 @@ class DriversData(db.Document):
     prevEmployeerState = db.StringField()
     prevEmployeerpostalCode = db.StringField()
     prevEmployeerphone = db.StringField()
-    prevEmployeerphone = db.StringField()
+    prevEmployeerFax = db.StringField()# prevEmployeerphone => changed => prevEmployeerFax
     prevEmployeedesignatedEmployeeReprsentative = db.StringField()
 
     #results

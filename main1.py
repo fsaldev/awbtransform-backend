@@ -8,11 +8,11 @@ from flask_mongoengine.wtf import model_form
 import hashlib
 import pdfkit
 
-PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf='/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf')
+# PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf='/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf')
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['MONGODB_SETTINGS'] = {
-    'db': 'awbtransport',
-    'host': 'localhost',
+    'db': 'awbTransport1',
+    'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
     'port': 27017 
 }
 db = MongoEngine()
@@ -380,7 +380,7 @@ def form_i_9():
         'margin-right': '0cm'
     }
     html = render_template("form19.html", data=data)
-    pdf = pdfkit.from_string(html, False, options=options, configuration=PDFKIT_CONFIGURATION)
+    pdf = pdfkit.from_string(html, False, options=options)
     resp = make_response(pdf)
     resp.headers['Content-Type'] = 'application/pdf'
     resp.headers['Content-Disposition'] = 'attachment; filename=form19.pdf'

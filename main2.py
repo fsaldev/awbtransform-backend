@@ -11,11 +11,16 @@ import pdfkit
 import uuid
 from werkzeug.utils import secure_filename
 
+PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['MONGODB_SETTINGS'] = {
     'db': 'awbtransport',
-    'host': 'localhost',
+    'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
+    #'host': 'localhost',
     'port': 27017
+    # 'db': 'awbTransport1',
+    # 'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
+    # 'port': 27017
 }
 db = MongoEngine()
 db.init_app(app)
@@ -189,7 +194,7 @@ class DriversData(db.Document):
     newEmployeerState = db.StringField()
     newEmployeerpostalCode = db.StringField()
     newEmployeerphone = db.StringField()
-    newEmployeerphone = db.StringField()
+    newEmployeerFax = db.StringField() # newEmployeerphone => changed => newEmployeerFax
     newEmployeedesignatedEmployeeReprsentative = db.StringField()
 
     # Ib Data
@@ -199,7 +204,7 @@ class DriversData(db.Document):
     prevEmployeerState = db.StringField()
     prevEmployeerpostalCode = db.StringField()
     prevEmployeerphone = db.StringField()
-    prevEmployeerphone = db.StringField()
+    prevEmployeerFax = db.StringField()# prevEmployeerphone => changed => prevEmployeerFax
     prevEmployeedesignatedEmployeeReprsentative = db.StringField()
 
     #results
@@ -315,6 +320,7 @@ def update_record():
                 user.addresses.append(a)
 
         if i == 'violations':
+            user.violations.clear()
             for k in range(len(record[i])):
                 a = TrafficViolations()
                 for j in record[i][k]:
@@ -322,6 +328,7 @@ def update_record():
                 user.violations.append(a)
 
         if i == 'employmentAccidentsHistory':
+            user.employmentAccidentsHistory.clear()
             for k in range(len(record[i])):
                 a = Accident()
                 for j in record[i][k]:
@@ -329,6 +336,7 @@ def update_record():
                 user.employmentAccidentsHistory.append(a)
 
         if i == 'employmentExperienceHistory':
+            user.employmentExperienceHistory.clear()
             for k in range(len(record[i])):
                 a = Experience()
                 for j in record[i][k]:
@@ -344,14 +352,31 @@ def update_record():
                 user.applicantAddresses.append(a)
 
         if i == 'employmentHistory':
+            user.employmentHistory.clear()
             for k in range(len(record[i])):
                 a = EmploymentHistory()
                 for j in record[i][k]:
                     a.__setattr__(j, record[i][k][j])
                 user.employmentHistory.append(a)
 
+        if i == 'licences':
+            user.licences.clear()
+            for k in range(len(record[i])):
+                a = Licence()
+                for j in record[i][k]:
+                    a.__setattr__(j, record[i][k][j])
+                user.licences.append(a)
+
+        if i == 'references':
+            user.references.clear()
+            for k in range(len(record[i])):
+                a = Reference()
+                for j in record[i][k]:
+                    a.__setattr__(j, record[i][k][j])
+                user.references.append(a)
+
         if i in user._fields:
-            if i == 'addresses' or i == 'employmentHistory' or i=='resume' or i == 'applicantAddresses' or i == 'employmentExperienceHistory' or i == 'employmentAccidentsHistory' or i == 'violations':
+            if i == 'addresses' or i == 'references' or i == 'licences' or i == 'employmentHistory' or i=='resume' or i == 'applicantAddresses' or i == 'employmentExperienceHistory' or i == 'employmentAccidentsHistory' or i == 'violations':
                 continue
             user.__setattr__(i, record[i])
     user.save()
@@ -409,6 +434,18 @@ def login():
 def not_found(e):
     return render_template("page404.html")
 
+@app.route('/api/get_all_users', methods=['GET'])
+@cross_origin()
+def get_users():
+    users = DriversData.objects().all()
+    users_list = []
+    if users:
+        for user in users:
+            users_list.append(user.to_json())
+        return jsonify(users_list)
+    else:
+        return jsonify({'error': 'Unnable to load users'})
+
 @app.route('/api/pdf/new_employee', methods=['GET'])
 @cross_origin()
 def new_employeee_pdf():
@@ -441,7 +478,7 @@ def new_employeee_pdf():
 
         }
         html = render_template("new_employee.html", data=data)
-        pdf = pdfkit.from_string(html, False )
+        pdf = pdfkit.from_string(html, False, configuration=PDFKIT_CONFIGURATION )
         resp = make_response(pdf)
         resp.headers['Content-Type'] = 'application/pdf'
         resp.headers['Content-Disposition'] = 'attachment; filename=new_employee '+u_name+'.pdf'
@@ -526,7 +563,8 @@ def form_i_9():
         'margin-right': '0cm'
     }
     html = render_template("formi9.html", data=data)
-    pdf = pdfkit.from_string(html, False, options=options)
+    pdf = pdfkit.from_string(html, False, options=options, configuration=PDFKIT_CONFIGURATION)
+    # pdf = pdfkit.from_string(html, False, options=options)
     resp = make_response(pdf)
     resp.headers['Content-Type'] = 'application/pdf'
     resp.headers['Content-Disposition'] = 'attachment; filename=formi9.pdf'

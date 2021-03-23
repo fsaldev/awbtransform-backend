@@ -3,7 +3,7 @@ import json
 import os
 from datetime import datetime
 from multiprocessing import process
-from flask import Flask, request, jsonify, render_template, make_response
+from flask import Flask, request, jsonify, render_template, make_response, send_file
 from flask_cors import cross_origin
 from flask_mongoengine import MongoEngine
 from flask_mongoengine.wtf import model_form
@@ -11,19 +11,21 @@ import pdfkit
 import uuid
 from werkzeug.utils import secure_filename
 
-PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
-# PDFKIT_CONFIGURATION = pdfkit.configuration()
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['MONGODB_SETTINGS'] = {
     # 'db': 'awbtransport',
     # 'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
-    #'host': 'localhost',
     'db': 'awbtransport',
     'host': 'localhost',
     'port': 27017
 }
 db = MongoEngine()
 db.init_app(app)
+# PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
+PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
+
+######################################Start Models########################################################
+
 
 class EmploymentHistory(db.EmbeddedDocument):
     employmentHistoryfrom = db.DateField()
@@ -224,6 +226,9 @@ class DriversData(db.Document):
     def to_json(self):
         return {"data": self}
 
+##################################### End Models ########################################################
+
+######################################Start Functions #######################################################
 
 driverForm = model_form(DriversData)
 
@@ -233,26 +238,6 @@ def image_file_path_to_base64_string(filepath: str) -> str:
 
 def split_words(word):
     return [char for char in word]
-
-@app.route('/api/files/upload', methods=['POST'])
-@cross_origin()
-def upload_file():
-    upload_folder = "./files_upload"
-    record = dict(request.form)
-    user = DriversData.objects(user_name=record['user_name']).first()
-    if not user:
-        return jsonify({'error': 'Incorrect UserName and Data not found'})
-
-    target = os.path.join(upload_folder, user.user_name)
-    if not os.path.isdir(target):
-        os.mkdir(target)
-    file = request.files['file']
-    filename = secure_filename(file.filename)
-    id = str(uuid.uuid4())
-    destination = "/".join([target, id+filename])
-    file.save(destination)
-    user.update(resume= id)
-    return jsonify({"message": "Successfully Uploded File"})
 
 def string_to_date(record_string):
     dt = None
@@ -265,6 +250,103 @@ def string_to_date(record_string):
             dt = "Invalid Date Format"
         dt = "Invalid Date Format"
     return dt
+
+def form_i9_data():
+    expireson = "2021-03-13"
+    img_string = image_file_path_to_base64_string('./templates/img/logo.gif')
+    last_name = "Manzoor"
+    first_name = " Ubaid"
+    middle = "Ullah"
+    address = "H No 15 Bilal Park Sham Nagar"
+    apt_number = "123456"
+    city = "Lahore"
+    state = "Punjab"
+    zip_code = "54000"
+    dateofBirth = "26/11/1998"
+    s = split_words("123456789")
+    phone_number = "(092)11234567896"
+    email = "ubaidmanzoor987@gmail.com"
+    united_state_citizen = True
+    non_united_state_citizen = False
+    lawful_permanent_resident = False
+    alien_authorized = False
+    alien_registration_number = '090078602'
+    data = {
+        "expireson": expireson,
+        "img_string": img_string,
+        "last_name": last_name,
+        "first_name": first_name,
+        "middle": middle,
+        "address": address,
+        "apt_number": apt_number,
+        "city": city,
+        "state": state,
+        "zip_code": zip_code,
+        "dateofBirth": dateofBirth,
+        "social_security1": s[0],
+        "social_security2": s[1],
+        "social_security3": s[2],
+        "social_security4": s[3],
+        "social_security5": s[4],
+        "social_security6": s[5],
+        "social_security7": s[6],
+        "social_security8": s[7],
+        "social_security9": s[8],
+        "email": email,
+        "phone_number": phone_number,
+        "united_state_citizen": united_state_citizen,
+        "non_united_state_citizen": non_united_state_citizen,
+        "lawful_permanent_resident": lawful_permanent_resident,
+        "alien_authorized": alien_authorized,
+        "alien_registration_number": alien_registration_number,
+    }
+    return data
+
+######################################End Functions #######################################################
+
+######################################Start Api's #######################################################
+
+@app.route('/api/files/upload', methods=['POST'])
+@cross_origin()
+def upload_file():
+    if not os.path.isdir("files_upload"):
+        os.mkdir("files_upload")
+    upload_folder = "./files_upload"
+    record = dict(request.form)
+    user = DriversData.objects(user_name=record['user_name']).first()
+    if not user:
+        return jsonify({'error': 'Incorrect UserName and Data not found'})
+
+    target = os.path.join(upload_folder, user.user_name)
+    if not os.path.isdir(target):
+        os.mkdir(target)
+    file = request.files['file']
+    filename = secure_filename(file.filename)
+    # id = str(uuid.uuid4())
+    destination = "/".join([target, filename])
+    file.save(destination)
+    user.update(resume= filename)
+    return jsonify({"message": "Successfully Uploded File"})
+
+@app.route('/api/get_resume', methods=['GET'])
+@cross_origin()
+def get_file():
+    upload_folder = "./files_upload"
+    user_name = request.args.get('user_name')
+    user = DriversData.objects(user_name=user_name).first()
+    if not user:
+        return jsonify({'error': 'Incorrect UserName and Data not found'})
+    target = os.path.abspath("files_upload/")
+    if user.resume:
+        user_profile_direc = os.path.join(target, user_name + "\\"+ str(user.resume))
+        if user_profile_direc:
+            print(target)
+            print(user_profile_direc)
+            return send_file(user_profile_direc, as_attachment=True)
+        else:
+            return jsonify({'error': 'No Resume found'})
+    else:
+        return jsonify({'error': 'No Resume found'})
 
 @app.route('/api/update_record', methods=['POST'])
 @cross_origin()
@@ -446,10 +528,28 @@ def get_users():
     else:
         return jsonify({'error': 'Unnable to load users'})
 
+@app.route('/')
+@cross_origin()
+def index():
+    return app.send_static_file('index.html')
+
+#################### Start PDFS HTML###########################
+
+@app.route("/api/html/formi9")
+@cross_origin()
+def form_i9_html():
+    data = form_i9_data()
+    return render_template("formi9.html", data=data)
+
+#################### Emd PDFS HTML###########################
+
+
+#################### Start PDF's ###########################
+
 @app.route('/api/pdf/new_employee', methods=['GET'])
 @cross_origin()
 def new_employeee_pdf():
-    u_name = request.args.get("user_name")
+    u_name = request.args.get('user_name')
     if u_name:
         user = DriversData.objects(user_name=u_name).first()
         if not user:
@@ -479,6 +579,7 @@ def new_employeee_pdf():
         }
         html = render_template("new_employee.html", data=data)
         pdf = pdfkit.from_string(html, False, configuration=PDFKIT_CONFIGURATION )
+        # pdf = pdfkit.from_string(html, False)
         resp = make_response(pdf)
         resp.headers['Content-Type'] = 'application/pdf'
         resp.headers['Content-Disposition'] = 'attachment; filename=new_employee '+u_name+'.pdf'
@@ -486,69 +587,6 @@ def new_employeee_pdf():
         return resp
     else:
         return json.dumps({"message": "Invalid Data", "code": "201"})
-
-def form_i9_data():
-    expireson = "2021-03-13"
-    img_string = image_file_path_to_base64_string('./templates/img/logo.gif')
-    last_name = "Manzoor"
-    first_name = " Ubaid"
-    middle = "Ullah"
-    address = "H No 15 Bilal Park Sham Nagar"
-    apt_number = "123456"
-    city = "Lahore"
-    state = "Punjab"
-    zip_code = "54000"
-    dateofBirth = "26/11/1998"
-    s = split_words("123456789")
-    phone_number = "(092)11234567896"
-    email = "ubaidmanzoor987@gmail.com"
-    united_state_citizen = True
-    non_united_state_citizen = False
-    lawful_permanent_resident = False
-    alien_authorized = False
-    alien_registration_number = '090078602'
-    data = {
-        "expireson": expireson,
-        "img_string": img_string,
-        "last_name": last_name,
-        "first_name": first_name,
-        "middle": middle,
-        "address": address,
-        "apt_number": apt_number,
-        "city": city,
-        "state": state,
-        "zip_code": zip_code,
-        "dateofBirth": dateofBirth,
-        "social_security1": s[0],
-        "social_security2": s[1],
-        "social_security3": s[2],
-        "social_security4": s[3],
-        "social_security5": s[4],
-        "social_security6": s[5],
-        "social_security7": s[6],
-        "social_security8": s[7],
-        "social_security9": s[8],
-        "email": email,
-        "phone_number": phone_number,
-        "united_state_citizen": united_state_citizen,
-        "non_united_state_citizen": non_united_state_citizen,
-        "lawful_permanent_resident": lawful_permanent_resident,
-        "alien_authorized": alien_authorized,
-        "alien_registration_number": alien_registration_number,
-    }
-    return data
-
-@app.route('/')
-@cross_origin()
-def index():
-    return app.send_static_file('index.html')
-
-@app.route("/api/html/formi9")
-@cross_origin()
-def form_i9_html():
-    data = form_i9_data()
-    return render_template("formi9.html", data=data)
-
 
 @app.route('/api/pdf/formi9', methods=['GET'])
 @cross_origin()
@@ -569,6 +607,10 @@ def form_i_9():
     resp.headers['Content-Type'] = 'application/pdf'
     resp.headers['Content-Disposition'] = 'attachment; filename=formi9.pdf'
     return resp
+
+####################End PDF's###########################
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

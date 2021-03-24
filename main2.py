@@ -13,16 +13,16 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['MONGODB_SETTINGS'] = {
-    # 'db': 'awbtransport',
-    # 'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
     'db': 'awbtransport',
-    'host': 'localhost',
+    'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
+    # 'db': 'awbtransport',
+    # 'host': 'localhost',
     'port': 27017
 }
 db = MongoEngine()
 db.init_app(app)
-# PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
-PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
+PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
+# PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
 
 ######################################Start Models########################################################
 
@@ -251,26 +251,27 @@ def string_to_date(record_string):
         dt = "Invalid Date Format"
     return dt
 
-def form_i9_data():
+def form_i9_data(user):
+    print(user)
     expireson = "2021-03-13"
     img_string = image_file_path_to_base64_string('./templates/img/logo.gif')
-    last_name = "Manzoor"
-    first_name = " Ubaid"
-    middle = "Ullah"
-    address = "H No 15 Bilal Park Sham Nagar"
+    last_name = user.last_name
+    first_name = user.first_name
+    middle = user.last_name
+    address = user.address
     apt_number = "123456"
-    city = "Lahore"
-    state = "Punjab"
-    zip_code = "54000"
-    dateofBirth = "26/11/1998"
-    s = split_words("123456789")
-    phone_number = "(092)11234567896"
-    email = "ubaidmanzoor987@gmail.com"
+    city = user.city
+    state = user.state
+    zip_code = user.zipCode
+    dateofBirth = user.dateofBirth
+    s = split_words(str(user.socialSecurity))
+    phone_number = user.phone_number
+    email = user.email
     united_state_citizen = True
     non_united_state_citizen = False
     lawful_permanent_resident = False
     alien_authorized = False
-    alien_registration_number = '090078602'
+    alien_registration_number = ''
     data = {
         "expireson": expireson,
         "img_string": img_string,
@@ -535,11 +536,16 @@ def index():
 
 #################### Start PDFS HTML###########################
 
-@app.route("/api/html/formi9")
+@app.route("/api/html/formi9", methods=['GET'])
 @cross_origin()
 def form_i9_html():
-    data = form_i9_data()
-    return render_template("formi9.html", data=data)
+    u_name = request.args.get('user_name')
+    if u_name:
+        user = DriversData.objects(user_name=u_name).first()
+        if not user:
+            return jsonify({'error': 'User Name Not Found'})
+        data = form_i9_data(user)
+        return render_template("style_css.html", data=data)
 
 #################### Emd PDFS HTML###########################
 
@@ -591,23 +597,30 @@ def new_employeee_pdf():
 @app.route('/api/pdf/formi9', methods=['GET'])
 @cross_origin()
 def form_i_9():
-    data = form_i9_data()
-    options = {
-        'page-size': 'A4',
-        'encoding': 'utf-8',
-        'margin-top': '1cm',
-        'margin-bottom': '0cm',
-        'margin-left': '0cm',
-        'margin-right': '0cm'
-    }
-    html = render_template("formi9.html", data=data)
-    pdf = pdfkit.from_string(html, False, options=options, configuration=PDFKIT_CONFIGURATION)
-    # pdf = pdfkit.from_string(html, False, options=options)
-    resp = make_response(pdf)
-    resp.headers['Content-Type'] = 'application/pdf'
-    resp.headers['Content-Disposition'] = 'attachment; filename=formi9.pdf'
-    return resp
+    u_name = request.args.get('user_name')
+    if u_name:
+        user = DriversData.objects(user_name=u_name).first()
+        if not user:
+            return jsonify({'error': 'User Name Not Found'})
+        data = form_i9_data(user)
+        options = {
+            'page-size': 'A4',
+            'encoding': 'utf-8',
+            'margin-top': '1cm',
+            'margin-bottom': '0cm',
+            'margin-left': '0cm',
+            'margin-right': '0cm'
+        }
+        html = render_template("style_css.html", data=data)
+        pdf = pdfkit.from_string(html, False, options=options, configuration=PDFKIT_CONFIGURATION)
+        # pdf = pdfkit.from_string(html, False, options=options)
+        resp = make_response(pdf)
+        resp.headers['Content-Type'] = 'application/pdf'
+        resp.headers['Content-Disposition'] = 'attachment; filename=formi9.pdf'
+        return resp
 
+    else:
+        return jsonify({'error': 'Invalid Data'})
 ####################End PDF's###########################
 
 

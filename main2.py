@@ -252,14 +252,14 @@ def string_to_date(record_string):
     return dt
 
 def form_i9_data(user):
-    print(user)
     expireson = "2021-03-13"
     img_string = image_file_path_to_base64_string('./templates/img/logo.gif')
+    stop_img_string = image_file_path_to_base64_string('./templates/img/stop.png')
     last_name = user.last_name
     first_name = user.first_name
     middle = user.last_name
     address = user.address
-    apt_number = "123456"
+    apt_number = "None"
     city = user.city
     state = user.state
     zip_code = user.zipCode
@@ -267,6 +267,7 @@ def form_i9_data(user):
     s = split_words(str(user.socialSecurity))
     phone_number = user.phone_number
     email = user.email
+    signature = user.signature
     united_state_citizen = True
     non_united_state_citizen = False
     lawful_permanent_resident = False
@@ -275,6 +276,7 @@ def form_i9_data(user):
     data = {
         "expireson": expireson,
         "img_string": img_string,
+        "stop_img_string": stop_img_string,
         "last_name": last_name,
         "first_name": first_name,
         "middle": middle,
@@ -300,6 +302,9 @@ def form_i9_data(user):
         "lawful_permanent_resident": lawful_permanent_resident,
         "alien_authorized": alien_authorized,
         "alien_registration_number": alien_registration_number,
+        "todayDate": str(datetime.today().date()),
+        "signature": signature,
+        "page_no": "Page 1 of 3"
     }
     return data
 
@@ -606,10 +611,10 @@ def form_i_9():
         options = {
             'page-size': 'A4',
             'encoding': 'utf-8',
-            'margin-top': '1cm',
+            'margin-top': '2cm',
             'margin-bottom': '0cm',
-            'margin-left': '0cm',
-            'margin-right': '0cm'
+            'margin-left': '0.5cm',
+            'margin-right': '0.5cm'
         }
         html = render_template("style_css.html", data=data)
         pdf = pdfkit.from_string(html, False, options=options, configuration=PDFKIT_CONFIGURATION)

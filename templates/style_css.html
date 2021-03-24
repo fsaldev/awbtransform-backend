@@ -6784,6 +6784,11 @@ button.close {
   height: 100px;
   color: black;
 }
+.stop_img-class {
+    background-color: white;
+    width:40px;
+    height: 40px;
+}
 .table1 {
   border-collapse: collapse;
 
@@ -6832,14 +6837,9 @@ body{
 </style>
 </head>
 <body>
-    <div id="header">
-        {% with data=data %}
-            {% include "header.html" %}
-        {% endwith %}
-    </div>
     <div id="content">
         {% with data=data %}
-            {% include "formi9.html" %}
+            {% include "formi9_page1.html" %}
         {% endwith %}
     </div>
 </body>

@@ -5,441 +5,426 @@
             {% include "header.html" %}
         {% endwith %}
     </div>
-    <div class="row">
+    <div class="row" style="margin-top:15px">
         <div class="col-xs-12 employee">
-            <p>
+            <div>
                 <b>
-                    Section  2. Employee Information and Attestation
+                     Section2. Employer or Authorized Representative Review and Verification
                 </b>
+                <br/>
                 <i>
-                    (Employees must complete and sign Section 1 of Form I-9 no later
-                    than the first day of employment, but not before accepting a job offer.)
+                    (Employers or their authorized representative must complete and sign Section 2 within 3 business days of the employee's first day of employment. You
+                    must physically examine one document from List A OR a combination of one document from List B and one document
+                    from List C as listed on the "Lists of Acceptable Documents.")
                 </i>
-            </p>
+            </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-4 left-border ">
+        <div class="col-xs-2 left-border bottom-border">
+            <p style="height:40px; font-size:12.5px;">
+                <b>Employee Info from Section 1</b>
+            </p>
+        </div>
+        <div class="col-xs-3 left-border bottom-border">
             <p>
                 Last Name (<i>Family Name</i>)
-            </p>
-            <p> {{data.last_name}}</p>
+           </p>
+           <p> {{data.last_name}}</p>
         </div>
-        <div class="col-xs-3 left-border">
-            <p>
+        <div class="col-xs-3 left-border bottom-border">
+            <p >
                 First Name (<i>Given Name</i>)
            </p>
-           <p> {{data.first_name}}</p>
+           <p> {{data.last_name}}</p>
         </div>
-        <div class="col-xs-2 left-border">
-            <p>
-                Middle (<i>Initial</i>)
-            </p>
-            <p> {{data.middle}}</p>
+        <div class="col-xs-1 left-border bottom-border">
+            <p style="height:40px">
+                M.I.
+           </p>
         </div>
-        <div class="col-xs-3 left-border right-border">
-            <p>
-                Other Last Name Used (<i>If any</i>)
+        <div class="col-xs-3 left-border right-border bottom-border">
+            <p style="height:40px">
+                Citizenship/Immigration Status
             </p>
-            <p> {{data.last_name}}</p>
+        </div>
+    </div>
+    <div class="row" style="font-weight:bolder">
+        <div class="" style="width:33%;float:left">
+            <p style="text-align:center">
+                List A
+            </p>
+            <p style="text-align:center">
+                Identity and Employment Authorization
+            </p>
+        </div>
+        <div class="" style="width:3%;float:left">
+            <p style="">
+                OR
+           </p>
+        </div>
+        <div class="" style="width:29%;float:left">
+            <p>
+                List B
+            </p>
+            <p>
+                Identity
+            </p>
+        </div>
+        <div class="" style="width:3%; float:left">
+            <p style="text-align:right;">
+                AND
+           </p>
+        </div>
+        <div class="" style="width:32%; float:left">
+            <p style="text-align:center">
+                List C
+            </p>
+            <p style="text-align:center">
+                Employment Authorization
+            </p>
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-5 top-border left-border">
+        <div class="col-xs-4 top-border left-border right-border" style="height:40px">
             <p>
-                Adress (<i>Street Number and Name</i>)
+                Document Title
             </p>
-            <p> {{data.address}}</p>
         </div>
-        <div class="col-xs-2 left-border top-border">
+        <div class="col-xs-4 top-border" style="border-left:15px solid #C0C1C4; height: 40px">
             <p>
-                Apt. Number
-           </p>
-           <p> {{data.apt_number}}</p>
-        </div>
-        <div class="col-xs-2 left-border top-border">
-            <p>
-                City or Town
-           </p>
-           <p> {{data.city}}</p>
-        </div>
-        <div class="col-xs-1 left-border top-border">
-            <p>
-                State
+                Document Title
             </p>
-            <p> {{data.state}}</p>
         </div>
-        <div class="col-xs-2 left-border top-border right-border">
+        <div class="col-xs-4 top-border right-border" style="border-left:15px solid white; height: 40px">
             <p>
-                Zip Code
+                Document Title
             </p>
-            <p> {{data.zip_code}}</p>
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-3 top-border left-border bottom-border">
+        <div class="col-xs-4 top-border left-border right-border" style="height:40px">
             <p>
-                Date of Birth (<i>mm/dd/yyyy</i>)
+                Issuing Authority
             </p>
-            <p> {{data.dateofBirth}}</p>
         </div>
-        <div class="col-xs-3 left-border top-border bottom-border">
+        <div class="col-xs-4 top-border" style="border-left:15px solid #C0C1C4; height: 40px">
             <p>
-                Social Security Number
-           </p>
-           <div class="box" style="margin-left:4px;">{{data.social_security1}}</div>
-           <div class="box">{{data.social_security2}}</div>
-           <div class="box">{{data.social_security3}}</div>
-           <div class="box1">-</div>
-           <div class="box">{{data.social_security4}}</div>
-           <div class="box">{{data.social_security5}}</div>
-           <div class="box1">-</div>
-           <div class="box">{{data.social_security6}}</div>
-           <div class="box">{{data.social_security7}}</div>
-           <div class="box">{{data.social_security8}}</div>
-           <div class="box">{{data.social_security9}}</div>
-        </div>
-        <div class="col-xs-3 left-border top-border bottom-border">
-            <p>
-                Employee's E-mail Address
+                Issuing Authority
             </p>
-            <p> {{data.email}}</p>
         </div>
-        <div class="col-xs-3 top-border left-border bottom-border right-border">
+        <div class="col-xs-4 top-border right-border" style="border-left:15px solid white; height: 40px">
             <p>
-                Employee's Tel. Number
+                Issuing Authority
             </p>
-            <p> {{data.phone_number}}</p>
         </div>
-
     </div>
     <div class="row">
-        <div class="col-xs-12" style="margin-top:5px">
-            <b>
-             I am aware that federal law provides for imprisonment and/or fines for false statements or use of false documents in
-             connection with the completion of this form.
-             </b>
+        <div class="col-xs-4 top-border left-border right-border" style="height:40px">
+            <p>
+                Document Number
+            </p>
         </div>
-        <div class="col-xs-12" style="margin-top:5px">
-             <b>
-                I attest, under penalty of perjury, that I am (check one of the following boxes):
-             </b>
+        <div class="col-xs-4 top-border" style="border-left:15px solid #C0C1C4; height: 40px">
+            <p>
+                Document Number
+            </p>
+        </div>
+        <div class="col-xs-4 top-border right-border" style="border-left:15px solid white; height: 40px">
+            <p>
+                Document Number
+            </p>
         </div>
     </div>
-    <div class="row" style="margin-top:5px">
-        <div class="col-xs-12 top-border left-border right-border">
-            <div style="width: 100%;">
-                {% if data.united_state_citizen == True %}
-                    <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;" checked>
-                {% else %}
-                    <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;">
-                {% endif %}
-                <p>
-                    1. A citizen of the United States
-                </p>
-            </div>
+    <div class="row">
+        <div class="col-xs-4 top-border left-border right-border" style="height:40px; border-bottom:2px solid black">
+            <p>
+                Expiration Date <i> (if any) (mm/dd/yyyy)</i>
+            </p>
         </div>
-         <div class="col-xs-12 top-border left-border right-border">
-            <div style="width: 100%;">
-                {% if data.non_united_state_citizen == True %}
-                    <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;" checked>
-                {% else %}
-                    <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;">
-                {% endif %}
-                <p>
-                    2. A noncitizen national of the United States (<i>See instructions</i>)
-                </p>
-            </div>
+        <div class="col-xs-4 top-border" style="border-left:15px solid #C0C1C4; height: 40px; border-bottom:2px solid black">
+            <p>
+                Expiration Date <i> (if any) (mm/dd/yyyy)</i>
+            </p>
         </div>
-        <div class="col-xs-12 top-border left-border right-border bottom-border">
-            <div style="width: 100%;">
-                {% if data.lawful_permanent_resident == True %}
-                    <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;" checked>
-                {% else %}
-                    <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;">
-                {% endif %}
-                <p>
-                    3. A lawful permanent resident &emsp; (<i>Alien Registration Number/USCIS Number</i>) &emsp;&emsp;&emsp;
-                    <u>{{data.alien_registration_number}}</u>
-                </p>
-            </div>
+        <div class="col-xs-4 top-border right-border" style="border-left:15px solid white; height: 40px; border-bottom:2px solid black">
+            <p>
+                Expiration Date <i> (if any) (mm/dd/yyyy)</i>
+            </p>
         </div>
-        <div class="col-xs-9 left-border right-border bottom-border">
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
             <div class="row">
-                <div class="col-xs-10">
+                <div class="col-xs-4">
                     <div class="row">
-                        <div class="col-xs-12">
-                             {% if data.alien_authorized == True %}
-                                <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;" checked>
-                             {% else %}
-                                <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;">
-                             {% endif %}
+                        <div class="col-xs-12 left-border right-border" style="height:40px">
                             <p>
-                                4. An alien authorized to work until
-                                (expiration date, if applicable, mm/dd/yyyy):
+                                Document Title
                             </p>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <span style="padding-left:45px;">Some aliens may write "N/A" in the expiration date field. (<i>See Instructions</i>)</span>
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 left-border right-border top-border" style="height:40px">
+                            <p>
+                            Issuing Authority
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 left-border right-border top-border" style="height:40px">
+                            <p>
+                            Document Number
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 left-border right-border top-border" style="height:40px;border-bottom:2px solid black">
+                            <p>
+                                Expiration Date (if any) (mm/dd/yyyy)
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 left-border right-border" style="height:40px">
+                            <p>
+                                Document Title
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 left-border right-border top-border" style="height:40px">
+                            <p>
+                            Issuing Authority
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 left-border right-border top-border" style="height:40px">
+                            <p>
+                            Document Number
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 left-border right-border top-border" style="height:40px;border-bottom:2px solid black">
+                            <p>
+                                Expiration Date (if any) (mm/dd/yyyy)
+                            </p>
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-2">
-                    <p style="text-align: center; padding-top:5px; margin-left:-15px">
-                        {% if data.alien_registration_number %}
-                            <u>{{data.alien_registration_number}}</u>
-                        {% else %}
-                            <u>12345678</u>
-                        {% endif %}
-                    </p>
+                <div class="col-xs-8 right-border" style="border-left:15px solid #C0C1C4;height:320px;border-bottom:2px solid black">
+                    <div class="row" style="padding-top:20px">
+                        <div class="col-xs-7" style="border: 1px solid black;margin-left:15px; height:280px">
+                            <p style="margin-left:-12px">
+                                Additional Information
+                            </p>
+                        </div>
+                        <div class="col-xs-4" style="border: 1px solid black;margin-left:5px; height:220px">
+                            <p style="text-align:center; font-size:10px">
+                                QR Code - Sections 2 & 3
+                                Do Not Write In This Space
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <p>
-                        <i>
-                            Aliens authorized to work must provide only one of the following document numbers to complete Form I-9:
-                        An Alien Registration Number/USCIS Number OR Form I-94 Admission Number OR Foreign Passport Number
-                        </i>
-                    </p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <span>
-                                <b>1.</b>&nbsp; Alien Registration Number/USCIS Number:
-                            </span>
-                        </div>
-                        <div class="col-xs-6">
-                            <span>
-                                {% if data.alien_registration_number %}
-                                    <u>{{data.alien_registration_number}}</u>
-                                {% else %}
-                                    <u>12345678</u>
-                                {% endif %}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-12">
-                    <b style="padding-left:60px">
-                        OR
-                    </b>
-                </div>
-                <div class="col-xs-12">
-                    <div class="row">
-                        <div class="col-xs-5">
-                            <span>
-                                <b>2.</b>&nbsp; Form I-94 Admission Number:
-                            </span>
-                        </div>
-                        <div class="col-xs-7">
-                            <span>
-                                {% if data.formi94_reg %}
-                                    <u>{{data.formi94_reg}}</u>
-                                {% else %}
-                                    <u>12345678</u>
-                                {% endif %}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-12">
-                    <b style="padding-left:60px">
-                        OR
-                    </b>
-                </div>
-                <div class="col-xs-12">
-                    <div class="row">
-                        <div class="col-xs-5">
-                            <span>
-                                <b>3.</b>&nbsp; Foreign Passport Number:<br/>
-                            </span>
-                        </div>
-                        <div class="col-xs-7">
-                            <span>
-                                {% if data.foreign_passport_number %}
-                                    <u>
-                                        {{data.foreign_passport_number}}
-                                    </u>
-                                {% else %}
-                                    <u>
-                                    12345678
-                                    </u>
-                                {% endif %}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-12">
-                    <div class="row">
-                        <div class="col-xs-5">
-                            <span style="padding-left:14px">
-                                &nbsp;Country of Issuance:<br/>
-                            </span>
-                        </div>
-                        <div class="col-xs-7">
-                            <span>
-                                {% if data.issuance_country %}
-                                    <u>
-                                        {{data.issuance_country}}
-                                    </u>
-                                </span>
-                                {% else %}
-                                <u>
-                                    America
-                                </u>
-                                {% endif %}
-                            </span>
-                        </div>
-                    </div>
-                </div>
 
-            </div>
-        </div>
-        <div class="col-xs-3 right-border top-border bottom-border" style="margin-top:40px; height:180px">
-            <p style="text-align: center; vertical-align: top;">
-                QR Code - Section 1  <br/>
-                Do Not Write In This Space
-            </p>
         </div>
     </div>
+
     <div class="row" style="margin-top:5px">
-        <div class="col-xs-8 top-border left-border bottom-border">
-            <p>
-                Signature of Employee
-            </p>
-            <img src="data:image/png;base64,{{data.signature }}" alt={data.user_name}>
-        </div>
-        <div class="col-xs-4 top-border left-border bottom-border right-border">
-            <p>
-                Today's Date (<i>mm/dd/yyyy</i>)
-            </p>
-            <p>
-                {{data.todayDate}}
-            </p>
-        </div>
-    </div>
-    <div class="row" style="margin-top:5px">
-        <div class="col-xs-12" style="background-color: #C0C1C4;">
-            <div>
-                <div>
-                    <p>
-                        <b>
-                            Preparer and/or Translator Certification (check one):
-                        </b>
-                    </p>
-                </div>
-                <div>
-                    <input type="checkbox" style="float: left">
-                    <p style="float: left;padding-right: 70px;">
-                        &emsp;I did not use a preparer or translator
-                    </p>
-                    <input type="checkbox" style="float:left;">
-                    <p>
-                        &emsp;A preparer(s) and/or translator(s) assisted the employee in completing Section 1
-                    </p>
-                    <p>
-                        <i>
-                            (Fields below must be completed and signed when preparers and/or translators assist an employee in completing Section 1.)
-                        </i>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row" style="margin-top:2px">
-        <div class="col-xs-12">
+        <p>
             <b>
-                I attest, under penalty of perjury, that I have assisted in the completion of Section 1 of this form and that to the best of my
-                knowledge the information is true and correct.
+                Certification: I attest, under penalty of perjury, that (1) I have examined the document(s) presented by the above-named employee,
+            (2) the above-listed document(s) appear to be genuine and to relate to the employee named, and (3) to the best of my knowledge the
+            employee is authorized to work in the United States.
+            </b>
+         </p>
+    </div>
+    <div class="row">
+        <div class="col-xs-8">
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="row">
+                         <b>
+                             The employee's first day of employment <i>(mm/dd/yyyy):</i>
+                         </b>
+                    </div>
+
+                </div>
+                <div class="col-xs-4">
+                    ___________________________
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <b>
+                <i>(See instructions for exemptions)</i>
             </b>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-9 top-border left-border">
-                <p>
-                    Signature of Preparer or Translator
-                </p>
-                <img src="data:image/png;base64,{{data.signature }}" alt={data.user_name}>
-        </div>
-        <div class="col-xs-3 top-border right-border left-border ">
+    <div class="row" style="margin-top:5px">
+        <div class="col-xs-5 top-border left-border" style="height:42px">
             <p>
-                Today's Date (<i>mm/dd/yyyy</i>)
+                Signature of Employer or Authorized Representative
+            </p>
+        </div>
+        <div class="col-xs-3 top-border left-border">
+            <p>
+                Today's Date <i>(mm/dd/yyyy)</i>
+            </p>
+            <p>
+                {{data.todayDate}}
+            </p>
+        </div>
+        <div class="col-xs-4 top-border left-border right-border" style="height:42px">
+            <p>
+                Title of Employer or Authorized Representative
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-4 top-border left-border" style="height:42px">
+            <p>
+                Last Name of Employer or Authorized Representative
+            </p>
+        </div>
+        <div class="col-xs-4 top-border left-border " style="height:42px">
+            <p>
+                First Name of Employer or Authorized Representative
+            </p>
+        </div>
+        <div class="col-xs-4 top-border left-border right-border" style="height:42px">
+            <p>
+                Employer's Business or Organization Name
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 top-border left-border bottom-border" style="height:42px">
+             <p>
+                Employer's Business or Organization Address (Street Number and Name)
+            </p>
+        </div>
+        <div class="col-xs-3 top-border left-border bottom-border" style="height:42px">
+            <p>
+                City or Town
+            </p>
+        </div>
+        <div class="col-xs-1 top-border left-border bottom-border" style="height:42px">
+            <p>
+                State
+            </p>
+        </div>
+        <div class="col-xs-2 top-border left-border bottom-border right-border" style="height:42px">
+             <p>
+                Zip Code
+            </p>
+        </div>
+    </div>
+    <div class="row" style="margin-top:5px">
+        <div class="col-xs-12 employee">
+            <div>
+                <b>
+                     Section 3. Reverification and Rehires
+                </b>
+                <i>
+                    (To be completed and signed by employer or authorized representative.)
+                </i>
+            </div>
+        </div>
+    </div>
+    <div class="row employee1">
+        <div class="col-xs-9 left-border" style="">
+            <div class="row">
+                <div><b>A.</b>&nbsp;New Name <i>(if applicable)</i></div>
+            </div>
+        </div>
+        <div class="col-xs-3 left-border right-border">
+            <div class="row">
+            <div><b>B.</b>&nbsp;Date of Rehire <i>(if applicable)</i></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 top-border left-border bottom-border" style="height:44px">
+             <p>
+                Last Name <i>(Family Name)</i>
+            </p>
+        </div>
+        <div class="col-xs-3 top-border left-border bottom-border" style="height:44px">
+             <p>
+                First Name <i>(Given Name)</i>
+            </p>
+        </div>
+        <div class="col-xs-2 top-border left-border bottom-border" style="height:44px">
+             <p>
+                Middle Initial
+            </p>
+        </div>
+        <div class="col-xs-4 top-border left-border bottom-border right-border" style="height:44px">
+             <p>
+                 Data <i>(mm/dd/yyyy)</i>
             </p>
             <p>
                 {{data.todayDate}}
             </p>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-6 top-border left-border">
-            <p>
-                Last Name (<i>Family Name</i>)
-            </p>
-            <p>
-                {{data.last_name}}
-            </p>
-        </div>
-        <div class="col-xs-6 top-border left-border right-border">
-            <p>
-                First Name (<i>Given Name</i>)
-            </p>
-            <p>
-                {{data.first_name}}
-            </p>
+    <div class="row employee1" style="margin-top:5px; border:1px solid black">
+        <div>
+            <b>
+                C.
+            </b>
+            If the employee's previous grant of employment authorization has expired, provide the information for the document or receipt that establishes
+            continuing employment authorization in the space provided below.
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-6 top-border left-border bottom-border">
+        <div class="col-xs-4 left-border bottom-border" style="height:44px">
              <p>
-                Address (<i>Street Number and Name</i>)
-            </p>
-            <p>
-                {{data.address}}
+                Document Title
             </p>
         </div>
-        <div class="col-xs-3 top-border left-border bottom-border">
-            <p>
-                City or Town
-            </p>
-            <p>
-                {{data.city}}
-            </p>
-        </div>
-        <div class="col-xs-1 top-border left-border bottom-border">
-            <p>
-                State
-            </p>
-            <p>
-                {{data.state}}
-            </p>
-        </div>
-        <div class="col-xs-2 top-border left-border bottom-border right-border">
+        <div class="col-xs-4 left-border bottom-border" style="height:44px">
              <p>
-                Zip Code
+                Document Number
             </p>
-            <p>
-                {{data.zip_code}}
+        </div>
+        <div class="col-xs-4 left-border bottom-border" style="height:44px">
+             <p>
+                Expiration Date <i> (if any) (mm/dd/yyyy) </i>
             </p>
         </div>
     </div>
-   <div class="row" style="margin-top:100px">
-        <div class="col-xs-4" style="text-align: right;">
-             <img  src="data:image/png;base64,{{data.stop_img_string }}" class="stop_img-class">
-        </div>
-        <div class="col-xs-4 " style="text-align: center;">
-             <p style="background-color:#C0C1C4; margin-top:10px"><i>Employer Completes Next Page</i></p>
-        </div>
-        <div class="col-xs-4" style="text-align: left;">
-             <img  src="data:image/png;base64,{{data.stop_img_string }}" class="stop_img-class">
+    <div class="row" style="margin-top:3px">
+        <div>
+            <b>
+                I attest, under penalty of perjury, that to the best of my knowledge, this employee is authorized to work in the United States, and if
+                the employee presented document(s), the document(s) I have examined appear to be genuine and to relate to the individual.
+            </b>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="margin-top:1px">
+        <div class="col-xs-4 top-border bottom-border left-border" style="height:44px">
+             <p>
+                Signature of Employer or Authorized Representative
+            </p>
+        </div>
+        <div class="col-xs-3 top-border bottom-border left-border" style="height:44px">
+             <p>
+                Today's Date <i> (if any) (mm/dd/yyyy) </i>
+            </p>
+        </div>
+        <div class="col-xs-5 top-border bottom-border left-border right-border" style="height:44px">
+             <p>
+                 Name of Employer or Authorized Representative
+            </p>
+        </div>
+    </div>
+    <div class="row" style="margin-top:10px">
         <div class="col-xs-12" style="border: 1px solid black; margin-top: 5px;"></div>
     </div>
     <div class="row">

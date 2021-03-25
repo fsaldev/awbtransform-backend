@@ -7,28 +7,24 @@
         {% endwith %}
     </div>
     <div class="row">
-        <div class="col-xs-12" style="border: 5px solid black;"></div>
-        <div class="col-xs-12" style="border: 1px solid grey;margin-top: 5px;"></div>
-    </div>
-    <div class="row">
         <div class="col-xs-12 p-0" >
-            <p>
+            <div>
                 <b>
                 &rarr; START HERE: Read instructions carefully before completing this form. The instructions must be available,
                 either in paper or electronically, during completion of this form. Employers are liable for errors in the completion of this form
                 </b>
-            </p>
+            </div>
         </div>
         <div class="col-xs-12 p-0">
-            <p style="text-align: justify;">
+            <div style="text-align: justify;">
                 <b>ANTI-DISCRIMINATION NOTICE :</b> It is illegal to discriminate against work-authorized individuals. Employers CANNOT specify which document(s) an employee may present to establish employment authorization and identity.
                     The refusal to hire or continue to employ an individual because the documentation presented has a future expiration date may also constitute illegal discriminatio
-            </p>
+            </div>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-12 employee">
-            <p>
+            <div>
                 <b>
                     Section  1. Employee Information and Attestation
                 </b>
@@ -36,7 +32,7 @@
                     (Employees must complete and sign Section 1 of Form I-9 no later
                     than the first day of employment, but not before accepting a job offer.)
                 </i>
-            </p>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -134,18 +130,16 @@
         </div>
 
     </div>
+    <div class="row" style="margin-top:5px">
+        <b>
+         I am aware that federal law provides for imprisonment and/or fines for false statements or use of false documents in
+         connection with the completion of this form.
+         </b>
+    </div>
     <div class="row">
-        <div class="col-xs-12" style="margin-top:5px">
-            <b>
-             I am aware that federal law provides for imprisonment and/or fines for false statements or use of false documents in
-             connection with the completion of this form.
-             </b>
-        </div>
-        <div class="col-xs-12" style="margin-top:5px">
-             <b>
-                I attest, under penalty of perjury, that I am (check one of the following boxes):
-             </b>
-        </div>
+        <b>
+            I attest, under penalty of perjury, that I am (check one of the following boxes):
+         </b>
     </div>
     <div class="row" style="margin-top:5px">
         <div class="col-xs-12 top-border left-border right-border">
@@ -219,7 +213,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12">
-                    <p>
+                    <p style="padding-left:15px">
                         <i>
                             Aliens authorized to work must provide only one of the following document numbers to complete Form I-9:
                         An Alien Registration Number/USCIS Number OR Form I-94 Admission Number OR Foreign Passport Number
@@ -322,7 +316,7 @@
 
             </div>
         </div>
-        <div class="col-xs-3 right-border top-border bottom-border" style="margin-top:40px; height:180px">
+        <div class="col-xs-3 right-border top-border bottom-border" style="margin-top:40px; height:161px">
             <p style="text-align: center; vertical-align: top;">
                 QR Code - Section 1  <br/>
                 Do Not Write In This Space
@@ -330,11 +324,12 @@
         </div>
     </div>
     <div class="row" style="margin-top:5px">
-        <div class="col-xs-8 top-border left-border bottom-border">
+        <div class="col-xs-8 top-border left-border bottom-border";  style="height:42px">
             <p>
                 Signature of Employee
             </p>
-            <img src="data:image/png;base64,{{data.signature }}" alt={data.user_name}>
+
+<!--            <img src="data:image/png;base64,{{data.signature }}" alt={data.user_name}>-->
         </div>
         <div class="col-xs-4 top-border left-border bottom-border right-border">
             <p>
@@ -374,19 +369,17 @@
         </div>
     </div>
     <div class="row" style="margin-top:2px">
-        <div class="col-xs-12">
-            <b>
-                I attest, under penalty of perjury, that I have assisted in the completion of Section 1 of this form and that to the best of my
-                knowledge the information is true and correct.
-            </b>
-        </div>
+        <b>
+            I attest, under penalty of perjury, that I have assisted in the completion of Section 1 of this form and that to the best of my
+            knowledge the information is true and correct.
+        </b>
     </div>
     <div class="row">
-        <div class="col-xs-9 top-border left-border">
+        <div class="col-xs-9 top-border left-border" style="height:42px">
                 <p>
                     Signature of Preparer or Translator
                 </p>
-                <img src="data:image/png;base64,{{data.signature }}" alt={data.user_name}>
+<!--                <img src="data:image/png;base64,{{data.signature }}" alt={data.user_name}>-->
         </div>
         <div class="col-xs-3 top-border right-border left-border ">
             <p>

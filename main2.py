@@ -3,7 +3,7 @@ import json
 import os
 from datetime import datetime
 from multiprocessing import process
-from flask import Flask, request, jsonify, render_template, make_response, send_file
+from flask import Flask, request, jsonify, render_template, make_response, send_file, send_from_directory
 from flask_cors import cross_origin
 from flask_mongoengine import MongoEngine
 from flask_mongoengine.wtf import model_form
@@ -13,16 +13,16 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['MONGODB_SETTINGS'] = {
-    # 'db': 'awbtransport',
-    # 'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
     'db': 'awbtransport',
-    'host': 'localhost',
+    'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
+    # 'db': 'awbtransport',
+    # 'host': 'localhost',
     'port': 27017
 }
 db = MongoEngine()
 db.init_app(app)
-# PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
-PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
+PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
+# PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
 
 ######################################Start Models########################################################
 
@@ -313,6 +313,20 @@ def form_i9_data(user):
 
 ######################################Start Api's #######################################################
 
+@app.route("/", defaults={"path": ""})
+@app.route("/<string:path>")
+@app.route("/<path:path>")
+def index(path):
+  print (path)
+  return send_from_directory(app.static_folder, "index.html")
+
+@app.route("/admin/", defaults={"path": ""})
+@app.route("/admin/<string:path>")
+@app.route("/admin/<path:path>")
+def index1(path):
+  print (path)
+  return send_from_directory(app.static_folder, "index.html")
+
 @app.route('/api/files/upload', methods=['POST'])
 @cross_origin()
 def upload_file():
@@ -350,7 +364,10 @@ def get_file():
         if user_profile_direc:
            # print(target)
             print(user_profile_direc)
-            return send_file(user_profile_direc, as_attachment=True)
+            try:
+               return send_file(user_profile_direc, as_attachment=True)
+            except:
+               return jsonify({'error': 'No Resume found'})
         else:
             return jsonify({'error': 'No Resume found'})
     else:
@@ -520,9 +537,9 @@ def login():
 
     return json.dumps({'error': 'Incorect User Name and Password'})
 
-@app.errorhandler(404)
-def not_found(e):
-    return render_template("page404.html")
+# @app.errorhandler(404)
+# def not_found(e):
+#     return render_template("style_css_404.html")
 
 @app.route('/api/get_all_users', methods=['GET'])
 @cross_origin()
@@ -535,11 +552,6 @@ def get_users():
         return jsonify(users_list)
     else:
         return jsonify({'error': 'Unnable to load users'})
-
-@app.route('/')
-@cross_origin()
-def index():
-    return app.send_static_file('index.html')
 
 #################### Start PDFS HTML###########################
 
@@ -613,7 +625,7 @@ def form_i_9():
         options = {
             'page-size': 'A4',
             'encoding': 'utf-8',
-            'margin-top': '2cm',
+            'margin-top': '1.8cm',
             'margin-bottom': '0cm',
             'margin-left': '0.5cm',
             'margin-right': '0.5cm'
@@ -629,6 +641,11 @@ def form_i_9():
     else:
         return jsonify({'error': 'Invalid Data'})
 ####################End PDF's###########################
+
+# @app.route('/')
+# @cross_origin()
+# def index():
+#     return app.send_static_file('index.html')
 
 
 

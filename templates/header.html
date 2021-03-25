@@ -1,18 +1,26 @@
 {% block header %}
-<div class="container">
-    <div class="row">
+<div id="header">
+    <div class="row"style="margin-bottom:10px">
         <div class="col-xs-3 text-left">
-            <img  src="data:image/png;base64,{{data.img_string }}" class="img-class">
+            {% if data %}
+                <img  src="data:image/png;base64,{{data.img_string }}" class="img-class">
+            {% else %}
+                <img  src="" class="img-class">
+            {% endif %}
         </div>
         <div class="col-xs-6 text-center" >
-                <h3>Employment Eligibility Verification
-                <br> Department of Homeland Security</h3>
+                <h3><b>Employment Eligibility Verification
+                    <br> Department of Homeland Security</b></h3>
                 <p> U.S. Citizenship and Immigration Services </p>
         </div>
         <div class="col-xs-3 text-right">
-            <h3>USCIS Form I-9</h3>
+            <h3><b>USCIS Form I-9</b></h3>
             <p> OMB No. 1615-0047 <br/>Expires {{data.expireson}}</p>
         </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12" style="border: 5px solid black;"></div>
+        <div class="col-xs-12" style="border: 1px solid grey;margin-top: 5px;"></div>
     </div>
 </div>
 {% endblock %}

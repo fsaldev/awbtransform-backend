@@ -17,7 +17,7 @@ app.config['MONGODB_SETTINGS'] = {
     'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
     # 'db': 'awbtransport',
     # 'host': 'localhost',
-    # 'port': 27017
+     'port': 27017
 }
 db = MongoEngine()
 db.init_app(app)

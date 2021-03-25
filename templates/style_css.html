@@ -6837,7 +6837,13 @@ body{
 </style>
 </head>
 <body>
-    <div id="content">
+    <div id="page1">
+        {% with data=data %}
+            {% include "formi9_page1.html" %}
+        {% endwith %}
+    </div>
+    <br/><br/>
+    <div id="page2">
         {% with data=data %}
             {% include "formi9_page1.html" %}
         {% endwith %}

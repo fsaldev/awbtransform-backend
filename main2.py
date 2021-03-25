@@ -305,6 +305,7 @@ def form_i9_data(user):
         "todayDate": str(datetime.today().date()),
         "signature": signature,
         "page_no": "Page 1 of 3"
+
     }
     return data
 

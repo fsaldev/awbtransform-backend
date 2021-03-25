@@ -1,5 +1,4 @@
-<!--{% include "header.html" %}-->
-{% block page1 %}
+{% block page2 %}
 <div class="container">
     <div id="header">
         {% with data=data %}
@@ -7,30 +6,10 @@
         {% endwith %}
     </div>
     <div class="row">
-        <div class="col-xs-12" style="border: 5px solid black;"></div>
-        <div class="col-xs-12" style="border: 1px solid grey;margin-top: 5px;"></div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12 p-0" >
-            <p>
-                <b>
-                &rarr; START HERE: Read instructions carefully before completing this form. The instructions must be available,
-                either in paper or electronically, during completion of this form. Employers are liable for errors in the completion of this form
-                </b>
-            </p>
-        </div>
-        <div class="col-xs-12 p-0">
-            <p style="text-align: justify;">
-                <b>ANTI-DISCRIMINATION NOTICE :</b> It is illegal to discriminate against work-authorized individuals. Employers CANNOT specify which document(s) an employee may present to establish employment authorization and identity.
-                    The refusal to hire or continue to employ an individual because the documentation presented has a future expiration date may also constitute illegal discriminatio
-            </p>
-        </div>
-    </div>
-    <div class="row">
         <div class="col-xs-12 employee">
             <p>
                 <b>
-                    Section  1. Employee Information and Attestation
+                    Section  2. Employee Information and Attestation
                 </b>
                 <i>
                     (Employees must complete and sign Section 1 of Form I-9 no later
@@ -449,7 +428,7 @@
             </p>
         </div>
     </div>
-    <div class="row" style="margin-top:100px">
+   <div class="row" style="margin-top:100px">
         <div class="col-xs-4" style="text-align: right;">
              <img  src="data:image/png;base64,{{data.stop_img_string }}" class="stop_img-class">
         </div>
@@ -468,7 +447,7 @@
             <p>Form I-9 {{data.todayDate}}</p>
         </div>
         <div class="col-xs-6" style="text-align:left">
-            <p style="text-align: right;">Page 1 of 3</p>
+            <p style="text-align: right;">Page 2 of 3</p>
         </div>
     </div>
 </div>

@@ -343,11 +343,12 @@ def get_file():
     user = DriversData.objects(user_name=user_name).first()
     if not user:
         return jsonify({'error': 'Incorrect UserName and Data not found'})
-    target = os.path.abspath("files_upload/")
+    #target = os.path.abspath("files_upload/")
     if user.resume:
-        user_profile_direc = os.path.join(target, user_name + "\\"+ str(user.resume))
+        print(user.resume)
+        user_profile_direc = os.path.join(upload_folder, user_name + "/"+ str(user.resume))
         if user_profile_direc:
-            print(target)
+           # print(target)
             print(user_profile_direc)
             return send_file(user_profile_direc, as_attachment=True)
         else:

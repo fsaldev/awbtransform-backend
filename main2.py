@@ -13,16 +13,16 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['MONGODB_SETTINGS'] = {
-    # 'db': 'awbtransport',
-    # 'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
     'db': 'awbtransport',
-    'host': 'localhost',
-    'port': 27017
+    'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
+    # 'db': 'awbtransport',
+    # 'host': 'localhost',
+    # 'port': 27017
 }
 db = MongoEngine()
 db.init_app(app)
-# PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
-PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
+PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
+# PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
 
 ######################################Start Models########################################################
 
@@ -329,6 +329,7 @@ def upload_file():
     file = request.files['file']
     filename = secure_filename(file.filename)
     # id = str(uuid.uuid4())
+    # filename = ".".join([id,filename])
     destination = "/".join([target, filename])
     file.save(destination)
     user.update(resume= filename)
@@ -617,8 +618,8 @@ def form_i_9():
             'margin-right': '0.5cm'
         }
         html = render_template("style_css.html", data=data)
-        pdf = pdfkit.from_string(html, False, options=options, configuration=PDFKIT_CONFIGURATION)
-        # pdf = pdfkit.from_string(html, False, options=options)
+        # pdf = pdfkit.from_string(html, False, options=options, configuration=PDFKIT_CONFIGURATION)
+        pdf = pdfkit.from_string(html, False, options=options)
         resp = make_response(pdf)
         resp.headers['Content-Type'] = 'application/pdf'
         resp.headers['Content-Disposition'] = 'attachment; filename=formi9.pdf'

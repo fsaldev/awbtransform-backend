@@ -13,16 +13,16 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['MONGODB_SETTINGS'] = {
-    'db': 'awbtransport',
-    'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
     # 'db': 'awbtransport',
-    # 'host': 'localhost',
+    # 'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
+    'db': 'awbtransport',
+    'host': 'localhost',
     'port': 27017
 }
 db = MongoEngine()
 db.init_app(app)
-PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
-# PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
+# PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
+PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
 
 ######################################Start Models########################################################
 
@@ -404,14 +404,14 @@ def upload_file():
         destination = "/".join([target, filename])
         file.save(destination)
         user.update(resume= filename)
-        return jsonify({"message": "Successfully Uploded Resume"})
+        return jsonify({"message": "Successfully Uploded Resume", "status": "true"})
     if dodMedicalCardFile:
         file = request.files['file']
         filename = secure_filename(file.filename)
         destination = "/".join([target, filename])
         file.save(destination)
         user.update(dodMedicalCardFile= filename)
-        return jsonify({"message": "Successfully Uploded dodMedicalCardFile"})
+        return jsonify({"message": "Successfully Uploaded dodMedicalCardFile", "status": "true" })
 
     if dmvFile:
         file = request.files['file']
@@ -419,7 +419,7 @@ def upload_file():
         destination = "/".join([target, filename])
         file.save(destination)
         user.update(dmvFile= filename)
-        return jsonify({"message": "Successfully Uploded dmvFile"})
+        return jsonify({"message": "Successfully Uploded DVM File", "status": "true"})
 
     if driverLicenceFile:
         file = request.files['file']
@@ -427,9 +427,9 @@ def upload_file():
         destination = "/".join([target, filename])
         file.save(destination)
         user.update(driverLicenceFile= filename)
-        return jsonify({"message": "Successfully Uploded driverLicenceFile"})
+        return jsonify({"message": "Successfully Uploded driverLicenceFile", "status": "true"})
 
-    return jsonify({'error': 'Invalid Data Provided'})
+    return jsonify({'error': 'Invalid Data Provided', "status": "false"})
 
 @app.route('/api/get_resume', methods=['GET'])
 @cross_origin()
@@ -450,7 +450,7 @@ def get_file():
     user_name = request.args.get('user_name')
     user = DriversData.objects(user_name=user_name).first()
     if not user:
-        return jsonify({'error': 'Incorrect UserName and Data not found'})
+        return jsonify({'error': 'Incorrect UserName and Data not found', "status": "false"})
 
     if resume:
         if user.resume:

@@ -62,7 +62,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-5 top-border left-border">
+        <div class="col-xs-4 top-border left-border">
             <p>
                 Adress (<i>Street Number and Name</i>)
             </p>
@@ -80,7 +80,7 @@
            </p>
            <p> {{data.city}}</p>
         </div>
-        <div class="col-xs-1 left-border top-border">
+        <div class="col-xs-2 left-border top-border">
             <p>
                 State
             </p>
@@ -309,11 +309,17 @@
     </div>
     <div class="row" style="margin-top:5px">
         <div class="col-xs-8 top-border left-border bottom-border";  style="height:42px">
-            <p>
-                Signature of Employee
-            </p>
+            <div class="row">
+                <div class="col-xs-3">
+                    <p>
+                        Signature of Employee
+                    </p>
+                </div>
+                <div class="col-xs-9" style="text-align:center">
+                    <img src={{data.signature}} alt={data.user_name} width="40px"; height="25px" style="margin-top:5px">
+                </div>
+            </div>
 
-            <img src={{data.signature}} alt={data.user_name} width="30px"; height="10px">
         </div>
         <div class="col-xs-4 top-border left-border bottom-border right-border">
             <p>

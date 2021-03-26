@@ -385,10 +385,18 @@ def upload_file():
     target = os.path.join(upload_folder, user.user_name)
     if not os.path.isdir(target):
         os.mkdir(target)
-    resume = record['resume']
-    dodMedicalCardFile = record['dodMedicalCardFile']
-    dmvFile = record['dmvFile']
-    driverLicenceFile = record['driverLicenceFile']
+    resume = None
+    dodMedicalCardFile = None
+    dmvFile = None
+    driverLicenceFile = None
+    if 'resume' in record:
+        resume = record['resume']
+    if 'dodMedicalCardFile' in record:
+        dodMedicalCardFile = record['dodMedicalCardFile']
+    if 'dmvFile' in record:
+        dmvFile = record['dmvFile']
+    if 'driverLicenceFile' in record:
+        driverLicenceFile = record['driverLicenceFile']
 
     if resume:
         file = request.files['file']
@@ -427,6 +435,14 @@ def upload_file():
 @cross_origin()
 def get_file():
     upload_folder = "./files_upload"
+    # if 'resume' in request.args:
+    #     resume = request.args.get('resume')
+    # if 'dmvFile' in request.args:
+    #     dmvFile = request.args.get('dmvFile')
+    # if 'dodMedicalCardFile' in request.args:
+    #     dodMedicalCardFile = request.args.get('dodMedicalCardFile')
+    # if 'driverLicenceFile' in request.args:
+    #     driverLicenceFile = request.args.get('driverLicenceFile')
     resume = request.args.get('resume')
     dmvFile = request.args.get('dmvFile')
     dodMedicalCardFile = request.args.get('dodMedicalCardFile')

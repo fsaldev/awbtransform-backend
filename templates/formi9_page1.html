@@ -144,7 +144,7 @@
     <div class="row" style="margin-top:5px">
         <div class="col-xs-12 top-border left-border right-border">
             <div style="width: 100%;">
-                {% if data.united_state_citizen == True %}
+                {% if data.additional_data.united_state_citizen == True %}
                     <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;" checked>
                 {% else %}
                     <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;">
@@ -156,7 +156,7 @@
         </div>
          <div class="col-xs-12 top-border left-border right-border">
             <div style="width: 100%;">
-                {% if data.non_united_state_citizen == True %}
+                {% if data.additional_data.non_united_state_citizen == True %}
                     <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;" checked>
                 {% else %}
                     <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;">
@@ -168,48 +168,32 @@
         </div>
         <div class="col-xs-12 top-border left-border right-border bottom-border">
             <div style="width: 100%;">
-                {% if data.lawful_permanent_resident == True %}
+                {% if data.additional_data.lawful_permanent_resident == True %}
                     <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;" checked>
                 {% else %}
                     <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;">
                 {% endif %}
                 <p>
                     3. A lawful permanent resident &emsp; (<i>Alien Registration Number/USCIS Number</i>) &emsp;&emsp;&emsp;
-                    <u>{{data.alien_registration_number}}</u>
+                    <u>{{data.additional_data.alien_registration_number}}</u>
                 </p>
             </div>
         </div>
         <div class="col-xs-9 left-border right-border bottom-border">
+            <div class="row" style="margin-left:0px;margin-right:0px">
+                {% if data.additional_data.alien_authorized == True %}
+                    <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;" checked>
+                 {% else %}
+                    <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;">
+                 {% endif %}
+                <div>
+                    4. An alien authorized to work until
+                    (expiration date, if applicable,): &emsp;<u>{{data.additional_data.expiration_date}}</u>
+                </div>
+            </div>
             <div class="row">
-                <div class="col-xs-10">
-                    <div class="row">
-                        <div class="col-xs-12">
-                             {% if data.alien_authorized == True %}
-                                <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;" checked>
-                             {% else %}
-                                <input type="checkbox" style="width: 15px;float: left; margin-right: 15px;">
-                             {% endif %}
-                            <p>
-                                4. An alien authorized to work until
-                                (expiration date, if applicable, mm/dd/yyyy):
-                            </p>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <span style="padding-left:45px;">Some aliens may write "N/A" in the expiration date field. (<i>See Instructions</i>)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-2">
-                    <p style="text-align: center; padding-top:5px; margin-left:-15px">
-                        {% if data.alien_registration_number %}
-                            <u>{{data.alien_registration_number}}</u>
-                        {% else %}
-                            <u>12345678</u>
-                        {% endif %}
-                    </p>
-                </div>
+                <span style="padding-left:45px;">Some aliens may write "N/A" in the expiration date field. (<i>See Instructions</i>)
+                </span>
             </div>
             <div class="row">
                 <div class="col-xs-12">
@@ -231,10 +215,10 @@
                         </div>
                         <div class="col-xs-6">
                             <span>
-                                {% if data.alien_registration_number %}
-                                    <u>{{data.alien_registration_number}}</u>
+                                {% if data.additional_data.alien_registration_number %}
+                                    <u>{{data.additional_data.alien_registration_number}}</u>
                                 {% else %}
-                                    <u>12345678</u>
+                                    <u></u>
                                 {% endif %}
                             </span>
                         </div>
@@ -254,10 +238,10 @@
                         </div>
                         <div class="col-xs-7">
                             <span>
-                                {% if data.formi94_reg %}
-                                    <u>{{data.formi94_reg}}</u>
+                                {% if data.additional_data.formi94_reg_number %}
+                                    <u>{{data.additional_data.formi94_reg_number}}</u>
                                 {% else %}
-                                    <u>12345678</u>
+                                    <u></u>
                                 {% endif %}
                             </span>
                         </div>
@@ -277,13 +261,13 @@
                         </div>
                         <div class="col-xs-7">
                             <span>
-                                {% if data.foreign_passport_number %}
+                                {% if data.additional_data.foreign_passport_number %}
                                     <u>
-                                        {{data.foreign_passport_number}}
+                                        {{data.additional_data.foreign_passport_number}}
                                     </u>
                                 {% else %}
                                     <u>
-                                    12345678
+
                                     </u>
                                 {% endif %}
                             </span>
@@ -299,14 +283,14 @@
                         </div>
                         <div class="col-xs-7">
                             <span>
-                                {% if data.issuance_country %}
+                                {% if data.additional_data.issuance_country %}
                                     <u>
-                                        {{data.issuance_country}}
+                                        {{data.additional_data.issuance_country}}
                                     </u>
                                 </span>
                                 {% else %}
                                 <u>
-                                    America
+
                                 </u>
                                 {% endif %}
                             </span>
@@ -329,7 +313,7 @@
                 Signature of Employee
             </p>
 
-<!--            <img src="data:image/png;base64,{{data.signature }}" alt={data.user_name}>-->
+            <img src={{data.signature}} alt={data.user_name} width="30px"; height="10px">
         </div>
         <div class="col-xs-4 top-border left-border bottom-border right-border">
             <p>
@@ -379,7 +363,7 @@
                 <p>
                     Signature of Preparer or Translator
                 </p>
-<!--                <img src="data:image/png;base64,{{data.signature }}" alt={data.user_name}>-->
+<!--                <img src={{data.signature}} alt={data.user_name} style="width:30px height:20px">-->
         </div>
         <div class="col-xs-3 top-border right-border left-border ">
             <p>
@@ -417,7 +401,7 @@
                 {{data.address}}
             </p>
         </div>
-        <div class="col-xs-3 top-border left-border bottom-border">
+        <div class="col-xs-2 top-border left-border bottom-border">
             <p>
                 City or Town
             </p>
@@ -425,7 +409,7 @@
                 {{data.city}}
             </p>
         </div>
-        <div class="col-xs-1 top-border left-border bottom-border">
+        <div class="col-xs-2 top-border left-border bottom-border">
             <p>
                 State
             </p>

@@ -101,8 +101,11 @@ class DriversData(db.Document):
     NumberofDependantsUnder17 = db.IntField()
     NumberofDependantsOver17 = db.IntField()
 
-    #resumes
+    #documents
     resume = db.StringField()
+    dodMedicalCardFile = db.StringField()
+    dmvFile = db.StringField()
+    driverLicenceFile = db.StringField()
 
     #lastyearaddressses
     addresses = db.ListField(db.EmbeddedDocumentField(Address))
@@ -223,6 +226,21 @@ class DriversData(db.Document):
     nameOfPersonProvidingInformationPhone = db.StringField()
     nameOfPersonProvidingInformationDate = db.DateField()
 
+    # extra form data
+    united_state_citizen = db.StringField() # chkbox
+    non_united_state_citizen = db.StringField() # chkbox
+    lawful_permanent_resident = db.StringField() # chkbox
+    alien_registration_number = db.StringField()
+    alien_authorized = db.StringField() # chkbox
+    expiration_date = db.DateField()
+    formi94_reg_number = db.StringField()
+    foreign_passport_number = db.StringField()
+    issuance_country = db.StringField()
+
+    #editable
+    isEditable = db.StringField()
+
+
     def to_json(self):
         return {"data": self}
 
@@ -268,11 +286,33 @@ def form_i9_data(user):
     phone_number = user.phone_number
     email = user.email
     signature = user.signature
-    united_state_citizen = True
-    non_united_state_citizen = False
-    lawful_permanent_resident = False
-    alien_authorized = False
-    alien_registration_number = ''
+    united_state_citizen = user.united_state_citizen
+    non_united_state_citizen = user.non_united_state_citizen
+    lawful_permanent_resident = user.non_united_state_citizen
+    expiration_date = user.expiration_date
+    alien_authorized = user.alien_authorized
+
+    alien_registration_number = user.alien_registration_number
+    formi94_reg_number = user.formi94_reg_number
+    foreign_passport_number = user.foreign_passport_number
+    issuance_country = user.issuance_country
+    if user.alien_registration_number:
+        formi94_reg_number = ''
+        foreign_passport_number = ''
+        issuance_country = ''
+    elif user.formi94_reg_number:
+        alien_registration_number = ''
+        foreign_passport_number = ''
+        issuance_country = ''
+    elif user.foreign_passport_number:
+        alien_registration_number = ''
+        formi94_reg_number = ''
+        issuance_country = ''
+    elif user.issuance_country:
+        alien_registration_number = ''
+        formi94_reg_number = ''
+        foreign_passport_number = ''
+
     data = {
         "expireson": expireson,
         "img_string": img_string,
@@ -286,26 +326,31 @@ def form_i9_data(user):
         "state": state,
         "zip_code": zip_code,
         "dateofBirth": dateofBirth,
-        "social_security1": s[0],
-        "social_security2": s[1],
-        "social_security3": s[2],
-        "social_security4": s[3],
-        "social_security5": s[4],
-        "social_security6": s[5],
-        "social_security7": s[6],
-        "social_security8": s[7],
-        "social_security9": s[8],
+        "social_security1": s[0] if s[0] else '',
+        "social_security2": s[1] if s[1] else '',
+        "social_security3": s[2] if s[2] else '',
+        "social_security4": s[3] if s[3] else '',
+        "social_security5": s[4] if s[4] else '',
+        "social_security6": s[5] if s[5] else '',
+        "social_security7": s[6] if s[6] else '',
+        "social_security8": s[7] if s[7] else '',
+        "social_security9": s[8] if s[8] else '',
         "email": email,
         "phone_number": phone_number,
-        "united_state_citizen": united_state_citizen,
-        "non_united_state_citizen": non_united_state_citizen,
-        "lawful_permanent_resident": lawful_permanent_resident,
-        "alien_authorized": alien_authorized,
-        "alien_registration_number": alien_registration_number,
-        "todayDate": str(datetime.today().date()),
-        "signature": signature,
-        "page_no": "Page 1 of 3"
-
+        "todayDate": str(datetime.now().strftime("%m/%d/%Y")),
+        "signature": user.signature,
+        "page_no": "Page 1 of 3",
+        'additional_data': {
+            "united_state_citizen": united_state_citizen,
+            "non_united_state_citizen": non_united_state_citizen,
+            "lawful_permanent_resident": lawful_permanent_resident,
+            "alien_authorized": alien_authorized,
+            "alien_registration_number": alien_registration_number,
+            "expiration_date": expiration_date,
+            "formi94_reg_number": formi94_reg_number,
+            "foreign_passport_number": foreign_passport_number,
+            "issuance_country": issuance_country
+        },
     }
     return data
 
@@ -337,41 +382,184 @@ def upload_file():
     user = DriversData.objects(user_name=record['user_name']).first()
     if not user:
         return jsonify({'error': 'Incorrect UserName and Data not found'})
-
     target = os.path.join(upload_folder, user.user_name)
     if not os.path.isdir(target):
         os.mkdir(target)
-    file = request.files['file']
-    filename = secure_filename(file.filename)
-    # id = str(uuid.uuid4())
-    destination = "/".join([target, filename])
-    file.save(destination)
-    user.update(resume= filename)
-    return jsonify({"message": "Successfully Uploded File"})
+    resume = record['resume']
+    dodMedicalCardFile = record['dodMedicalCardFile']
+    dmvFile = record['dmvFile']
+    driverLicenceFile = record['driverLicenceFile']
+
+    if resume:
+        file = request.files['file']
+        filename = secure_filename(file.filename)
+        destination = "/".join([target, filename])
+        file.save(destination)
+        user.update(resume= filename)
+        return jsonify({"message": "Successfully Uploded Resume"})
+    if dodMedicalCardFile:
+        file = request.files['file']
+        filename = secure_filename(file.filename)
+        destination = "/".join([target, filename])
+        file.save(destination)
+        user.update(dodMedicalCardFile= filename)
+        return jsonify({"message": "Successfully Uploded dodMedicalCardFile"})
+
+    if dmvFile:
+        file = request.files['file']
+        filename = secure_filename(file.filename)
+        destination = "/".join([target, filename])
+        file.save(destination)
+        user.update(dmvFile= filename)
+        return jsonify({"message": "Successfully Uploded dmvFile"})
+
+    if driverLicenceFile:
+        file = request.files['file']
+        filename = secure_filename(file.filename)
+        destination = "/".join([target, filename])
+        file.save(destination)
+        user.update(driverLicenceFile= filename)
+        return jsonify({"message": "Successfully Uploded driverLicenceFile"})
+
+    return jsonify({'error': 'Invalid Data Provided'})
 
 @app.route('/api/get_resume', methods=['GET'])
 @cross_origin()
 def get_file():
     upload_folder = "./files_upload"
+    resume = request.args.get('resume')
+    dmvFile = request.args.get('dmvFile')
+    dodMedicalCardFile = request.args.get('dodMedicalCardFile')
+    driverLicenceFile = request.args.get('driverLicenceFile')
     user_name = request.args.get('user_name')
     user = DriversData.objects(user_name=user_name).first()
     if not user:
         return jsonify({'error': 'Incorrect UserName and Data not found'})
-    #target = os.path.abspath("files_upload/")
-    if user.resume:
-        print(user.resume)
-        user_profile_direc = os.path.join(upload_folder, user_name + "/"+ str(user.resume))
-        if user_profile_direc:
-           # print(target)
-            print(user_profile_direc)
-            try:
-               return send_file(user_profile_direc, as_attachment=True)
-            except:
-               return jsonify({'error': 'No Resume found'})
+
+    if resume:
+        if user.resume:
+            # print(user.resume)
+            user_profile_direc = os.path.join(upload_folder, user_name + "/"+ str(user.resume))
+            if user_profile_direc:
+                print(user_profile_direc)
+                try:
+                   return send_file(user_profile_direc, as_attachment=True)
+                except:
+                   return jsonify({'error': 'No Resume found'})
+            else:
+                return jsonify({'error': 'No Resume found'})
         else:
             return jsonify({'error': 'No Resume found'})
-    else:
-        return jsonify({'error': 'No Resume found'})
+
+    if dodMedicalCardFile:
+        if user.dodMedicalCardFile:
+            user_profile_direc = os.path.join(upload_folder, user_name + "/"+ str(user.dodMedicalCardFile))
+            if user_profile_direc:
+                try:
+                   return send_file(user_profile_direc, as_attachment=True)
+                except:
+                   return jsonify({'error': 'No dodMedicalCardFile found'})
+            else:
+                return jsonify({'error': 'No dodMedicalCardFile found'})
+        else:
+            return jsonify({'error': 'No dodMedicalCardFile found'})
+
+    if driverLicenceFile:
+        if user.driverLicenceFile:
+            # print(user.resume)
+            user_profile_direc = os.path.join(upload_folder, user_name + "/"+ str(user.driverLicenceFile))
+            if user_profile_direc:
+                try:
+                   return send_file(user_profile_direc, as_attachment=True)
+                except:
+                   return jsonify({'error': 'No driverLicenceFile found'})
+            else:
+                return jsonify({'error': 'No driverLicenceFile found'})
+        else:
+            return jsonify({'error': 'No driverLicenceFile found'})
+
+    if dmvFile:
+        if user.driverLicenceFile:
+            # print(user.resume)
+            user_profile_direc = os.path.join(upload_folder, user_name + "/"+ str(user.dmvFile))
+            if user_profile_direc:
+                try:
+                   return send_file(user_profile_direc, as_attachment=True)
+                except:
+                   return jsonify({'error': 'No dmvFile found'})
+            else:
+                return jsonify({'error': 'No dmvFile found'})
+        else:
+            return jsonify({'error': 'No dmvFile found'})
+
+    return jsonify({'error': 'Invalid Data Provided '})
+
+@app.route('/api/delete_file', methods=['GET'])
+@cross_origin()
+def delete_file():
+    upload_folder = "./files_upload"
+    resume = request.args.get('resume')
+    dmvFile = request.args.get('dmvFile')
+    dodMedicalCardFile = request.args.get('dodMedicalCardFile')
+    driverLicenceFile = request.args.get('driverLicenceFile')
+    user_name = request.args.get('user_name')
+    user = DriversData.objects(user_name=user_name).first()
+    if not user:
+        return jsonify({'error': 'Incorrect UserName and Data not found'})
+
+    if resume:
+        if user.resume:
+            os.remove(os.path.join(upload_folder, user_name + "/" + str(user.resume)))
+            user.update(resume= None)
+            return jsonify({'success': 'Successfully Deleted Resume'})
+        else:
+            return jsonify({'error': 'No Resume found'})
+
+    if dodMedicalCardFile:
+        if user.dodMedicalCardFile:
+            user_profile_direc = os.path.join(upload_folder, user_name + "/" + str(user.dodMedicalCardFile))
+            if user_profile_direc:
+                try:
+                    return send_file(user_profile_direc, as_attachment=True)
+                except:
+                    return jsonify({'error': 'No dodMedicalCardFile found'})
+            else:
+                return jsonify({'error': 'No dodMedicalCardFile found'})
+        else:
+            return jsonify({'error': 'No dodMedicalCardFile found'})
+
+    if driverLicenceFile:
+        if user.driverLicenceFile:
+            # print(user.resume)
+            user_profile_direc = os.path.join(upload_folder, user_name + "/" + str(user.driverLicenceFile))
+            if user_profile_direc:
+                try:
+                    return send_file(user_profile_direc, as_attachment=True)
+                except:
+                    return jsonify({'error': 'No driverLicenceFile found'})
+            else:
+                return jsonify({'error': 'No driverLicenceFile found'})
+        else:
+            return jsonify({'error': 'No driverLicenceFile found'})
+
+    if dmvFile:
+        if user.driverLicenceFile:
+            # print(user.resume)
+            user_profile_direc = os.path.join(upload_folder, user_name + "/" + str(user.dmvFile))
+            if user_profile_direc:
+                try:
+                    return send_file(user_profile_direc, as_attachment=True)
+                except:
+                    return jsonify({'error': 'No dmvFile found'})
+            else:
+                return jsonify({'error': 'No dmvFile found'})
+        else:
+            return jsonify({'error': 'No dmvFile found'})
+
+    return jsonify({'error': 'Invalid Data Provided '})
+
+
+#######################End File #########################
 
 @app.route('/api/update_record', methods=['POST'])
 @cross_origin()

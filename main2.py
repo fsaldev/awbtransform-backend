@@ -281,10 +281,15 @@ def form_i9_data(user):
     first_name = user.first_name
     middle = user.last_name
     address = user.address
-    apt_number = "None"
     city = user.city
     state = user.state
     zip_code = user.zipCode
+    fromDateAddress = user.fromDateAddress
+    currentNumberOfYearsAtAddress = ''
+    if fromDateAddress:
+        currentNumberOfYearsAtAddress = str(int(datetime.now().year) - int(fromDateAddress.year))
+
+    apt_number = "None"
     dateofBirth = user.dateofBirth
     s = split_words(str(user.socialSecurity))
     phone_number = user.phone_number
@@ -302,7 +307,19 @@ def form_i9_data(user):
     companyState = user.companyState
     companyPostCode = user.companyPostCode
     startTime = user.startTime
-    addresses = user.addresses
+    addresses = None
+    if len(user.addresses) > 0:
+        addresses = user.addresses[:3]
+    licences = None
+    if len(user.licences) > 0:
+        licences = user.licences[:3]
+        for li in licences:
+            li.licenceExpirationDate = str(li.licenceExpirationDate.strftime("%m/%d/%Y"))
+    accidents = None
+    if len(user.employmentAccidentsHistory) > 0:
+        accidents = user.employmentAccidentsHistory[:3]
+        for li in accidents:
+            li.dateOfAccident = str(li.dateOfAccident.strftime("%m/%d/%Y"))
     alien_registration_number = user.alien_registration_number
     formi94_reg_number = user.formi94_reg_number
     foreign_passport_number = user.foreign_passport_number
@@ -332,21 +349,22 @@ def form_i9_data(user):
         "first_name": first_name,
         "middle": middle,
         "address": address,
-        "apt_number": apt_number,
         "city": city,
         "state": state,
+        "currentNumberOfYearsAtAddress": currentNumberOfYearsAtAddress,
         "zip_code": zip_code,
         "dateofBirth": dateofBirth,
+        "apt_number": apt_number,
         "social_security":str(user.socialSecurity),
-        "social_security1": s[0] if s[0] else '',
-        "social_security2": s[1] if s[1] else '',
-        "social_security3": s[2] if s[2] else '',
-        "social_security4": s[3] if s[3] else '',
-        "social_security5": s[4] if s[4] else '',
-        "social_security6": s[5] if s[5] else '',
-        "social_security7": s[6] if s[6] else '',
-        "social_security8": s[7] if s[7] else '',
-        "social_security9": s[8] if s[8] else '',
+        "social_security1": s[0] if len(s) > 8  else '',
+        "social_security2": s[1] if len(s) > 8  else '',
+        "social_security3": s[2] if len(s) > 8  else '',
+        "social_security4": s[3] if len(s) > 8  else '',
+        "social_security5": s[4] if len(s) > 8  else '',
+        "social_security6": s[5] if len(s) > 8  else '',
+        "social_security7": s[6] if len(s) > 8  else '',
+        "social_security8": s[7] if len(s) > 8  else '',
+        "social_security9": s[8] if len(s) > 8  else '',
         "email": email,
         "phone_number": phone_number,
         "todayDate": str(datetime.now().strftime("%m/%d/%Y")),
@@ -360,6 +378,8 @@ def form_i9_data(user):
         'companyPostCode': companyPostCode,
         "startTime": startTime,
         'addresses': addresses,
+        'licences': licences,
+        'accidents': accidents,
         "page_no": "Page 1 of 3",
         'additional_data': {
             "united_state_citizen": united_state_citizen,
@@ -743,9 +763,6 @@ def login():
 
     return json.dumps({'error': 'Incorect User Name and Password'})
 
-# @app.errorhandler(404)
-# def not_found(e):
-#     return render_template("style_css_404.html")
 
 @app.route('/api/get_all_users', methods=['GET'])
 @cross_origin()

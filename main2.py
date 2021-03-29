@@ -423,22 +423,22 @@ def upload_file():
 
     if resume:
         file = request.files['file']
-        filename = secure_filename(file.filename)
+        filename = 'resume' + secure_filename(file.filename)
         destination = "/".join([target, filename])
         file.save(destination)
         user.update(resume= filename)
         return jsonify({"message": "Successfully Uploded Resume", "status": "true"})
     if dodMedicalCardFile:
         file = request.files['file']
-        filename = secure_filename(file.filename)
+        filename = 'dodMedicalCardFile' + secure_filename(file.filename)
         destination = "/".join([target, filename])
         file.save(destination)
         user.update(dodMedicalCardFile= filename)
-        return jsonify({"message": "Successfully Uploaded dodMedicalCardFile", "status": "true" })
+        return jsonify({"message": "Successfully Uploaded DOD Medical File", "status": "true" })
 
     if dmvFile:
         file = request.files['file']
-        filename = secure_filename(file.filename)
+        filename = 'dmvFile' + secure_filename(file.filename)
         destination = "/".join([target, filename])
         file.save(destination)
         user.update(dmvFile= filename)
@@ -446,11 +446,11 @@ def upload_file():
 
     if driverLicenceFile:
         file = request.files['file']
-        filename = secure_filename(file.filename)
+        filename = 'driverLicenceFile' + secure_filename(file.filename)
         destination = "/".join([target, filename])
         file.save(destination)
         user.update(driverLicenceFile= filename)
-        return jsonify({"message": "Successfully Uploded driverLicenceFile", "status": "true"})
+        return jsonify({"message": "Successfully Uploaded Driver License File", "status": "true"})
 
     return jsonify({'error': 'Invalid Data Provided', "status": "false"})
 
@@ -489,11 +489,11 @@ def get_file():
                 try:
                    return send_file(user_profile_direc, as_attachment=True)
                 except:
-                   return jsonify({'error': 'No dodMedicalCardFile found'})
+                   return jsonify({'error': 'No DOD Medical File found'})
             else:
-                return jsonify({'error': 'No dodMedicalCardFile found'})
+                return jsonify({'error': 'No DOD Medical File found'})
         else:
-            return jsonify({'error': 'No dodMedicalCardFile found'})
+            return jsonify({'error': 'No DOD Medical File found'})
 
     if driverLicenceFile:
         if user.driverLicenceFile:
@@ -503,11 +503,11 @@ def get_file():
                 try:
                    return send_file(user_profile_direc, as_attachment=True)
                 except:
-                   return jsonify({'error': 'No driverLicenceFile found'})
+                   return jsonify({'error': 'No Driver License File found'})
             else:
-                return jsonify({'error': 'No driverLicenceFile found'})
+                return jsonify({'error': 'No Driver License File found'})
         else:
-            return jsonify({'error': 'No driverLicenceFile found'})
+            return jsonify({'error': 'No Driver License File found'})
 
     if dmvFile:
         if user.driverLicenceFile:
@@ -517,11 +517,11 @@ def get_file():
                 try:
                    return send_file(user_profile_direc, as_attachment=True)
                 except:
-                   return jsonify({'error': 'No dmvFile found'})
+                   return jsonify({'error': 'No DMV File found'})
             else:
-                return jsonify({'error': 'No dmvFile found'})
+                return jsonify({'error': 'No DMV File found'})
         else:
-            return jsonify({'error': 'No dmvFile found'})
+            return jsonify({'error': 'No DMV File found'})
 
     return jsonify({'error': 'Invalid Data Provided '})
 
@@ -548,42 +548,25 @@ def delete_file():
 
     if dodMedicalCardFile:
         if user.dodMedicalCardFile:
-            user_profile_direc = os.path.join(upload_folder, user_name + "/" + str(user.dodMedicalCardFile))
-            if user_profile_direc:
-                try:
-                    return send_file(user_profile_direc, as_attachment=True)
-                except:
-                    return jsonify({'error': 'No dodMedicalCardFile found'})
-            else:
-                return jsonify({'error': 'No dodMedicalCardFile found'})
+            os.remove(os.path.join(upload_folder, user_name + "/" + str(user.dodMedicalCardFile)))
+            user.update(dodMedicalCardFile=None)
+            return jsonify({'success': 'Successfully Deleted dodMedicalCardFile'})
         else:
             return jsonify({'error': 'No dodMedicalCardFile found'})
 
     if driverLicenceFile:
         if user.driverLicenceFile:
-            # print(user.resume)
-            user_profile_direc = os.path.join(upload_folder, user_name + "/" + str(user.driverLicenceFile))
-            if user_profile_direc:
-                try:
-                    return send_file(user_profile_direc, as_attachment=True)
-                except:
-                    return jsonify({'error': 'No driverLicenceFile found'})
-            else:
-                return jsonify({'error': 'No driverLicenceFile found'})
+            os.remove(os.path.join(upload_folder, user_name + "/" + str(user.driverLicenceFile)))
+            user.update(driverLicenceFile=None)
+            return jsonify({'success': 'Successfully Deleted driverLicenceFile'})
         else:
             return jsonify({'error': 'No driverLicenceFile found'})
 
     if dmvFile:
-        if user.driverLicenceFile:
-            # print(user.resume)
-            user_profile_direc = os.path.join(upload_folder, user_name + "/" + str(user.dmvFile))
-            if user_profile_direc:
-                try:
-                    return send_file(user_profile_direc, as_attachment=True)
-                except:
-                    return jsonify({'error': 'No dmvFile found'})
-            else:
-                return jsonify({'error': 'No dmvFile found'})
+        if user.dmvFile:
+            os.remove(os.path.join(upload_folder, user_name + "/" + str(user.dmvFile)))
+            user.update(dmvFile=None)
+            return jsonify({'success': 'Successfully Deleted dmvFile'})
         else:
             return jsonify({'error': 'No dmvFile found'})
 

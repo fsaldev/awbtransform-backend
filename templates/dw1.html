@@ -1,104 +1,109 @@
 {% block driverpage1 %}
 <div class="container">
-    <div class="row" style="text-align:justify">
-        <h5 style="background-color: #F1F1F1;">
-            This is an example driver employment application. Carriers do not need to use this exact form, but must have a completed and
-            signed employment application for all drivers that contains the information listed in
-            <a style="color:#2813FE"
-            href="https://www.ecfr.gov/cgi-bin/retrieveECFR?gp=1&SID=a345060da120c0649f38b8715244f29e&h=L&mc=true&n=pt49.5.391&r=PART&ty=HTML#se49.5.391_121">
-            49 CFR 391.21.</a>
-        </h5>
-    </div>
-    <div class="row">
-        <div class="col-xs-12 p-0" style="text-align:center" >
-            <h4 style="margin:0px">
-                <b>
-                DRIVER EMPLOYMENTAPPLICATION
-                </b>
-            </h4>
-            <h6 style="margin:0px">
-                {{data.companyName}} &nbsp; {{data.companyAddress}} &nbsp; {{data.companyCity}} &nbsp; {{data.companyState}}
-            </h6>
-            <span>
-                An Equal Opportunity Employer
-            </span>
+    <div id="dwheader">
+        <div class="row" style="text-align:justify">
+            <h5 style="background-color: #F1F1F1;">
+                This is an example driver employment application. Carriers do not need to use this exact form, but must have a completed and
+                signed employment application for all drivers that contains the information listed in
+                <a style="color:#2813FE"
+                href="https://www.ecfr.gov/cgi-bin/retrieveECFR?gp=1&SID=a345060da120c0649f38b8715244f29e&h=L&mc=true&n=pt49.5.391&r=PART&ty=HTML#se49.5.391_121">
+                49 CFR 391.21.</a>
+            </h5>
         </div>
-    </div>
-    <div class="row" style="margin-top:6px;font-size:10px">
+        <div class="row">
+            <div class="col-xs-12 p-0" style="text-align:center" >
+                <p style="margin:0px;padding:0">
+                    <b>
+                    DRIVER EMPLOYMENTAPPLICATION
+                    </b>
+                </p>
+                <h6 style="margin:0px">
+                    {{data.companyName}} &nbsp; {{data.companyAddress}} &nbsp; {{data.companyCity}} &nbsp; {{data.companyState}}
+                </h6>
+                <span>
+                    An Equal Opportunity Employer
+                </span>
+            </div>
+        </div>
+        <div class="row" style="margin-top:6px;font-size:10px">
         <span>
             COMPLETE IN FULL OR IT WILL NOT BE CONSIDERED
         </span>
     </div>
-    <div class="row">
-        <div class="col-xs-12" style="background-color: black; color: white; text-align:center">
-            <span>
-                APPLICANT INFORMATION
-            </span>
-        </div>
     </div>
-    <div class="row">
-        <div class="col-xs-2 left-border" style="background-color: #F1F1F1;height:42px">
-            <p>
-                FIRST NAME
-            </p>
+
+    <!--  APPLICANT INFORMATION Start  -->
+    <div id="applicantinfo">
+        <div class="row">
+            <div class="col-xs-12" style="background-color: black; color: white; text-align:center">
+                <span>
+                    APPLICANT INFORMATION
+                </span>
+            </div>
         </div>
-        <div class="col-xs-3 left-border" style="height:42px">
-            <p> {{data.first_name}}</p>
+        <div class="row">
+            <div class="col-xs-2 left-border" style="background-color: #F1F1F1;height:42px">
+                <p>
+                    FIRST NAME
+                </p>
+            </div>
+            <div class="col-xs-3 left-border" style="height:42px">
+                <p> {{data.first_name}}</p>
+            </div>
+            <div class="col-xs-1 left-border" style="background-color: #F1F1F1;height:42px">
+                <p>
+                    MIDDLE NAME
+                </p>
+            </div>
+            <div class="col-xs-2 left-border" style="height:42px">
+                <p> {{data.middle}}</p>
+            </div>
+            <div class="col-xs-1 left-border" style="background-color: #F1F1F1;height:42px">
+                <p>
+                    LAST NAME
+                </p>
+            </div>
+            <div class="col-xs-3 left-border right-border" style="height:42px">
+                <p> {{data.last_name}}</p>
+            </div>
         </div>
-        <div class="col-xs-1 left-border" style="background-color: #F1F1F1;height:42px">
-            <p>
-                MIDDLE NAME
-            </p>
+        <div class="row">
+            <div class="col-xs-2 left-border top-border" style="background-color: #F1F1F1;height:42px">
+                <p>
+                    PHONE
+                </p>
+            </div>
+            <div class="col-xs-3 left-border top-border" style="height:42px">
+                <p> {{data.phone_number}}</p>
+            </div>
+            <div class="col-xs-1 left-border top-border" style="background-color: #F1F1F1;height:42px">
+                <p>
+                    EMAIL
+                </p>
+            </div>
+            <div class="col-xs-6 left-border top-border right-border" style="height:42px">
+                <p> {{data.email}}</p>
+            </div>
         </div>
-        <div class="col-xs-2 left-border" style="height:42px">
-            <p> {{data.middle}}</p>
+        <div class="row">
+            <div class="col-xs-2 left-border top-border" style="background-color: #F1F1F1;height:42px">
+                <p>
+                    DATE OF BIRTH
+                </p>
+            </div>
+            <div class="col-xs-3 left-border top-border" style="height:45px">
+                <p> {{data.dateofBirth}}</p>
+            </div>
+            <div class="col-xs-2 left-border top-border" style="background-color: #F1F1F1;height:42px">
+                <p>
+                    SOCIAL SECUIRTY #
+                </p>
+            </div>
+            <div class="col-xs-5 left-border top-border right-border" style="height:45px">
+                <p> {{data.social_security}}</p>
+            </div>
         </div>
-        <div class="col-xs-1 left-border" style="background-color: #F1F1F1;height:42px">
-            <p>
-                LAST NAME
-            </p>
-        </div>
-        <div class="col-xs-3 left-border right-border" style="height:42px">
-            <p> {{data.last_name}}</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-2 left-border top-border" style="background-color: #F1F1F1;height:42px">
-            <p>
-                PHONE
-            </p>
-        </div>
-        <div class="col-xs-3 left-border top-border" style="height:42px">
-            <p> {{data.phone_number}}</p>
-        </div>
-        <div class="col-xs-1 left-border top-border" style="background-color: #F1F1F1;height:42px">
-            <p>
-                EMAIL
-            </p>
-        </div>
-        <div class="col-xs-6 left-border top-border right-border" style="height:42px">
-            <p> {{data.email}}</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-2 left-border top-border" style="background-color: #F1F1F1;height:42px">
-            <p>
-                DATE OF BIRTH
-            </p>
-        </div>
-        <div class="col-xs-3 left-border top-border" style="height:45px">
-            <p> {{data.dateofBirth}}</p>
-        </div>
-        <div class="col-xs-2 left-border top-border" style="background-color: #F1F1F1;height:42px">
-            <p>
-                SOCIAL SECUIRTY #
-            </p>
-        </div>
-        <div class="col-xs-5 left-border top-border right-border" style="height:45px">
-            <p> {{data.social_security}}</p>
-        </div>
-    </div>
-    <div class="row">
+        <div class="row">
         <div class="col-xs-2 left-border top-border bottom-border" style="background-color: #F1F1F1;height:42px">
             <p>
                 DATE OF APPLICATION
@@ -124,6 +129,10 @@
             <p> {{data.startTime}}</p>
         </div>
     </div>
+    </div>
+
+    <!--  APPLICANT INFORMATION End  -->
+
     <div class="row" style="margin-top:2px">
         <div class="col-xs-6">
             <h6>
@@ -150,59 +159,504 @@
             </div>
         </div>
     </div>
-    <div class="row" style="margin-top:5px">
-        <div class="col-xs-12" style="background-color: black; color: white; text-align:center">
-            <span>
-                PREVIOUS THREE YEARS RESIDENCY
-            </span>
+
+    <!--  PREVIOUS THREE YEARS RESIDENCY Start  -->
+
+    <div id="prevaddress" style="margin-top:15px">
+        <div class="row" >
+            <div class="col-xs-12" style="background-color: black; color: white; text-align:center">
+                <span>
+                    PREVIOUS THREE YEARS RESIDENCY
+                </span>
+            </div>
         </div>
-        <div class="col-xs-12 left-border right-border" style="text-align:center">
-            <i>
-                Attach additional sheet if more space is needed
-            </i>
+        <div class="row">
+            <div class="col-xs-12 left-border right-border" style="text-align:center">
+                <i>
+                    Attach additional sheet if more space is needed
+                </i>
+            </div>
+        </div>
+        <div class="row" style="background-color: #F1F1F1;">
+            <div class="col-xs-1 left-border top-border pl-0">
+                &emsp;
+            </div>
+            <div class="col-xs-4 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0">STREET</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0">CITY</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0">STATE</span>
+            </div>
+            <div class="col-xs-1 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0">ZIP<br/>CODE</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0 right-border">
+                <span style="position:absolute; bottom:0" ># OF YEARS <br>
+                    AT ADDRESS </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-1 left-border top-border pl-0" style="background-color: #F1F1F1;">
+                <span style="position:absolute; bottom:0">CURRENT</span>
+            </div>
+            <div class="col-xs-4 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0">{{data.address}}</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0">{{data.city}}</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0">{{data.state}}</span>
+            </div>
+            <div class="col-xs-1 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0">{{data.zip_code}}</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0 right-border">
+                <span style="position:absolute; bottom:0">{{data.currentNumberOfYearsAtAddress}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-1 left-border top-border pl-0" style="background-color: #F1F1F1;">
+                <span style="position:absolute; bottom:0">MAILING</span>
+            </div>
+            <div class="col-xs-4 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0">{{data.address}}</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0">{{data.city}}</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0">{{data.state}}</span>
+            </div>
+            <div class="col-xs-1 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0">{{data.zip_code}}</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0 right-border">
+                <span style="position:absolute; bottom:0">{{data.currentNumberOfYearsAtAddress}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-1 left-border top-border pl-0" style="background-color: #F1F1F1;">
+                <span style="position:absolute; bottom:0">PREVIOUS</span>
+            </div>
+            {% if data.addresses and data.addresses[0]  %}
+                <div class="col-xs-4 left-border top-border pl-0">
+                        <span style="position:absolute; bottom:0">{{data.addresses[0].lastYearAddress}}</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0">
+                    <span style="position:absolute; bottom:0">{{data.addresses[0].lastYearAddressCity}}</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0">
+                    <span style="position:absolute; bottom:0">{{data.addresses[0].lastYearAddressState}}</span>
+                </div>
+                <div class="col-xs-1 left-border top-border pl-0">
+                    <span style="position:absolute; bottom:0">{{data.addresses[0].lastYearAddressZipCode}}</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+                        {{data.addresses[0].lastYearAddressTo.year - data.addresses[0].lastYearAddressfrom.year}}
+                    </span>
+                </div>
+            {% else %}
+                <div class="col-xs-4 left-border top-border pl-0">
+                    <span style="position:absolute; bottom:0">&emsp;</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0">
+                    <span style="position:absolute; bottom:0">&emsp;</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0">
+                    <span style="position:absolute; bottom:0">&emsp;</span>
+                </div>
+                <div class="col-xs-1 left-border top-border pl-0">
+                    <span style="position:absolute; bottom:0">&emsp;</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">&emsp;</span>
+                </div>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-xs-1 left-border top-border pl-0" style="background-color: #F1F1F1;">
+                <span style="position:absolute; bottom:0">PREVIOUS</span>
+            </div>
+            {% if data.addresses and data.addresses[1]  %}
+                <div class="col-xs-4 left-border top-border pl-0">
+                        <span style="position:absolute; bottom:0">{{data.addresses[1].lastYearAddress}}</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0">
+                    <span style="position:absolute; bottom:0">{{data.addresses[1].lastYearAddressCity}}</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0">
+                    <span style="position:absolute; bottom:0">{{data.addresses[1].lastYearAddressState}}</span>
+                </div>
+                <div class="col-xs-1 left-border top-border pl-0">
+                    <span style="position:absolute; bottom:0">{{data.addresses[1].lastYearAddressZipCode}}</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+                        {{data.addresses[1].lastYearAddressTo.year - data.addresses[1].lastYearAddressfrom.year}}
+                    </span>
+                </div>
+            {% else %}
+                <div class="col-xs-4 left-border top-border pl-0">
+                    <span style="position:absolute; bottom:0">&emsp;</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0">
+                    <span style="position:absolute; bottom:0">&emsp;</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0">
+                    <span style="position:absolute; bottom:0">&emsp;</span>
+                </div>
+                <div class="col-xs-1 left-border top-border pl-0">
+                    <span style="position:absolute; bottom:0">&emsp;</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">&emsp;</span>
+                </div>
+            {% endif %}
+        </div>
+        <div class="row">
+        <div class="col-xs-1 left-border top-border pl-0 bottom-border" style="background-color: #F1F1F1;">
+            <span style="position:absolute; bottom:0">PREVIOUS</span>
+        </div>
+        {% if data.addresses and data.addresses[2]  %}
+            <div class="col-xs-4 left-border top-border pl-0 bottom-border">
+                    <span style="position:absolute; bottom:0">{{data.addresses[2].lastYearAddress}}</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0 bottom-border">
+                <span style="position:absolute; bottom:0">{{data.addresses[2].lastYearAddressCity}}</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0 bottom-border">
+                <span style="position:absolute; bottom:0">{{data.addresses[2].lastYearAddressState}}</span>
+            </div>
+            <div class="col-xs-1 left-border top-border pl-0 bottom-border">
+                <span style="position:absolute; bottom:0">{{data.addresses[2].lastYearAddressZipCode}}</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0 right-border bottom-border">
+                <span style="position:absolute; bottom:0">
+                    {{data.addresses[2].lastYearAddressTo.year - data.addresses[2].lastYearAddressfrom.year}}
+                </span>
+            </div>
+        {% else %}
+            <div class="col-xs-4 left-border top-border pl-0 bottom-border">
+                <span style="position:absolute; bottom:0">&emsp;</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0 bottom-border">
+                <span style="position:absolute; bottom:0">&emsp;</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0 bottom-border">
+                <span style="position:absolute; bottom:0">&emsp;</span>
+            </div>
+            <div class="col-xs-1 left-border top-border pl-0 bottom-border">
+                <span style="position:absolute; bottom:0">&emsp;</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0 right-border bottom-border">
+                <span style="position:absolute; bottom:0">&emsp;</span>
+            </div>
+        {% endif %}
+    </div>
+    </div>
+    <!--    PREVIOUS THREE YEARS RESIDENCY End-->
+
+    <!--    LICENSE INFORMATION Start-->
+    <div id="licences" style="margin-top:25px">
+        <div class="row" >
+            <div class="col-xs-12" style="background-color: black; color: white; text-align:center">
+                <span>
+                    LICENSE INFORMATION
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 left-border right-border" style="text-align:center">
+                <p style="padding-top:5px;text-align: justify">
+                    No person who operates a commercial motor vehicle shall at any time have more than one driver’s license (49 CFR 383.21).
+                    I certify that I do not have more than one motor vehicle license, the information for which is listed below.
+                    Include all licenses held for the past 3 years; attach additional sheets if needed
+                </p>
+            </div>
+        </div>
+        <div class="row" style="background-color: #F1F1F1;">
+            <div class="col-xs-2 left-border top-border pl-0">
+                <span>STATE</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0">
+                <span>LICENCE #</span>
+            </div>
+            <div class="col-xs-3 left-border top-border pl-0">
+                <span>TYPE/CLASS</span>
+            </div>
+            <div class="col-xs-3 left-border top-border pl-0">
+                <span>ENDORSEMENTS</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0 right-border">
+                <span>EXPIRATION DATE</span>
+            </div>
+        </div>
+        <div class="row">
+            {% if data.licences and data.licences[0] %}
+                <div class="col-xs-2 left-border top-border pl-0">
+                    <span>{{data.licences[0].stateOfLicence}}</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0">
+                    <span>{{data.licences[0].licenceNumber}}</span>
+                </div>
+                <div class="col-xs-3 left-border top-border pl-0">
+                    <span>{{data.licences[0].licenceType}}</span>
+                </div>
+                <div class="col-xs-3 left-border top-border pl-0">
+                    <span>{{data.licences[0].licenceEndoresment}}</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0 right-border">
+                    <span>{{data.licences[0].licenceExpirationDate}}</span>
+                </div>
+            {% else %}
+                <div class="col-xs-2 left-border top-border pl-0">
+                    <span>&emsp;</span>
+                </div>
+                <div class="col-xs-3 left-border top-border pl-0">
+                    <span>&emsp;</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0">
+                    <span>&emsp;</span>
+                </div>
+                <div class="col-xs-3 left-border top-border pl-0">
+                    <span>&emsp;</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0 right-border">
+                    <span>&emsp;</span>
+                </div>
+            {% endif %}
+        </div>
+        <div class="row" >
+            <div class="col-xs-12 top-border left-border right-border" style="background-color: #F1F1F1;text-align: center">
+                <span style="">
+                    PREVOIUSLY HELD LICENSES
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            {% if data.licences and data.licences[1] %}
+                <div class="col-xs-2 left-border top-border pl-0">
+                    <span>{{data.licences[1].stateOfLicence}}</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0">
+                    <span>{{data.licences[1].licenceNumber}}</span>
+                </div>
+                <div class="col-xs-3 left-border top-border pl-0">
+                    <span>{{data.licences[1].licenceType}}</span>
+                </div>
+                <div class="col-xs-3 left-border top-border pl-0">
+                    <span>{{data.licences[1].licenceEndoresment}}</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0 right-border">
+                    <span>{{data.licences[1].licenceExpirationDate}}</span>
+                </div>
+            {% else %}
+                <div class="col-xs-2 left-border top-border pl-0">
+                    <span>&emsp;</span>
+                </div>
+                <div class="col-xs-3 left-border top-border pl-0">
+                    <span>&emsp;</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0">
+                    <span>&emsp;</span>
+                </div>
+                <div class="col-xs-3 left-border top-border pl-0">
+                    <span>&emsp;</span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0 right-border">
+                    <span>&emsp;</span>
+                </div>
+            {% endif %}
+        </div>
+        <div class="row">
+        {% if data.licences and data.licences[2] %}
+            <div class="col-xs-2 left-border top-border pl-0 bottom-border">
+                <span>{{data.licences[2].stateOfLicence}}</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0 bottom-border">
+                <span>{{data.licences[2].licenceNumber}}</span>
+            </div>
+            <div class="col-xs-3 left-border top-border pl-0 bottom-border">
+                <span>{{data.licences[2].licenceType}}</span>
+            </div>
+            <div class="col-xs-3 left-border top-border pl-0 bottom-border">
+                <span>{{data.licences[2].licenceEndoresment}}</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0 right-border bottom-border">
+                <span>{{data.licences[2].licenceExpirationDate}}</span>
+            </div>
+        {% else %}
+            <div class="col-xs-2 left-border top-border pl-0 bottom-border">
+                <span>&emsp;</span>
+            </div>
+            <div class="col-xs-3 left-border top-border pl-0 bottom-border">
+                <span>&emsp;</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0 bottom-border">
+                <span>&emsp;</span>
+            </div>
+            <div class="col-xs-3 left-border top-border pl-0 bottom-border">
+                <span>&emsp;</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0 right-border bottom-border">
+                <span>&emsp;</span>
+            </div>
+        {% endif %}
+    </div>
+    </div>
+    <!--    LICENSE INFORMATION End-->
+
+    <!--    Experience INFORMATION Start-->
+    <div id="experience_info" style="margin-top:25px">
+        <div class="row">
+            <div class="col-xs-12" style="background-color: black; color: white; text-align:center">
+                <span>
+                    DRIVING EXPERIENCE
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2 left-border pl-0">
+                <span style="position:absolute; bottom:0">CLASS OF EQUIPMENT</span>
+            </div>
+            <div class="col-xs-6 left-border pl-0">
+                <span style="position:absolute; bottom:0">TYPE OF EQUIPMENT (VAN, TANK, FLAT, ETC.)</span>
+            </div>
+            <div class="col-xs-1 left-border pl-0">
+                <span style="position:absolute; bottom:0">DATE FROM</span>
+            </div>
+            <div class="col-xs-1 left-border pl-0">
+                <span style="position:absolute;bottom:0">
+                    DATE TO &emsp;
+                </span>
+            </div>
+            <div class="col-xs-2 left-border right-border pl-0">
+                <span >
+                    APPROX # OF
+                    MILES (TOTAL)
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0">STRAIGHT <br> TRUCK</span>
+            </div>
+            <div class="col-xs-6 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0"></span>
+            </div>
+            <div class="col-xs-1 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0"></span>
+            </div>
+            <div class="col-xs-1 left-border top-border pl-0">
+                <span style="position:absolute;bottom:0">
+
+                </span>
+            </div>
+            <div class="col-xs-2 left-border top-border right-border pl-0">
+                <span >
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0">TRACTOR &
+                    <br>SEMI-TRAILER </span>
+            </div>
+            <div class="col-xs-6 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0"></span>
+            </div>
+            <div class="col-xs-1 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0"></span>
+            </div>
+            <div class="col-xs-1 left-border top-border pl-0">
+                <span style="position:absolute;bottom:0">
+
+                </span>
+            </div>
+            <div class="col-xs-2 left-border top-border right-border pl-0">
+                <span >
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0">TRACTOR & <br> 2 TRAILERS </span>
+            </div>
+            <div class="col-xs-6 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0"></span>
+            </div>
+            <div class="col-xs-1 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0"></span>
+            </div>
+            <div class="col-xs-1 left-border top-border pl-0">
+                <span style="position:absolute;bottom:0">
+
+                </span>
+            </div>
+            <div class="col-xs-2 left-border top-border right-border pl-0">
+                <span >
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0">TRACTOR & <br>TANKER</span>
+            </div>
+            <div class="col-xs-6 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0"></span>
+            </div>
+            <div class="col-xs-1 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0"></span>
+            </div>
+            <div class="col-xs-1 left-border top-border pl-0">
+                <span style="position:absolute;bottom:0">
+
+                </span>
+            </div>
+            <div class="col-xs-2 left-border top-border right-border pl-0">
+                <span >
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2 left-border top-border pl-0 bottom-border">
+                <span style="position:absolute; bottom:0">OTHER</span>
+            </div>
+            <div class="col-xs-6 left-border top-border pl-0 bottom-border">
+                <span style="position:absolute; bottom:0"></span>
+            </div>
+            <div class="col-xs-1 left-border top-border pl-0 bottom-border">
+                <span style="position:absolute; bottom:0"></span>
+            </div>
+            <div class="col-xs-1 left-border top-border pl-0 bottom-border">
+                <span style="position:absolute;bottom:0">
+
+                </span>
+            </div>
+            <div class="col-xs-2 left-border top-border right-border pl-0 bottom-border">
+                <span >
+                </span>
+            </div>
         </div>
     </div>
-    <div class="row" style="background-color: #F1F1F1;">
-        <div class="col-xs-1 left-border top-border pl-0">
-            &emsp;
-        </div>
-        <div class="col-xs-4 left-border top-border pl-0">
-            <span style="position:absolute; bottom:0">STREET</span>
-        </div>
-        <div class="col-xs-3 left-border top-border pl-0">
-            <span style="position:absolute; bottom:0">CITY</span>
-        </div>
-        <div class="col-xs-2 left-border top-border pl-0">
-            <span style="position:absolute; bottom:0">STATE</span>
-        </div>
-        <div class="col-xs-1 left-border top-border pl-0">
-            <span style="position:absolute; bottom:0">ZIP<br/>CODE</span>
-        </div>
-        <div class="col-xs-1 left-border top-border pl-0">
-            <span style="position:absolute; bottom:0"># OF YEARS
-                AT ADDRESS </span>
+    <!--    Experience INFORMATION Start-->
+
+    <!--  Footer Dw4  Start  -->
+    <div id="dwfooter" style="margin-top:25px; margin-bottom:25px">
+        <div class="row">
+            <div class="col-xs-12" style="text-align:right">
+                <div class="row">
+                    <p>Page 1 of 4</p>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row" style="background-color: #F1F1F1;">
-        <div class="col-xs-1 left-border top-border pl-0">
-            CURRENT
-        </div>
-        <div class="col-xs-4 left-border top-border pl-0">
-            <span style="position:absolute; bottom:0">{{data.}}</span>
-        </div>
-        <div class="col-xs-3 left-border top-border pl-0">
-            <span style="position:absolute; bottom:0">CITY</span>
-        </div>
-        <div class="col-xs-2 left-border top-border pl-0">
-            <span style="position:absolute; bottom:0">STATE</span>
-        </div>
-        <div class="col-xs-1 left-border top-border pl-0">
-            <span style="position:absolute; bottom:0">ZIP<br/>CODE</span>
-        </div>
-        <div class="col-xs-1 left-border top-border pl-0">
-            <span style="position:absolute; bottom:0"># OF YEARS
-                AT ADDRESS </span>
-        </div>
-    </div>
+    <!--  Footer Dw4  End -->
+
 </div>
 {% endblock %}

@@ -13,16 +13,16 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['MONGODB_SETTINGS'] = {
-    # 'db': 'awbtransport',
-    # 'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
     'db': 'awbtransport',
-    'host': 'localhost',
+    'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
+    # 'db': 'awbtransport',
+    # 'host': 'localhost',
     'port': 27017
 }
 db = MongoEngine()
 db.init_app(app)
-# PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
-PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
+PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
+# PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
 
 ######################################Start Models########################################################
 
@@ -82,6 +82,9 @@ class Reference(db.EmbeddedDocument):
     referenceTitle = db.StringField()
     referencePhoneNumber = db.StringField()
     referenceAddress = db.StringField()
+    referenceCity = db.StringField()
+    referenceState = db.StringField()
+    referenceZipCode = db.StringField()
 
 class DriversData(db.Document):
     user_name = db.StringField()
@@ -96,6 +99,7 @@ class DriversData(db.Document):
     city = db.StringField()
     state = db.StringField()
     zipCode = db.StringField()
+    fromDateAddress = db.DateField()
     lastThreeYearResidenceCheck = db.StringField()
     maritial_status = db.StringField()
     NumberofDependantsUnder17 = db.IntField()
@@ -291,7 +295,14 @@ def form_i9_data(user):
     lawful_permanent_resident = user.non_united_state_citizen
     expiration_date = user.expiration_date
     alien_authorized = user.alien_authorized
-
+    applicationApplyAsPosition = user.applicationApplyAsPosition
+    companyName = user.companyName
+    companyAddress = user.companyAddress
+    companyCity = user.companyCity
+    companyState = user.companyState
+    companyPostCode = user.companyPostCode
+    startTime = user.startTime
+    addresses = user.addresses
     alien_registration_number = user.alien_registration_number
     formi94_reg_number = user.formi94_reg_number
     foreign_passport_number = user.foreign_passport_number
@@ -326,6 +337,7 @@ def form_i9_data(user):
         "state": state,
         "zip_code": zip_code,
         "dateofBirth": dateofBirth,
+        "social_security":str(user.socialSecurity),
         "social_security1": s[0] if s[0] else '',
         "social_security2": s[1] if s[1] else '',
         "social_security3": s[2] if s[2] else '',
@@ -338,7 +350,16 @@ def form_i9_data(user):
         "email": email,
         "phone_number": phone_number,
         "todayDate": str(datetime.now().strftime("%m/%d/%Y")),
-        "signature": user.signature,
+        "signature": signature,
+        "dateOfApplication": str(user.dateOfApplication),
+        "applicationApplyAsPosition": applicationApplyAsPosition,
+        'companyName': companyName,
+        'companyAddress': companyAddress,
+        'companyCity': companyCity,
+        'companyState': companyState,
+        'companyPostCode': companyPostCode,
+        "startTime": startTime,
+        'addresses': addresses,
         "page_no": "Page 1 of 3",
         'additional_data': {
             "united_state_citizen": united_state_citizen,
@@ -351,6 +372,8 @@ def form_i9_data(user):
             "foreign_passport_number": foreign_passport_number,
             "issuance_country": issuance_country
         },
+        'formi9': True,
+        'driver_employ': True,
     }
     return data
 
@@ -435,14 +458,6 @@ def upload_file():
 @cross_origin()
 def get_file():
     upload_folder = "./files_upload"
-    # if 'resume' in request.args:
-    #     resume = request.args.get('resume')
-    # if 'dmvFile' in request.args:
-    #     dmvFile = request.args.get('dmvFile')
-    # if 'dodMedicalCardFile' in request.args:
-    #     dodMedicalCardFile = request.args.get('dodMedicalCardFile')
-    # if 'driverLicenceFile' in request.args:
-    #     driverLicenceFile = request.args.get('driverLicenceFile')
     resume = request.args.get('resume')
     dmvFile = request.args.get('dmvFile')
     dodMedicalCardFile = request.args.get('dodMedicalCardFile')
@@ -595,6 +610,8 @@ def update_record():
         record["dateOfAccident"] = string_to_date(record["dateOfAccident"])
     if 'dateOfViolation' in record:
         record["dateOfViolation"] = string_to_date(record["dateOfViolation"])
+    if 'fromDateAddress' in record:
+        record["fromDateAddress"] = string_to_date(record["fromDateAddress"])
     if 'lastYearAddressfrom' in record:
         record["lastYearAddressfrom"] = string_to_date(record["lastYearAddressfrom"])
     if 'lastYearAddressTo' in record:
@@ -618,6 +635,8 @@ def update_record():
     user = DriversData.objects(user_name=record['user_name']).first()
     if not user:
         return jsonify({'error': 'Incorrect UserName and Data not found'})
+    if user.dateOfApplication == None:
+        user.update(dateOfApplication=datetime.now())
 
     for i in record.keys():
         if i == 'user_name':
@@ -770,6 +789,18 @@ def form_i9_html():
         data = form_i9_data(user)
         return render_template("style_css.html", data=data)
 
+@app.route("/api/html/dw4", methods=['GET'])
+@cross_origin()
+def dw4_html():
+    u_name = request.args.get('user_name')
+    if u_name:
+        user = DriversData.objects(user_name=u_name).first()
+        if not user:
+            return jsonify({'error': 'User Name Not Found'})
+        data = form_i9_data(user)
+        data['formi9'] = False
+        return render_template("style_css.html", data=data)
+
 #################### Emd PDFS HTML###########################
 
 
@@ -836,10 +867,37 @@ def form_i_9():
         }
         html = render_template("style_css.html", data=data)
         pdf = pdfkit.from_string(html, False, options=options, configuration=PDFKIT_CONFIGURATION)
-        # pdf = pdfkit.from_string(html, False, options=options)
         resp = make_response(pdf)
         resp.headers['Content-Type'] = 'application/pdf'
-        resp.headers['Content-Disposition'] = 'attachment; filename=formi9.pdf'
+        resp.headers['Content-Disposition'] = 'attachment; filename=formi9'+u_name+'.pdf'
+        return resp
+
+    else:
+        return jsonify({'error': 'Invalid Data'})
+
+@app.route('/api/pdf/dw4', methods=['GET'])
+@cross_origin()
+def driver_employ():
+    u_name = request.args.get('user_name')
+    if u_name:
+        user = DriversData.objects(user_name=u_name).first()
+        if not user:
+            return jsonify({'error': 'User Name Not Found'})
+        data = form_i9_data(user)
+        options = {
+            'page-size': 'A4',
+            'encoding': 'utf-8',
+            'margin-top': '1.8cm',
+            'margin-bottom': '0cm',
+            'margin-left': '0.5cm',
+            'margin-right': '0.5cm'
+        }
+        data['formi9'] = False
+        html = render_template("style_css.html", data=data)
+        pdf = pdfkit.from_string(html, False, options=options, configuration=PDFKIT_CONFIGURATION)
+        resp = make_response(pdf)
+        resp.headers['Content-Type'] = 'application/pdf'
+        resp.headers['Content-Disposition'] = 'attachment; filename=driver_employ '+u_name+'.pdf'
         return resp
 
     else:

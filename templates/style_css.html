@@ -6805,6 +6805,14 @@ button.close {
 .left-border {
   border-left: 1px solid black;
 }
+.pl-0 {
+padding-left:7px;
+height:40px;
+padding-right:2px;
+}
+.pt {
+padding-top:20px;
+}
 .table1 td p{
   margin: 0px;
   margin-left: 4px;
@@ -6859,23 +6867,36 @@ div[class^="col-xs-"] p {
 </style>
 </head>
 <body>
-    <div id="page1">
-        {% with data=data %}
-            {% include "formi9_page1.html" %}
-        {% endwith %}
-    </div>
-    <br/><br/>
-    <div id="page2">
-        {% with data=data %}
-            {% include "formi9_page2.html" %}
-        {% endwith %}
-    </div>
-    <br/>
-    <div id="page3">
-        {% with data=data %}
-            {% include "formi9_page3.html" %}
-        {% endwith %}
-    </div>
+    {% if data.formi9 == True %}
+        <div id="page1">
+            {% with data=data %}
+                {% include "formi9_page1.html" %}
+            {% endwith %}
+        </div>
+        <br/><br/>
+        <div id="page2">
+            {% with data=data %}
+                {% include "formi9_page2.html" %}
+            {% endwith %}
+        </div>
+        <br/>
+        <div id="page3">
+            {% with data=data %}
+                {% include "formi9_page3.html" %}
+            {% endwith %}
+        </div>
+    {% elif data.driver_employ == True %}
+        <div id="driverpage1">
+            {% with data=data %}
+                {% include "dw1.html" %}
+            {% endwith %}
+        </div>
+    {% else %}
+        <div>
+            <p>Hellow</p>
+        </div>
+    {% endif %}
+
 </body>
 </html>
 

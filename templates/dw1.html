@@ -657,6 +657,87 @@
         </div>
     </div>
     <!--  Footer Dw4  End -->
+    <br/>
+    <br/>
+
+    <!--  PREVIOUS ACCIDENT RECORD FOR THE PAST 3 YEARS Start  -->
+
+    <div id="prevAccidents" style="margin-top:15px">
+        <div class="row" >
+            <div class="col-xs-12" style="background-color: black; color: white; text-align:center">
+                <span>
+                    ACCIDENT RECORD FOR THE PAST 3 YEARS
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 left-border right-border" style="text-align:center">
+                <i>
+                    Attach additional sheet if more space is needed
+                </i>
+            </div>
+        </div>
+        <div class="row" style="background-color: #F1F1F1;border-bottom: 1px solid black">
+            <div class="col-xs-2 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0">DATES <br>(List most recent first)</span>
+            </div>
+            <div class="col-xs-4 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0">NATURE OF ACCIDENT (Head-on, rear-end, upset, etc.)</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0"># FATALITIES</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0">
+                <span style="position:absolute; bottom:0"># INJURIES</span>
+            </div>
+            <div class="col-xs-2 left-border top-border pl-0 right-border">
+                <span style="position:absolute; bottom:0" >CHEMICAL SPILLS <br> (Y/N)
+                </span>
+            </div>
+        </div>
+        {% if data.accidents %}
+            {% for accident in data.accidents %}
+             <div class="row" style="border-bottom: 1px solid black">
+                <div class="col-xs-2 left-border pl-0">
+                    <span style="position:absolute; bottom:0">{{accident.dateOfAccident}}</span>
+                </div>
+                <div class="col-xs-4 left-border pl-0">
+                    <span style="position:absolute; bottom:0">{{accident.NumberOfAccidents}}</span>
+                </div>
+                <div class="col-xs-2 left-border pl-0">
+                    <span style="position:absolute; bottom:0">{{accident.numberofFatalities}}</span>
+                </div>
+                <div class="col-xs-2 left-border pl-0">
+                    <span style="position:absolute; bottom:0">{{accident.numberofPeopleleInjured}}</span>
+                </div>
+                <div class="col-xs-2 left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0" >
+                    </span>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="row" style="background-color: #F1F1F1;bottom-border:1px solid black">
+                <div class="col-xs-2 left-border top-border pl-0">
+                    <span style="position:absolute; bottom:0"></span>
+                </div>
+                <div class="col-xs-4 left-border top-border pl-0">
+                    <span style="position:absolute; bottom:0"></span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0">
+                    <span style="position:absolute; bottom:0"></span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0">
+                    <span style="position:absolute; bottom:0"></span>
+                </div>
+                <div class="col-xs-2 left-border top-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0" >
+                    </span>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <!--    PREVIOUS ACCIDENT RECORD FOR THE PAST 3 YEARS End-->
 
 </div>
 {% endblock %}

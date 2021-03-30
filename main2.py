@@ -267,11 +267,7 @@ def string_to_date(record_string):
     try:
         dt = datetime.strptime(record_string, "%Y-%m-%d")
     except:
-        try:
-            dt = datetime.strptime(record_string, "%Y-%m-%d")
-        except:
-            dt = "Invalid Date Format"
-        dt = "Invalid Date Format"
+        dt = ""
     return dt
 
 def form_i9_data(user):
@@ -651,9 +647,13 @@ def update_record():
     if 'alcoholTestExecutionDate' in record:
         record["alcoholTestExecutionDate"] = string_to_date(record["alcoholTestExecutionDate"])
     if 'employeeDate' in record:
-        record["employeeDate"] = string_to_date(record["employeeDate"])
+        rt = string_to_date(record["employeeDate"])
+        if rt == '':
+            record["employeeDate"] = None
     if 'nameOfPersonProvidingInformationDate' in record:
-        record['nameOfPersonProvidingInformationDate'] = string_to_date(record['nameOfPersonProvidingInformationDate'])
+        rt = string_to_date(record['nameOfPersonProvidingInformationDate'])
+        if rt == '':
+            record["nameOfPersonProvidingInformationDate"] = None
     if 'dateofBirth' in record:
         record['dateofBirth'] = string_to_date(record['dateofBirth'])
     user = DriversData.objects(user_name=record['user_name']).first()

@@ -647,7 +647,7 @@
     <!--   Driving Experience INFORMATION Start-->
 
     <!--  Footer Dw4  Start  -->
-    <div id="dwfooter" style="margin-top:25px; margin-bottom:25px">
+    <div id="dwfooter" style="margin-top:45px; margin-bottom:25px">
         <div class="row">
             <div class="col-xs-12" style="text-align:right">
                 <div class="row">
@@ -661,7 +661,7 @@
     <br/>
 
     <!--  PREVIOUS ACCIDENT RECORD FOR THE PAST 3 YEARS Start  -->
-    <div id="prevAccidents" style="margin-top:15px">
+    <div id="prevAccidents" style="margin-top:20px">
         <div class="row" >
             <div class="" style="background-color: black; color: white; text-align:center;width:99.9%">
                 <span>
@@ -815,7 +815,7 @@
     <!--    PREVIOUS ACCIDENT RECORD FOR THE PAST 3 YEARS End-->
 
     <!--  PREVIOUS Traffic Convictions RECORD FOR THE PAST 3 YEARS Start  -->
-    <div id="prevConvictions" style="margin-top:15px">
+    <div id="prevConvictions" style="margin-top:40px">
         <div class="row" >
             <div class="" style="background-color: black; color: white; text-align:center;width:99.9%">
                 <span>
@@ -972,7 +972,7 @@
     <!--    PREVIOUS Traffic Convictions RECORD FOR THE PAST 3 YEARS End-->
 
     <!--  Checkbox  Start Denied -->
-    <div class="row" style="margin-top:20px">
+    <div class="row" style="margin-top:40px">
         <div class="col-xs-8">
             <p>
                 Have you ever been denied a license, permit, or privilege to operate a motor vehicle?
@@ -983,25 +983,25 @@
         </div>
         <div class="col-xs-4">
             <div class="row">
-                <div class="col-xs-3">
+                <div class="col-xs-4">
                     {% if data.deniedLicences == 'Yes' %}
                         <input type="checkbox" style="margin-right:15px;float:left" checked >
-                        <span>Yes</span>
+                        <span>YES</span>
                     {% else %}
                         <input type="checkbox" style="margin-right:10px;float:left" >
-                        <span>Yes</span>
+                        <span>YES</span>
                     {% endif %}
                 </div>
-                <div class="col-xs-3">
+                <div class="col-xs-4">
                     {% if data.deniedLicences == 'No' %}
                         <input type="checkbox" style="margin-right:10px;float:left" checked >
-                        <span>No</span>
+                        <span>NO</span>
                     {% else %}
                         <input type="checkbox" style="margin-right:10px;float:left" >
-                        <span>No</span>
+                        <span>NO</span>
                     {% endif %}
                 </div>
-                <div class="col-xs-6">
+                <div class="col-xs-4">
                     <span>&emsp;</span>
                 </div>
             </div>
@@ -1010,7 +1010,7 @@
     <!--  Checkbox  End  Denied -->
 
     <!--  Checkbox  Start  permit -->
-    <div class="row" style="margin-top:20px">
+    <div class="row" style="margin-top:40px">
         <div class="col-xs-8">
             <p>
                 Has any license, permit, or privilege ever been suspended or revoked?
@@ -1021,25 +1021,25 @@
         </div>
         <div class="col-xs-4">
             <div class="row">
-                <div class="col-xs-3">
+                <div class="col-xs-4">
                     {% if data.permitLicences == 'Yes' %}
                         <input type="checkbox" style="margin-right:15px;float:left" checked >
-                        <span>Yes</span>
+                        <span>YES</span>
                     {% else %}
                         <input type="checkbox" style="margin-right:10px;float:left" >
-                        <span>Yes</span>
+                        <span>YES</span>
                     {% endif %}
                 </div>
-                <div class="col-xs-3">
+                <div class="col-xs-4">
                     {% if data.permitLicences == 'No' %}
                         <input type="checkbox" style="margin-right:10px;float:left" checked >
-                        <span>No</span>
+                        <span>NO</span>
                     {% else %}
                         <input type="checkbox" style="margin-right:10px;float:left" >
-                        <span>No</span>
+                        <span>NO</span>
                     {% endif %}
                 </div>
-                <div class="col-xs-6">
+                <div class="col-xs-4">
                     <span>&emsp;</span>
                 </div>
             </div>
@@ -1047,7 +1047,8 @@
     </div>
     <!--  Checkbox  End  permit -->
 
-    <div id="prevemphistory" style="margin-top:15px">
+    <!--  EmployeeHistory Start   -->
+    <div id="prevemphistory" style="margin-top:35px">
         <div class="row" >
             <div class="" style="background-color: black; color: white; text-align:center;width:99.9%">
                 <span>
@@ -1072,15 +1073,13 @@
                 </p>
             </div>
         </div>
-
         <div class="row" style="margin-top:15px">
-            <div style="background-color:#F1F1F1;width:99.84%">
+            <div class="top-border left-border right-border" style="background-color:#F1F1F1;width:99.86%">
                 <b>
                     CURRENT (MOST RECENT) EMPLOYER
                 </b>
             </div>
         </div>
-
         {% if data.employmentHistory and data.employmentHistory[0] %}
             <div class="row">
                 <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
@@ -1090,7 +1089,7 @@
                 </div>
                 <div  class="col-xs-6 top-border left-border pl-0">
                     <span style="position:absolute; bottom:0">
-                        {{data.employmentHistory[0].}}
+                        {{data.employmentHistory[0].employmentHistorycompanyName}}
                     </span>
                 </div>
                 <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
@@ -1100,13 +1099,1202 @@
                 </div>
                 <div  class="col-xs-4 top-border left-border pl-0 right-border">
                     <span style="position:absolute; bottom:0">
-                        PHONE
+                        {{data.employmentHistory[0].employmentHistorycompanyPhone}}
                     </span>
                 </div>
             </div>
+            <div class="row">
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        ADDRESS
+                    </span>
+                </div>
+                <div  class="col-xs-11 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+                        {{data.employmentHistory[0].employmentHistoryaddress}}
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div  class="col-xs-2 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        POSITION HELD
+                    </span>
+                </div>
+                <div  class="col-xs-4 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                        {{data.employmentHistory[0].employmentHistoryposition}}
+                    </span>
+                </div>
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        FROM <br> MO/YR
+                    </span>
+                </div>
+                <div  class="col-xs-2 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                        {{data.employmentHistory[0].employmentHistoryfrom}}
+                    </span>
+                </div>
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        TO <br> MO/YR
+                    </span>
+                </div>
+                <div  class="col-xs-2 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+                        {{data.employmentHistory[0].employmentHistoryTo}}
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        REASON FOR LEAVING
+                    </span>
+                </div>
+                <div class="col-xs-6 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                        {{data.employmentHistory[0].employmentHistoryreasonForLeaving}}
+                    </span>
+                </div>
+                <div class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        SALARY
+                    </span>
+                </div>
+                <div class="col-xs-2 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 top-border left-border pl-0" style="background-color:#F1F1F1;height:60px">
+                    <span style="">
+                        EXPLAIN ANY GAPS IN
+                        EMPLOYMENT (Include
+                        month/year & reason)
+                    </span>
+                </div>
+                <div class="col-xs-9 top-border left-border pl-0 right-border" style="height:60px">
+                    <span style="position:absolute; bottom:0">
+
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-9 top-border left-border pl-0">
+                    <p style="padding-left:5px">
+                        While employed here, were you subject to the Federal Motor Carrier Safety Regulations?
+                    </p>
+                </div>
+                <div class="col-xs-3 top-border pl-0 right-border">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            {% if data.employmentHistory[0].employmentHistorysubjecttotheFMCSRs == 'Yes' %}
+                                <input type="checkbox" style="margin-right:15px; float:left" checked >
+                                <span>YES</span>
+                            {% else %}
+                                <input type="checkbox" style="margin-right:15px; float:left" >
+                                <span>YES</span>
+                            {% endif %}
+                        </div>
+                        <div class="col-xs-6">
+                            {% if data.employmentHistory[0].employmentHistorysubjecttotheFMCSRs == 'No' %}
+                                <input type="checkbox" style="margin-right:15px; float:left" checked >
+                                <span>NO</span>
+                            {% else %}
+                                <input type="checkbox" style="margin-right:15px; float:left" >
+                                <span>NO</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-9 bottom-border left-border pl-0">
+                    <p style="padding-left:5px">
+                        Was the job designated as a safety-sensitive function in any Department of Transportation-regulated
+                        mode subject to alcohol and controlled substancestesting asrequired by 49 CFR, part 40?
+                    </p>
+                </div>
+                <div class="col-xs-3 pl-0 bottom-border right-border">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            {% if data.employmentHistory[0].employmentHistorydrugandalcoholTesting == 'Yes' %}
+                                <input type="checkbox" style="margin-right:15px; float:left" checked >
+                                <span>YES</span>
+                            {% else %}
+                                <input type="checkbox" style="margin-right:15px; float:left" >
+                                <span>YES</span>
+                            {% endif %}
+                        </div>
+                        <div class="col-xs-6">
+                            {% if data.employmentHistory[0].employmentHistorydrugandalcoholTesting == 'No' %}
+                                <input type="checkbox" style="margin-right:15px; float:left" checked >
+                                <span>NO</span>
+                            {% else %}
+                                <input type="checkbox" style="margin-right:15px; float:left" >
+                                <span>NO</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% else %}
+            <div class="row">
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        NAME
+                    </span>
+                </div>
+                <div  class="col-xs-6 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        PHONE
+                    </span>
+                </div>
+                <div  class="col-xs-4 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        ADDRESS
+                    </span>
+                </div>
+                <div  class="col-xs-11 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div  class="col-xs-2 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        POSITION HELD
+                    </span>
+                </div>
+                <div  class="col-xs-4 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        FROM <br> MO/YR
+                    </span>
+                </div>
+                <div  class="col-xs-2 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        TO <br> MO/YR
+                    </span>
+                </div>
+                <div  class="col-xs-2 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        REASON FOR LEAVING
+                    </span>
+                </div>
+                <div class="col-xs-6 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+                <div class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        SALARY
+                    </span>
+                </div>
+                <div class="col-xs-2 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 top-border left-border pl-0" style="background-color:#F1F1F1;height:60px">
+                    <span style="">
+                        EXPLAIN ANY GAPS IN
+                        EMPLOYMENT (Include
+                        month/year & reason)
+                    </span>
+                </div>
+                <div class="col-xs-9 top-border left-border pl-0 right-border" style="height:60px">
+                    <span style="position:absolute; bottom:0">
+
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-9 top-border left-border pl-0">
+                    <p style="padding-left:5px">
+                        While employed here, were you subject to the Federal Motor Carrier Safety Regulations?
+                    </p>
+                </div>
+                <div class="col-xs-3 top-border pl-0 right-border">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <input type="checkbox" style="margin-right:15px; float:left" >
+                            <span>YES</span>
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="checkbox" style="margin-right:15px; float:left" >
+                            <span>NO</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-9 bottom-border left-border pl-0">
+                    <p style="padding-left:5px">
+                        Was the job designated as a safety-sensitive function in any Department of Transportation-regulated
+                        mode subject to alcohol and controlled substancestesting asrequired by 49 CFR, part 40?
+                    </p>
+                </div>
+                <div class="col-xs-3 pl-0 bottom-border right-border">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <input type="checkbox" style="margin-right:15px; float:left" >
+                            <span>YES</span>
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="checkbox" style="margin-right:15px; float:left" >
+                            <span>NO</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% endif %}
+
+        <!--  Footer Dw4 2 Start  -->
+        <div id="dwfooter2" style="margin-top:45px; margin-bottom:25px">
+            <div class="row">
+                <div class="col-xs-12" style="text-align:right">
+                    <div class="row">
+                        <p>Page 2 of 4</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  Footer Dw4 2  End -->
+        <br/>
+        <br/>
+                <!--  Second Employemeny History      -->
+
+        <div class="row" style="margin-top:25px">
+            <div class="top-border left-border right-border" style="background-color:#F1F1F1;width:99.86%">
+                <b>
+                    Second (MOST RECENT) EMPLOYER
+                </b>
+            </div>
+        </div>
+        {% if data.employmentHistory and data.employmentHistory[1] %}
+            <div class="row">
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        NAME
+                    </span>
+                </div>
+                <div  class="col-xs-6 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                        {{data.employmentHistory[1].employmentHistorycompanyName}}
+                    </span>
+                </div>
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        PHONE
+                    </span>
+                </div>
+                <div  class="col-xs-4 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+                        {{data.employmentHistory[1].employmentHistorycompanyPhone}}
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        ADDRESS
+                    </span>
+                </div>
+                <div  class="col-xs-11 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+                        {{data.employmentHistory[1].employmentHistoryaddress}}
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div  class="col-xs-2 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        POSITION HELD
+                    </span>
+                </div>
+                <div  class="col-xs-4 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                        {{data.employmentHistory[1].employmentHistoryposition}}
+                    </span>
+                </div>
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        FROM <br> MO/YR
+                    </span>
+                </div>
+                <div  class="col-xs-2 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                        {{data.employmentHistory[1].employmentHistoryfrom}}
+                    </span>
+                </div>
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        TO <br> MO/YR
+                    </span>
+                </div>
+                <div  class="col-xs-2 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+                        {{data.employmentHistory[1].employmentHistoryTo}}
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        REASON FOR LEAVING
+                    </span>
+                </div>
+                <div class="col-xs-6 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                        {{data.employmentHistory[1].employmentHistoryreasonForLeaving}}
+                    </span>
+                </div>
+                <div class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        SALARY
+                    </span>
+                </div>
+                <div class="col-xs-2 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 top-border left-border pl-0" style="background-color:#F1F1F1;height:60px">
+                    <span style="">
+                        EXPLAIN ANY GAPS IN
+                        EMPLOYMENT (Include
+                        month/year & reason)
+                    </span>
+                </div>
+                <div class="col-xs-9 top-border left-border pl-0 right-border" style="height:60px">
+                    <span style="position:absolute; bottom:0">
+
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-9 top-border left-border pl-0">
+                    <p style="padding-left:5px">
+                        While employed here, were you subject to the Federal Motor Carrier Safety Regulations?
+                    </p>
+                </div>
+                <div class="col-xs-3 top-border pl-0 right-border">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            {% if data.employmentHistory[1].employmentHistorysubjecttotheFMCSRs == 'Yes' %}
+                                <input type="checkbox" style="margin-right:15px; float:left" checked >
+                                <span>YES</span>
+                            {% else %}
+                                <input type="checkbox" style="margin-right:15px; float:left" >
+                                <span>YES</span>
+                            {% endif %}
+                        </div>
+                        <div class="col-xs-6">
+                            {% if data.employmentHistory[1].employmentHistorysubjecttotheFMCSRs == 'No' %}
+                                <input type="checkbox" style="margin-right:15px; float:left" checked >
+                                <span>NO</span>
+                            {% else %}
+                                <input type="checkbox" style="margin-right:15px; float:left" >
+                                <span>NO</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-9 bottom-border left-border pl-0">
+                    <p style="padding-left:5px">
+                        Was the job designated as a safety-sensitive function in any Department of Transportation-regulated
+                        mode subject to alcohol and controlled substancestesting asrequired by 49 CFR, part 40?
+                    </p>
+                </div>
+                <div class="col-xs-3 pl-0 bottom-border right-border">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            {% if data.employmentHistory[1].employmentHistorydrugandalcoholTesting == 'Yes' %}
+                                <input type="checkbox" style="margin-right:15px; float:left" checked >
+                                <span>YES</span>
+                            {% else %}
+                                <input type="checkbox" style="margin-right:15px; float:left" >
+                                <span>YES</span>
+                            {% endif %}
+                        </div>
+                        <div class="col-xs-6">
+                            {% if data.employmentHistory[1].employmentHistorydrugandalcoholTesting == 'No' %}
+                                <input type="checkbox" style="margin-right:15px; float:left" checked >
+                                <span>NO</span>
+                            {% else %}
+                                <input type="checkbox" style="margin-right:15px; float:left" >
+                                <span>NO</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        NAME
+                    </span>
+                </div>
+                <div  class="col-xs-6 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        PHONE
+                    </span>
+                </div>
+                <div  class="col-xs-4 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        ADDRESS
+                    </span>
+                </div>
+                <div  class="col-xs-11 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div  class="col-xs-2 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        POSITION HELD
+                    </span>
+                </div>
+                <div  class="col-xs-4 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        FROM <br> MO/YR
+                    </span>
+                </div>
+                <div  class="col-xs-2 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        TO <br> MO/YR
+                    </span>
+                </div>
+                <div  class="col-xs-2 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        REASON FOR LEAVING
+                    </span>
+                </div>
+                <div class="col-xs-6 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+                <div class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        SALARY
+                    </span>
+                </div>
+                <div class="col-xs-2 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 top-border left-border pl-0" style="background-color:#F1F1F1;height:60px">
+                    <span style="">
+                        EXPLAIN ANY GAPS IN
+                        EMPLOYMENT (Include
+                        month/year & reason)
+                    </span>
+                </div>
+                <div class="col-xs-9 top-border left-border pl-0 right-border" style="height:60px">
+                    <span style="position:absolute; bottom:0">
+
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-9 top-border left-border pl-0">
+                    <p style="padding-left:5px">
+                        While employed here, were you subject to the Federal Motor Carrier Safety Regulations?
+                    </p>
+                </div>
+                <div class="col-xs-3 top-border pl-0 right-border">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <input type="checkbox" style="margin-right:15px; float:left" >
+                            <span>YES</span>
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="checkbox" style="margin-right:15px; float:left" >
+                            <span>NO</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-9 bottom-border left-border pl-0">
+                    <p style="padding-left:5px">
+                        Was the job designated as a safety-sensitive function in any Department of Transportation-regulated
+                        mode subject to alcohol and controlled substancestesting asrequired by 49 CFR, part 40?
+                    </p>
+                </div>
+                <div class="col-xs-3 pl-0 bottom-border right-border">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <input type="checkbox" style="margin-right:15px; float:left" >
+                            <span>YES</span>
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="checkbox" style="margin-right:15px; float:left" >
+                            <span>NO</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <!--   Third Employment History     -->
+        <div class="row" style="margin-top:25px">
+            <div class="top-border left-border right-border" style="background-color:#F1F1F1;width:99.86%">
+                <b>
+                    Third (MOST RECENT) EMPLOYER
+                </b>
+            </div>
+        </div>
+        {% if data.employmentHistory and data.employmentHistory[2] %}
+            <div class="row">
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        NAME
+                    </span>
+                </div>
+                <div  class="col-xs-6 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                        {{data.employmentHistory[2].employmentHistorycompanyName}}
+                    </span>
+                </div>
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        PHONE
+                    </span>
+                </div>
+                <div  class="col-xs-4 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+                        {{data.employmentHistory[2].employmentHistorycompanyPhone}}
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        ADDRESS
+                    </span>
+                </div>
+                <div  class="col-xs-11 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+                        {{data.employmentHistory[2].employmentHistoryaddress}}
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div  class="col-xs-2 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        POSITION HELD
+                    </span>
+                </div>
+                <div  class="col-xs-4 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                        {{data.employmentHistory[2].employmentHistoryposition}}
+                    </span>
+                </div>
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        FROM <br> MO/YR
+                    </span>
+                </div>
+                <div  class="col-xs-2 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                        {{data.employmentHistory[2].employmentHistoryfrom}}
+                    </span>
+                </div>
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        TO <br> MO/YR
+                    </span>
+                </div>
+                <div  class="col-xs-2 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+                        {{data.employmentHistory[2].employmentHistoryTo}}
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        REASON FOR LEAVING
+                    </span>
+                </div>
+                <div class="col-xs-6 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                        {{data.employmentHistory[2].employmentHistoryreasonForLeaving}}
+                    </span>
+                </div>
+                <div class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        SALARY
+                    </span>
+                </div>
+                <div class="col-xs-2 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 top-border left-border pl-0" style="background-color:#F1F1F1;height:60px">
+                    <span style="">
+                        EXPLAIN ANY GAPS IN
+                        EMPLOYMENT (Include
+                        month/year & reason)
+                    </span>
+                </div>
+                <div class="col-xs-9 top-border left-border pl-0 right-border" style="height:60px">
+                    <span style="position:absolute; bottom:0">
+
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-9 top-border left-border pl-0">
+                    <p style="padding-left:5px">
+                        While employed here, were you subject to the Federal Motor Carrier Safety Regulations?
+                    </p>
+                </div>
+                <div class="col-xs-3 top-border pl-0 right-border">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            {% if data.employmentHistory[2].employmentHistorysubjecttotheFMCSRs == 'Yes' %}
+                                <input type="checkbox" style="margin-right:15px; float:left" checked >
+                                <span>YES</span>
+                            {% else %}
+                                <input type="checkbox" style="margin-right:15px; float:left" >
+                                <span>YES</span>
+                            {% endif %}
+                        </div>
+                        <div class="col-xs-6">
+                            {% if data.employmentHistory[2].employmentHistorysubjecttotheFMCSRs == 'No' %}
+                                <input type="checkbox" style="margin-right:15px; float:left" checked >
+                                <span>NO</span>
+                            {% else %}
+                                <input type="checkbox" style="margin-right:15px; float:left" >
+                                <span>NO</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-9 bottom-border left-border pl-0">
+                    <p style="padding-left:5px">
+                        Was the job designated as a safety-sensitive function in any Department of Transportation-regulated
+                        mode subject to alcohol and controlled substancestesting asrequired by 49 CFR, part 40?
+                    </p>
+                </div>
+                <div class="col-xs-3 pl-0 bottom-border right-border">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            {% if data.employmentHistory[2].employmentHistorydrugandalcoholTesting == 'Yes' %}
+                                <input type="checkbox" style="margin-right:15px; float:left" checked >
+                                <span>YES</span>
+                            {% else %}
+                                <input type="checkbox" style="margin-right:15px; float:left" >
+                                <span>YES</span>
+                            {% endif %}
+                        </div>
+                        <div class="col-xs-6">
+                            {% if data.employmentHistory[2].employmentHistorydrugandalcoholTesting == 'No' %}
+                                <input type="checkbox" style="margin-right:15px; float:left" checked >
+                                <span>NO</span>
+                            {% else %}
+                                <input type="checkbox" style="margin-right:15px; float:left" >
+                                <span>NO</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        NAME
+                    </span>
+                </div>
+                <div  class="col-xs-6 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        PHONE
+                    </span>
+                </div>
+                <div  class="col-xs-4 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        ADDRESS
+                    </span>
+                </div>
+                <div  class="col-xs-11 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div  class="col-xs-2 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        POSITION HELD
+                    </span>
+                </div>
+                <div  class="col-xs-4 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        FROM <br> MO/YR
+                    </span>
+                </div>
+                <div  class="col-xs-2 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+                <div  class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        TO <br> MO/YR
+                    </span>
+                </div>
+                <div  class="col-xs-2 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        REASON FOR LEAVING
+                    </span>
+                </div>
+                <div class="col-xs-6 top-border left-border pl-0">
+                    <span style="position:absolute; bottom:0">
+                    </span>
+                </div>
+                <div class="col-xs-1 top-border left-border pl-0" style="background-color:#F1F1F1">
+                    <span style="position:absolute; bottom:0">
+                        SALARY
+                    </span>
+                </div>
+                <div class="col-xs-2 top-border left-border pl-0 right-border">
+                    <span style="position:absolute; bottom:0">
+
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 top-border left-border pl-0" style="background-color:#F1F1F1;height:60px">
+                    <span style="">
+                        EXPLAIN ANY GAPS IN
+                        EMPLOYMENT (Include
+                        month/year & reason)
+                    </span>
+                </div>
+                <div class="col-xs-9 top-border left-border pl-0 right-border" style="height:60px">
+                    <span style="position:absolute; bottom:0">
+
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-9 top-border left-border pl-0">
+                    <p style="padding-left:5px">
+                        While employed here, were you subject to the Federal Motor Carrier Safety Regulations?
+                    </p>
+                </div>
+                <div class="col-xs-3 top-border pl-0 right-border">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <input type="checkbox" style="margin-right:15px; float:left" >
+                            <span>YES</span>
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="checkbox" style="margin-right:15px; float:left" >
+                            <span>NO</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-9 bottom-border left-border pl-0">
+                    <p style="padding-left:5px">
+                        Was the job designated as a safety-sensitive function in any Department of Transportation-regulated
+                        mode subject to alcohol and controlled substancestesting asrequired by 49 CFR, part 40?
+                    </p>
+                </div>
+                <div class="col-xs-3 pl-0 bottom-border right-border">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <input type="checkbox" style="margin-right:15px; float:left" >
+                            <span>YES</span>
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="checkbox" style="margin-right:15px; float:left" >
+                            <span>NO</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+
+
     </div>
 
+    <!--  EmployeeHistory End   -->
+
+    <!--  Education Start   -->
+
+    <div id="educationHistory" style="margin-top:50px">
+        <div class="row" >
+            <div class="" style="background-color: black; color: white; text-align:center;width:99.86%">
+                <span>
+                    EDUCATION
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-1 top-border left-border" style="background-color:#F1F1F1;height:40px">
+                <span>
+                    SCHOOL
+                </span>
+            </div>
+            <div class="col-xs-3 top-border left-border" style="background-color:#F1F1F1;height:40px">
+                <span style="text-align:center">
+                    NAME & LOCATION
+                </span>
+            </div>
+            <div class="col-xs-2 top-border left-border" style="background-color:#F1F1F1;height:40px">
+                <span style="text-align:center">
+                    COURSE OF STUDY
+                </span>
+            </div>
+            <div class="col-xs-2 top-border left-border" style="background-color:#F1F1F1;height:40px">
+                <span style="text-align:center">
+                    YEARS COMPLETED
+                </span>
+            </div>
+            <div class="col-xs-2 top-border left-border" style="background-color:#F1F1F1;height:40px">
+                <div class="row" style="text-align:center">
+                    <span>
+                        GRADUATE
+                    </span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6" style="text-align:center">
+                        Y
+                    </div>
+                    <div class="col-xs-6" style="text-align:center">
+                        N
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2 top-border left-border right-border" style="background-color:#F1F1F1;height:40px">
+                <span style="text-align:center">
+                    DETAILS
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-1 top-border left-border" style="background-color:#F1F1F1;height:40px">
+                <span>
+                    High School
+                </span>
+            </div>
+            <div class="col-xs-3 top-border left-border" style="background-color:#F1F1F1;height:40px">
+                <span style="text-align:center">
+                </span>
+            </div>
+            <div class="col-xs-2 top-border left-border" style="background-color:#F1F1F1;height:40px">
+                <span style="text-align:center">
+                </span>
+            </div>
+            <div class="col-xs-2 top-border left-border" style="background-color:#F1F1F1;height:40px">
+                <span style="text-align:center">
+                </span>
+            </div>
+            <div class="col-xs-2 top-border left-border" style="background-color:#F1F1F1;height:40px">
+                <div class="row">
+                    <div class="col-xs-6 right-border" style="align-items:center">
+                        <div style="border:1px solid black; height:15px; width:15px;margin-top:14px;margin-bottom:10px;margin-left:21px;margin-right: 23px"></div>
+                    </div>
+                    <div class="col-xs-6 left-border" style="text-align:center">
+                        <div style="border:1px solid black; height:15px; width:15px;margin-top:14px;margin-bottom:10px;margin-left:21px;margin-right: 23px"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2 top-border left-border right-border" style="background-color:#F1F1F1;height:40px">
+                <span style="text-align:center">
+
+                </span>
+            </div>
+        </div>
+        <div class="row" style="border-bottom:1px solid black">
+            <div class="col-xs-1 top-border left-border" style="background-color:#F1F1F1;height:40px">
+                <span>
+                    College
+                </span>
+            </div>
+            <div class="col-xs-3 top-border left-border" style="background-color:#F1F1F1;height:40px">
+                <span style="text-align:center">
+                </span>
+            </div>
+            <div class="col-xs-2 top-border left-border" style="background-color:#F1F1F1;height:40px">
+                <span style="text-align:center">
+                </span>
+            </div>
+            <div class="col-xs-2 top-border left-border" style="background-color:#F1F1F1;height:40px">
+                <span style="text-align:center">
+                </span>
+            </div>
+            <div class="col-xs-2 top-border left-border" style="background-color:#F1F1F1;height:40px">
+                <div class="row">
+                    <div class="col-xs-6 right-border" style="align-items:center">
+                        <div style="border:1px solid black; height:15px; width:15px;margin-top:14px;margin-bottom:10px;margin-left:21px;margin-right: 23px"></div>
+                    </div>
+                    <div class="col-xs-6 left-border" style="text-align:center">
+                        <div style="border:1px solid black; height:15px; width:15px;margin-top:14px;margin-bottom:10px;margin-left:21px;margin-right: 23px"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2 top-border left-border right-border" style="background-color:#F1F1F1;height:40px">
+                <span style="text-align:center">
+
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-1 top-border left-border bottom-border" style="background-color:#F1F1F1;height:40px">
+                <span>
+                    Other
+                </span>
+            </div>
+            <div class="col-xs-3 top-border left-border bottom-border" style="background-color:#F1F1F1;height:40px">
+                <span style="text-align:center">
+                </span>
+            </div>
+            <div class="col-xs-2 top-border left-border bottom-border" style="background-color:#F1F1F1;height:40px">
+                <span style="text-align:center">
+                </span>
+            </div>
+            <div class="col-xs-2 top-border left-border bottom-border" style="background-color:#F1F1F1;height:40px">
+                <span style="text-align:center">
+                </span>
+            </div>
+            <div class="col-xs-2 top-border left-border bottom-border" style="background-color:#F1F1F1;height:40px">
+                <div class="row">
+                    <div class="col-xs-6 right-border" style="align-items:center">
+                        <div style="border:1px solid black; height:15px; width:15px;margin-top:14px;margin-bottom:10px;margin-left:21px;margin-right: 23px"></div>
+                    </div>
+                    <div class="col-xs-6 left-border" style="text-align:center">
+                        <div style="border:1px solid black; height:15px; width:15px;margin-top:14px;margin-bottom:10px;margin-left:21px;margin-right: 23px"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2 top-border left-border right-border bottom-border" style="background-color:#F1F1F1;height:40px">
+                <span style="text-align:center">
+
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div id="extraeducationHistory" style="margin-top:50px">
+        <div class="row" >
+            <div class="col-xs-12" style="background-color: black; color: white; text-align:center">
+                <span>
+                    OTHER QUALIFICATIONS
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12" style="border:1px solid black;height:180px" >
+                <p style="padding-left:5px">
+                    Please list any other qualificationsthat you have and which you believe should be considered.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!--  Education End   -->
+
+    <div id="dwfooter3" style="margin-top:45px; margin-bottom:25px">
+        <div class="row">
+            <div class="col-xs-12" style="text-align:right">
+                <div class="row">
+                    <p>Page 3 of 4</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <br/>
+
+    <!--   TO BE READ AND SIGNED BY APPLICANT Start     -->
+    <div id="apliant" style="margin-top:50px">
+        <div class="row" >
+            <div class="" style="background-color: black; color: white; text-align:center;width:99.84%">
+                <span>
+                    TO BE READ AND SIGNED BY APPLICANT
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="" style="border:1px solid black;width:99.84%" >
+                <p style="padding-left:5px; padding-right:5px; text-align:justify">
+                    I authorize you to make investigations (including contacting current and prior employers) into my personal, employment,
+                    financial, medical history, and other related matters as may be necessary in arriving at an employment decision. I hereby
+                    release employers, schools, health care providers, and other persons from all liability in responding to inquiries and releasing
+                    information in connection with my application
+                </p>
+                <p style="margin-top:20px;padding-left:5px; padding-right:5px; text-align:justify">
+                    In the event of employment, I understand that false or misleading information given in my application or interview(s) may
+                    result in discharge. I also understand that I am required to abide by all rules and regulations of the Company.
+                </p>
+
+                <p style="margin-top:20px;padding-left:5px; padding-right:5px; text-align:justify">
+                    I understand that the information I provide regarding my current and/or prior employers may be used, and those employer(s)
+                    will be contacted for the purpose of investigating my safety performance history as required by 49 CFR 391.23. I understand
+                    that I have the right to:
+                </p>
+                <p style="paddding-left:20px;padding-right:5px;">
+                    <ul>
+                        <li>
+                            Review information provided by current/previous employers;
+                        </li>
+                        <li>
+                            Have errors in the information corrected by previous employers, and for those previous employers to resend the
+                            corrected information to the prospective employer; and
+                        </li>
+                        <li>
+                            Have a rebuttal statement attached to the alleged erroneous information, if the previous employer(s) and I cannot
+                            agree on the accuracy of the information.
+                        </li>
+                    </ul>
+                </p>
+                <p style="margin-top:20px;padding-left:5p;padding-right:5px; text-align:justify">
+                   This certifies that I completed this application, and that all entries on it and information in it are true and complete to the best
+                    of my knowledge. Note: A motor carrier may require an applicant to provide more information than that required by the
+                    Federal Motor Carrier Safety Regulations
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2 left-border pl-0" style="background-color:#F1F1F1">
+                <span style="bottom:0; position:absolute">
+                    Applicant Signature
+                </span>
+            </div>
+            <div class="col-xs-6 left-border pl-0">
+                <span style="bottom:0; position:absolute">
+                    <img src={{data.signature}} alt={{data.user_name}} width="40px"; height="25px" style="margin-top:5px">
+                </span>
+            </div>
+            <div class="col-xs-1 left-border pl-0" style="background-color:#F1F1F1">
+                <span style="bottom:0; position:absolute">
+                    Date
+                </span>
+            </div>
+            <div class="col-xs-3 left-border right-border pl-0">
+                <span style="bottom:0; position:absolute">
+                    {{data.todayDate}}
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2 top-border left-border pl-0 bottom-border" style="background-color:#F1F1F1">
+                <span style="bottom:0; position:absolute">
+                    Applicant Name (printed)
+                </span>
+            </div>
+            <div class="col-xs-10 top-border left-border right-border bottom-border pl-0">
+                <span style="bottom:0; position:absolute">
+                    {{data.todayDate}}
+                </span>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <!--   TO BE READ AND SIGNED BY APPLICANT End     -->
+    <div id="dwfooter4" style="margin-top:750px; margin-bottom:25px">
+        <div class="row">
+            <div class="col-xs-12" style="text-align:right">
+                <div class="row">
+                    <p>Page 4 of 4</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

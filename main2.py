@@ -21,7 +21,7 @@ app.config['MONGODB_SETTINGS'] = {
 }
 db = MongoEngine()
 db.init_app(app)
-PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
+PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/wkhtmltopdf/bin/wkhtmltopdf.exe')
 # PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
 
 ######################################Start Models########################################################
@@ -244,7 +244,7 @@ class DriversData(db.Document):
 
     #editable
     isEditable = db.StringField()
-
+    isDeleted = db.StringField()
 
     def to_json(self):
         return {"data": self}
@@ -410,7 +410,7 @@ def form_i9_data(user):
             "issuance_country": issuance_country
         },
         'formi9': True,
-        'driver_employ': True,
+        'driver_employ': False,
     }
     return data
 
@@ -741,11 +741,42 @@ def update_record():
 def delete_record():
     record = json.loads(request.data)
     user = DriversData.objects(user_name=record['user_name']).first()
-    if not user:
+    if not user and user.isDeleted == 'True':
         return jsonify({'error': 'user not found'})
     else:
-        user.delete()
-    return jsonify({"message":"Delete User "+record['user_name']+"Successfully"})
+        upload_folder = './files_upload'
+        # user.licences.clear()
+        # user.references.clear()
+        # user.addresses.clear()
+        # user.employmentHistory.clear()
+        # user.applicantAddresses.clear()
+        # user.employmentExperienceHistory.clear()
+        # user.employmentAccidentsHistory.clear()
+        # user.violations.clear()
+        # # chk_file = None
+        # try:
+        #     chk_file = os.path.join(upload_folder, user.user_name + "/" + str(user.resume))
+        #     os.remove(chk_file)
+        # except:
+        #     print ("No Resume Found")
+        # try:
+        #     chk_file = os.path.join(upload_folder, user.user_name + "/" + str(user.dodMedicalCardFile))
+        #     os.remove(chk_file)
+        # except:
+        #     print("No dodMedicalCardFile Found")
+        # try:
+        #     chk_file = os.path.join(upload_folder, user.user_name + "/" + str(user.driverLicenceFile))
+        #     os.remove(chk_file)
+        # except:
+        #     print("No driverLicenceFile Found")
+        # try:
+        #     chk_file = os.path.join(upload_folder, user.user_name + "/" + str(user.dmvFile))
+        #     os.remove(chk_file)
+        # except:
+        #     print("No dmvFile Found")
+
+        user.update(isDeleted = 'True')
+        return jsonify({"message":"Delete User "+record['user_name']+" Successfully"})
 
 @app.route('/api/register', methods=['PUT'])
 @cross_origin()
@@ -858,14 +889,15 @@ def new_employeee_pdf():
             "NumberofDependantsOver17": NumberofDependantsOver17,
 
         }
-        html = render_template("new_employee.html", data=data)
-        pdf = pdfkit.from_string(html, False, configuration=PDFKIT_CONFIGURATION )
-        # pdf = pdfkit.from_string(html, False)
-        resp = make_response(pdf)
-        resp.headers['Content-Type'] = 'application/pdf'
-        resp.headers['Content-Disposition'] = 'attachment; filename=new_employee '+u_name+'.pdf'
-
-        return resp
+        try:
+            html = render_template("new_employee.html", data=data)
+            pdf = pdfkit.from_string(html, False, configuration=PDFKIT_CONFIGURATION)
+            resp = make_response(pdf)
+            resp.headers['Content-Type'] = 'application/pdf'
+            resp.headers['Content-Disposition'] = 'attachment; filename=new_employee ' + u_name + '.pdf'
+            return resp
+        except:
+            return jsonify({'error': 'Unable To Make Pdf of ' + u_name})
     else:
         return json.dumps({"message": "Invalid Data", "code": "201"})
 
@@ -884,15 +916,18 @@ def form_i_9():
             'margin-top': '1.8cm',
             'margin-bottom': '0cm',
             'margin-left': '0.5cm',
-            'margin-right': '0.5cm'
+            'margin-right': '0.5cm',
+            "enable-local-file-access": ""
         }
-        html = render_template("style_css.html", data=data)
-        pdf = pdfkit.from_string(html, False, options=options, configuration=PDFKIT_CONFIGURATION)
-        resp = make_response(pdf)
-        resp.headers['Content-Type'] = 'application/pdf'
-        resp.headers['Content-Disposition'] = 'attachment; filename=formi9'+u_name+'.pdf'
-        return resp
-
+        try:
+            html = render_template("formi9.html", data=data)
+            pdf = pdfkit.from_string(html, False, options=options, configuration=PDFKIT_CONFIGURATION)
+            resp = make_response(pdf)
+            resp.headers['Content-Type'] = 'application/pdf'
+            resp.headers['Content-Disposition'] = 'attachment; filename=formi9'+u_name+'.pdf'
+            return resp
+        except:
+            return jsonify({'error': 'Unable To Make Pdf of formi9'+u_name})
     else:
         return jsonify({'error': 'Invalid Data'})
 
@@ -911,15 +946,19 @@ def driver_employ():
             'margin-top': '1.8cm',
             'margin-bottom': '0cm',
             'margin-left': '0.5cm',
-            'margin-right': '0.5cm'
+            'margin-right': '0.5cm',
+            "enable-local-file-access": ""
         }
         data['formi9'] = False
-        html = render_template("style_css.html", data=data)
-        pdf = pdfkit.from_string(html, False, options=options, configuration=PDFKIT_CONFIGURATION)
-        resp = make_response(pdf)
-        resp.headers['Content-Type'] = 'application/pdf'
-        resp.headers['Content-Disposition'] = 'attachment; filename=driver_employ '+u_name+'.pdf'
-        return resp
+        try:
+            html = render_template("style_css.html", data=data)
+            pdf = pdfkit.from_string(html, False, options=options, configuration=PDFKIT_CONFIGURATION)
+            resp = make_response(pdf)
+            resp.headers['Content-Type'] = 'application/pdf'
+            resp.headers['Content-Disposition'] = 'attachment; filename=formi9' + u_name + '.pdf'
+            return resp
+        except:
+            return jsonify({'error': 'Unable To Make Pdf of Driver Employment ' + u_name})
 
     else:
         return jsonify({'error': 'Invalid Data'})

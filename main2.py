@@ -34,6 +34,7 @@ class EmploymentHistory(db.EmbeddedDocument):
     employmentHistoryposition = db.StringField()
     employmentHistoryaddress = db.StringField()
     employmentHistorycompanyPhone = db.StringField()
+    employmentHistorycompanyName = db.StringField()
     employmentHistoryreasonForLeaving = db.StringField()
     employmentHistorysubjecttotheFMCSRs = db.StringField()
     employmentHistorydrugandalcoholTesting = db.StringField()
@@ -320,6 +321,22 @@ def form_i9_data(user):
         accidents = user.employmentAccidentsHistory[:3]
         for li in accidents:
             li.dateOfAccident = str(li.dateOfAccident.strftime("%m/%d/%Y"))
+    violations = None
+    if len(user.violations) > 0:
+        violations = user.violations[:4]
+        for li in violations:
+            li.dateOfViolation = str(li.dateOfViolation.strftime("%m/%d/%Y"))
+
+    employmentHistory = None
+    if len(user.employmentHistory) > 0:
+        employmentHistory = user.employmentHistory[:3]
+        for li in employmentHistory:
+            li.employmentHistoryfrom = str(li.employmentHistoryfrom.strftime("%m/%d/%Y"))
+            li.employmentHistoryTo = str(li.employmentHistoryTo.strftime("%m/%d/%Y"))
+
+    deniedLicences = user.deniedLicences
+    permitLicences = user.permitLicences
+    #extra field data
     alien_registration_number = user.alien_registration_number
     formi94_reg_number = user.formi94_reg_number
     foreign_passport_number = user.foreign_passport_number
@@ -380,6 +397,10 @@ def form_i9_data(user):
         'addresses': addresses,
         'licences': licences,
         'accidents': accidents,
+        'violations': violations,
+        'deniedLicences': deniedLicences,
+        'permitLicences': permitLicences,
+        'employmentHistory': employmentHistory,
         "page_no": "Page 1 of 3",
         'additional_data': {
             "united_state_citizen": united_state_citizen,

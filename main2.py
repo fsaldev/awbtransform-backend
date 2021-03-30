@@ -13,15 +13,12 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['MONGODB_SETTINGS'] = {
-   # 'db': 'awbtransport',
-   #'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
-    'db': 'awbtransport',
+     'db': 'awbtransport',
      'host': 'localhost',
-    'port': 27017
+     'port': 27017
 }
 db = MongoEngine()
 db.init_app(app)
-#PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
 PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
 
 ######################################Start Models########################################################
@@ -34,6 +31,7 @@ class EmploymentHistory(db.EmbeddedDocument):
     employmentHistoryposition = db.StringField()
     employmentHistoryaddress = db.StringField()
     employmentHistorycompanyPhone = db.StringField()
+    employmentHistorycompanyName = db.StringField()
     employmentHistoryreasonForLeaving = db.StringField()
     employmentHistorysubjecttotheFMCSRs = db.StringField()
     employmentHistorydrugandalcoholTesting = db.StringField()
@@ -243,7 +241,7 @@ class DriversData(db.Document):
 
     #editable
     isEditable = db.StringField()
-
+    isDeleted = db.StringField()
 
     def to_json(self):
         return {"data": self}
@@ -266,11 +264,7 @@ def string_to_date(record_string):
     try:
         dt = datetime.strptime(record_string, "%Y-%m-%d")
     except:
-        try:
-            dt = datetime.strptime(record_string, "%Y-%m-%d")
-        except:
-            dt = "Invalid Date Format"
-        dt = "Invalid Date Format"
+        dt = ""
     return dt
 
 def form_i9_data(user):
@@ -320,6 +314,22 @@ def form_i9_data(user):
         accidents = user.employmentAccidentsHistory[:3]
         for li in accidents:
             li.dateOfAccident = str(li.dateOfAccident.strftime("%m/%d/%Y"))
+    violations = None
+    if len(user.violations) > 0:
+        violations = user.violations[:4]
+        for li in violations:
+            li.dateOfViolation = str(li.dateOfViolation.strftime("%m/%d/%Y"))
+
+    employmentHistory = None
+    if len(user.employmentHistory) > 0:
+        employmentHistory = user.employmentHistory[:3]
+        for li in employmentHistory:
+            li.employmentHistoryfrom = str(li.employmentHistoryfrom.strftime("%m/%d/%Y"))
+            li.employmentHistoryTo = str(li.employmentHistoryTo.strftime("%m/%d/%Y"))
+
+    deniedLicences = user.deniedLicences
+    permitLicences = user.permitLicences
+    #extra field data
     alien_registration_number = user.alien_registration_number
     formi94_reg_number = user.formi94_reg_number
     foreign_passport_number = user.foreign_passport_number
@@ -380,6 +390,10 @@ def form_i9_data(user):
         'addresses': addresses,
         'licences': licences,
         'accidents': accidents,
+        'violations': violations,
+        'deniedLicences': deniedLicences,
+        'permitLicences': permitLicences,
+        'employmentHistory': employmentHistory,
         "page_no": "Page 1 of 3",
         'additional_data': {
             "united_state_citizen": united_state_citizen,
@@ -393,7 +407,7 @@ def form_i9_data(user):
             "issuance_country": issuance_country
         },
         'formi9': True,
-        'driver_employ': True,
+        'driver_employ': False,
     }
     return data
 
@@ -630,9 +644,13 @@ def update_record():
     if 'alcoholTestExecutionDate' in record:
         record["alcoholTestExecutionDate"] = string_to_date(record["alcoholTestExecutionDate"])
     if 'employeeDate' in record:
-        record["employeeDate"] = string_to_date(record["employeeDate"])
+        rt = string_to_date(record["employeeDate"])
+        if rt == '':
+            record["employeeDate"] = None
     if 'nameOfPersonProvidingInformationDate' in record:
-        record['nameOfPersonProvidingInformationDate'] = string_to_date(record['nameOfPersonProvidingInformationDate'])
+        rt = string_to_date(record['nameOfPersonProvidingInformationDate'])
+        if rt == '':
+            record["nameOfPersonProvidingInformationDate"] = None
     if 'dateofBirth' in record:
         record['dateofBirth'] = string_to_date(record['dateofBirth'])
     user = DriversData.objects(user_name=record['user_name']).first()
@@ -720,11 +738,42 @@ def update_record():
 def delete_record():
     record = json.loads(request.data)
     user = DriversData.objects(user_name=record['user_name']).first()
-    if not user:
+    if not user and user.isDeleted == 'True':
         return jsonify({'error': 'user not found'})
     else:
-        user.delete()
-    return jsonify({"message":"Delete User "+record['user_name']+"Successfully"})
+        upload_folder = './files_upload'
+        # user.licences.clear()
+        # user.references.clear()
+        # user.addresses.clear()
+        # user.employmentHistory.clear()
+        # user.applicantAddresses.clear()
+        # user.employmentExperienceHistory.clear()
+        # user.employmentAccidentsHistory.clear()
+        # user.violations.clear()
+        # # chk_file = None
+        # try:
+        #     chk_file = os.path.join(upload_folder, user.user_name + "/" + str(user.resume))
+        #     os.remove(chk_file)
+        # except:
+        #     print ("No Resume Found")
+        # try:
+        #     chk_file = os.path.join(upload_folder, user.user_name + "/" + str(user.dodMedicalCardFile))
+        #     os.remove(chk_file)
+        # except:
+        #     print("No dodMedicalCardFile Found")
+        # try:
+        #     chk_file = os.path.join(upload_folder, user.user_name + "/" + str(user.driverLicenceFile))
+        #     os.remove(chk_file)
+        # except:
+        #     print("No driverLicenceFile Found")
+        # try:
+        #     chk_file = os.path.join(upload_folder, user.user_name + "/" + str(user.dmvFile))
+        #     os.remove(chk_file)
+        # except:
+        #     print("No dmvFile Found")
+
+        user.update(isDeleted = 'True')
+        return jsonify({"message":"Delete User "+record['user_name']+" Successfully"})
 
 @app.route('/api/register', methods=['PUT'])
 @cross_origin()
@@ -837,14 +886,15 @@ def new_employeee_pdf():
             "NumberofDependantsOver17": NumberofDependantsOver17,
 
         }
-        html = render_template("new_employee.html", data=data)
-        pdf = pdfkit.from_string(html, False, configuration=PDFKIT_CONFIGURATION )
-        # pdf = pdfkit.from_string(html, False)
-        resp = make_response(pdf)
-        resp.headers['Content-Type'] = 'application/pdf'
-        resp.headers['Content-Disposition'] = 'attachment; filename=new_employee '+u_name+'.pdf'
-
-        return resp
+        try:
+            html = render_template("new_employee.html", data=data)
+            pdf = pdfkit.from_string(html, False, configuration=PDFKIT_CONFIGURATION)
+            resp = make_response(pdf)
+            resp.headers['Content-Type'] = 'application/pdf'
+            resp.headers['Content-Disposition'] = 'attachment; filename=new_employee ' + u_name + '.pdf'
+            return resp
+        except:
+            return jsonify({'error': 'Unable To Make Pdf of ' + u_name})
     else:
         return json.dumps({"message": "Invalid Data", "code": "201"})
 
@@ -863,15 +913,18 @@ def form_i_9():
             'margin-top': '1.8cm',
             'margin-bottom': '0cm',
             'margin-left': '0.5cm',
-            'margin-right': '0.5cm'
+            'margin-right': '0.5cm',
+            "enable-local-file-access": ""
         }
-        html = render_template("style_css.html", data=data)
-        pdf = pdfkit.from_string(html, False, options=options, configuration=PDFKIT_CONFIGURATION)
-        resp = make_response(pdf)
-        resp.headers['Content-Type'] = 'application/pdf'
-        resp.headers['Content-Disposition'] = 'attachment; filename=formi9'+u_name+'.pdf'
-        return resp
-
+        try:
+            html = render_template("formi9.html", data=data)
+            pdf = pdfkit.from_string(html, False, options=options, configuration=PDFKIT_CONFIGURATION)
+            resp = make_response(pdf)
+            resp.headers['Content-Type'] = 'application/pdf'
+            resp.headers['Content-Disposition'] = 'attachment; filename=formi9'+u_name+'.pdf'
+            return resp
+        except:
+            return jsonify({'error': 'Unable To Make Pdf of formi9'+u_name})
     else:
         return jsonify({'error': 'Invalid Data'})
 
@@ -890,15 +943,19 @@ def driver_employ():
             'margin-top': '1.8cm',
             'margin-bottom': '0cm',
             'margin-left': '0.5cm',
-            'margin-right': '0.5cm'
+            'margin-right': '0.5cm',
+            "enable-local-file-access": ""
         }
         data['formi9'] = False
-        html = render_template("style_css.html", data=data)
-        pdf = pdfkit.from_string(html, False, options=options, configuration=PDFKIT_CONFIGURATION)
-        resp = make_response(pdf)
-        resp.headers['Content-Type'] = 'application/pdf'
-        resp.headers['Content-Disposition'] = 'attachment; filename=driver_employ '+u_name+'.pdf'
-        return resp
+        try:
+            html = render_template("style_css.html", data=data)
+            pdf = pdfkit.from_string(html, False, options=options, configuration=PDFKIT_CONFIGURATION)
+            resp = make_response(pdf)
+            resp.headers['Content-Type'] = 'application/pdf'
+            resp.headers['Content-Disposition'] = 'attachment; filename=formi9' + u_name + '.pdf'
+            return resp
+        except:
+            return jsonify({'error': 'Unable To Make Pdf of Driver Employment ' + u_name})
 
     else:
         return jsonify({'error': 'Invalid Data'})

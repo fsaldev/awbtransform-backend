@@ -278,36 +278,36 @@ def form_i9_data(user):
     expireson = "2021-03-13"
     img_string = image_file_path_to_base64_string('./templates/img/logo.gif')
     stop_img_string = image_file_path_to_base64_string('./templates/img/stop.png')
-    last_name = user.last_name
-    first_name = user.first_name
-    middle = user.last_name
-    address = user.address
-    city = user.city
-    state = user.state
-    zip_code = user.zipCode
-    fromDateAddress = user.fromDateAddress
+    last_name = user.last_name if user.last_name else ''
+    first_name = user.first_name if user.first_name else ''
+    middle = user.last_name if user.last_name else ''
+    address = user.address if user.address else ''
+    city = user.city if user.city else ''
+    state = user.state if user.state else ''
+    zip_code = user.zipCode if user.zipCode else ''
+    fromDateAddress = user.fromDateAddress if user.fromDateAddress else ''
     currentNumberOfYearsAtAddress = ''
-    if fromDateAddress:
+    if fromDateAddress and fromDateAddress !='':
         currentNumberOfYearsAtAddress = str(int(datetime.now().year) - int(fromDateAddress.year))
 
     apt_number = "None"
-    dateofBirth = user.dateofBirth
-    s = split_words(str(user.socialSecurity))
-    phone_number = user.phone_number
-    email = user.email
-    signature = user.signature
-    united_state_citizen = user.united_state_citizen
-    non_united_state_citizen = user.non_united_state_citizen
-    lawful_permanent_resident = user.non_united_state_citizen
-    expiration_date = user.expiration_date
-    alien_authorized = user.alien_authorized
-    applicationApplyAsPosition = user.applicationApplyAsPosition
-    companyName = user.companyName
-    companyAddress = user.companyAddress
-    companyCity = user.companyCity
-    companyState = user.companyState
-    companyPostCode = user.companyPostCode
-    startTime = user.startTime
+    dateofBirth = user.dateofBirth if user.dateofBirth else ''
+    s = split_words(str(user.socialSecurity)) if user.socialSecurity else '0'
+    phone_number = user.phone_number if user.phone_number else ''
+    email = user.email if user.email else ''
+    signature = user.signature if user.signature else ''
+    united_state_citizen = user.united_state_citizen if user.united_state_citizen else ''
+    non_united_state_citizen = user.non_united_state_citizen if user.non_united_state_citizen else ''
+    lawful_permanent_resident = user.lawful_permanent_resident if user.lawful_permanent_resident else ''
+    expiration_date = user.expiration_date if user.expiration_date else ''
+    alien_authorized = user.alien_authorized if user.alien_authorized else ''
+    applicationApplyAsPosition = user.applicationApplyAsPosition if user.applicationApplyAsPosition else ''
+    companyName = user.companyName if user.companyName else ''
+    companyAddress = user.companyAddress if user.companyAddress else ''
+    companyCity = user.companyCity if user.companyCity else ''
+    companyState = user.companyState if user.companyState else ''
+    companyPostCode = user.companyPostCode if user.companyPostCode else ''
+    startTime = user.startTime if user.startTime else ''
     addresses = None
     if len(user.addresses) > 0:
         addresses = user.addresses[:3]
@@ -326,7 +326,6 @@ def form_i9_data(user):
         violations = user.violations[:4]
         for li in violations:
             li.dateOfViolation = str(li.dateOfViolation.strftime("%m/%d/%Y"))
-
     employmentHistory = None
     if len(user.employmentHistory) > 0:
         employmentHistory = user.employmentHistory[:3]
@@ -334,13 +333,13 @@ def form_i9_data(user):
             li.employmentHistoryfrom = str(li.employmentHistoryfrom.strftime("%m/%d/%Y"))
             li.employmentHistoryTo = str(li.employmentHistoryTo.strftime("%m/%d/%Y"))
 
-    deniedLicences = user.deniedLicences
-    permitLicences = user.permitLicences
+    deniedLicences = user.deniedLicences if user.deniedLicences else ''
+    permitLicences = user.permitLicences if user.permitLicences else  ''
     #extra field data
-    alien_registration_number = user.alien_registration_number
-    formi94_reg_number = user.formi94_reg_number
-    foreign_passport_number = user.foreign_passport_number
-    issuance_country = user.issuance_country
+    alien_registration_number = user.alien_registration_number if user.alien_registration_number else ''
+    formi94_reg_number = user.formi94_reg_number if user.formi94_reg_number else ''
+    foreign_passport_number = user.foreign_passport_number if user.foreign_passport_number else ''
+    issuance_country = user.issuance_country if user.issuance_country else ''
     if user.alien_registration_number:
         formi94_reg_number = ''
         foreign_passport_number = ''
@@ -414,7 +413,7 @@ def form_i9_data(user):
             "issuance_country": issuance_country
         },
         'formi9': True,
-        'driver_employ': False,
+        'driver_employ': True,
     }
     return data
 
@@ -887,7 +886,6 @@ def new_employeee_pdf():
             "address": address,
             "NumberofDependantsUnder17": NumberofDependantsUnder17,
             "NumberofDependantsOver17": NumberofDependantsOver17,
-
         }
         try:
             html = render_template("new_employee.html", data=data)
@@ -897,7 +895,7 @@ def new_employeee_pdf():
             resp.headers['Content-Disposition'] = 'attachment; filename=new_employee ' + u_name + '.pdf'
             return resp
         except:
-            return jsonify({'error': 'Unable To Make Pdf of ' + u_name})
+            return jsonify({'error': 'Unable To Make Pdf Please Fill The Data Correctly'})
     else:
         return json.dumps({"message": "Invalid Data", "code": "201"})
 
@@ -920,14 +918,14 @@ def form_i_9():
             "enable-local-file-access": ""
         }
         try:
-            html = render_template("formi9.html", data=data)
+            html = render_template("style_css.html", data=data)
             pdf = pdfkit.from_string(html, False, options=options, configuration=PDFKIT_CONFIGURATION)
             resp = make_response(pdf)
             resp.headers['Content-Type'] = 'application/pdf'
             resp.headers['Content-Disposition'] = 'attachment; filename=formi9'+u_name+'.pdf'
             return resp
         except:
-            return jsonify({'error': 'Unable To Make Pdf of formi9'+u_name})
+            return jsonify({'error': 'Unable To Make Pdf Please Fill The Data Correctly'})
     else:
         return jsonify({'error': 'Invalid Data'})
 
@@ -955,10 +953,10 @@ def driver_employ():
             pdf = pdfkit.from_string(html, False, options=options, configuration=PDFKIT_CONFIGURATION)
             resp = make_response(pdf)
             resp.headers['Content-Type'] = 'application/pdf'
-            resp.headers['Content-Disposition'] = 'attachment; filename=formi9' + u_name + '.pdf'
+            resp.headers['Content-Disposition'] = 'attachment; filename=Driver Employ' + u_name + '.pdf'
             return resp
         except:
-            return jsonify({'error': 'Unable To Make Pdf of Driver Employment ' + u_name})
+            return jsonify({'error': 'Unable To Make Pdf Please Fill The Data Correctly' + u_name})
 
     else:
         return jsonify({'error': 'Invalid Data'})

@@ -6889,19 +6889,17 @@ div[class^="col-xs-"] p {
                 {% include "formi9_page3.html" %}
             {% endwith %}
         </div>
-<!--    {% elif data.driver_employ == True %}-->
-<!--        <div id="driverpage1">-->
-<!--            {% with data=data %}-->
-<!--                {% include "dw1.html" %}-->
-<!--            {% endwith %}-->
-<!--        </div>-->
-<!--    {% else %}-->
-<!--        <div>-->
-<!--            <p>Hellow</p>-->
-<!--        </div>-->
-<!--    {% endif %}-->
-        {% else %}
-        {% endif %}
+    {% elif data.driver_employ == True %}
+        <div id="driverpage1">
+            {% with data=data %}
+                {% include "dw1.html" %}
+            {% endwith %}
+        </div>
+    {% else %}
+        <div>
+            <p>Hellow</p>
+        </div>
+    {% endif %}
 
 </body>
 </html>

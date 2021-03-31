@@ -13,13 +13,16 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['MONGODB_SETTINGS'] = {
-     'db': 'awbtransport',
-     'host': 'localhost',
-     'port': 27017
+    'db': 'awbtransport',
+    'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
+    # 'db': 'awbtransport',
+    # 'host': 'localhost',
+    'port': 27017
 }
 db = MongoEngine()
 db.init_app(app)
-PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
+PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/wkhtmltopdf/bin/wkhtmltopdf.exe')
+# PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
 
 ######################################Start Models########################################################
 
@@ -245,6 +248,32 @@ class DriversData(db.Document):
 
     def to_json(self):
         return {"data": self}
+    def convertDateOFbirth(self, dob):
+        if dob:
+            dob.strftime("%m/%d/%Y")
+            return  dob
+        else:
+            return ''
+    def to_data(self):
+        return {
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "email": self.email,
+            "socialSecurity": self.socialSecurity,
+            "zipCode": self.zipCode,
+            "isDeleted": self.isDeleted,
+            "isEditable": self.isEditable,
+            "id": self.user_name,
+            "city": self.city,
+            "state": self.state,
+            "address": self.address,
+            "dateOfBirth": self.convertDateOFbirth(self.dateofBirth),
+            "user_name": self.user_name,
+            "phone_number": self.phone_number,
+            "gender": self.gender,
+            "veteranStatus": self.veteranStatus,
+            "startTime": self.startTime
+        }
 
 ##################################### End Models ########################################################
 
@@ -421,9 +450,9 @@ def index(path):
   print (path)
   return send_from_directory(app.static_folder, "index.html")
 
-@app.route("/admin/", defaults={"path": ""})
-@app.route("/admin/<string:path>")
-@app.route("/admin/<path:path>")
+@app.route("/hrportal/", defaults={"path": ""})
+@app.route("/hrportal/<string:path>")
+@app.route("/hrportal/<path:path>")
 def index1(path):
   print (path)
   return send_from_directory(app.static_folder, "index.html")
@@ -819,7 +848,7 @@ def get_users():
     users_list = []
     if users:
         for user in users:
-            users_list.append(user.to_json())
+            users_list.append(user.to_data())
         return jsonify(users_list)
     else:
         return jsonify({'error': 'Unnable to load users'})

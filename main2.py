@@ -13,16 +13,20 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['MONGODB_SETTINGS'] = {
-    'db': 'awbtransport',
-    'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
     # 'db': 'awbtransport',
-    # 'host': 'localhost',
+    # 'host': 'mongodb+srv://test:test1234@test.iocw1.mongodb.net/awbTransport1',
+    'db': 'awbtransport',
+    'host': 'localhost',
     'port': 27017
 }
-db = MongoEngine()
-db.init_app(app)
-PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/wkhtmltopdf/bin/wkhtmltopdf.exe')
-# PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
+try:
+    db = MongoEngine()
+    db.init_app(app)
+except:
+    data = {"error":"Failed To Connect Database"}
+    print(data)
+# PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/wkhtmltopdf/bin/wkhtmltopdf.exe')
+PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
 
 ######################################Start Models########################################################
 

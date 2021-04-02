@@ -25,8 +25,8 @@ try:
 except:
     data = {"error":"Failed To Connect Database"}
     print(data)
-# PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/wkhtmltopdf/bin/wkhtmltopdf.exe')
-PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
+PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/wkhtmltopdf/bin/wkhtmltopdf.exe')
+# PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
 
 ######################################Start Models########################################################
 

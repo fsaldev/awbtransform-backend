@@ -25,8 +25,8 @@ try:
 except:
     data = {"error":"Failed To Connect Database"}
     print(data)
-PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/wkhtmltopdf/bin/wkhtmltopdf.exe')
-# PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
+# PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/wkhtmltopdf/bin/wkhtmltopdf.exe')
+PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
 
 ######################################Start Models########################################################
 
@@ -676,6 +676,7 @@ def update_record():
     if 'alcoholTestExecutionDate' in record:
         record["alcoholTestExecutionDate"] = string_to_date(record["alcoholTestExecutionDate"])
     if 'employeeDate' in record:
+        record['isEditable'] = "true"
         rt = string_to_date(record["employeeDate"])
         if rt == '':
             record["employeeDate"] = None
@@ -990,6 +991,14 @@ def driver_employ():
 
     else:
         return jsonify({'error': 'Invalid Data'})
+
+@app.route('/api/pdf/fw4', methods=['GET'])
+@cross_origin()
+def fw():
+    try:
+        return send_file('./templates/fw4.pdf', as_attachment=True)
+    except:
+        return jsonify({'error': 'No Resume found'})
 ####################End PDF's###########################
 
 # @app.route('/')

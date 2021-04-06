@@ -10,8 +10,6 @@ from flask_mongoengine.wtf import model_form
 import pdfkit
 import uuid
 from werkzeug.utils import secure_filename
-from flask_mail import Mail, Message
-import smtplib
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['MONGODB_SETTINGS'] = {
@@ -21,26 +19,12 @@ app.config['MONGODB_SETTINGS'] = {
     'host': 'localhost',
     'port': 27017
 }
-app.config['MAIL_SERVER']='smtp.sendgrid.net'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USERNAME'] = 'apikey'
-app.config['MAIL_PASSWORD'] = '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'
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
-
 try:
     db = MongoEngine()
     db.init_app(app)
 except:
     data = {"error":"Failed To Connect Database"}
     print(data)
-
-try:
-    mail = Mail(app)
-except:
-    data = {"error": "Failed To Connect To Mail Server"}
-    print(data)
-
 # PDFKIT_CONFIGURATION  = pdfkit.configuration(wkhtmltopdf='C:/wkhtmltopdf/bin/wkhtmltopdf.exe')
 PDFKIT_CONFIGURATION = pdfkit.configuration(wkhtmltopdf="/home/awbtransport/wkhtml-install/usr/local/bin/wkhtmltopdf")
 
@@ -862,55 +846,17 @@ def login():
     return json.dumps({'error': 'Incorect User Name and Password'})
 
 
-@app.route('/api/contact_us', methods=['POST'])
-@cross_origin()
-def contact():
-    record = json.loads(request.data)
-    if 'sender' in record:
-        sender = record['sender']
-    if 'recepient' in record:
-        recepient = record['recepient']
-    if 'name' in record:
-        name = record['name']
-    if 'phone' in record:
-        phone = record['phone']
-    if 'message' in record:
-        message = record['message']
-    if 'email' in record:
-        email = record['email']
-    if 'subject' in record:
-        subject = record['subject']
-    body = "Name: " + name + "\n" + "Phone No:" + phone + "\n" "Email: " + email +"\n"+ message
-    try:
-        msg = Message(subject,recipients=recepient, body=body, sender= sender)
-        mail.send(msg)
-        return json.dumps({"success": "Mail Sent SuccessFully"})
-    except Exception as ex:
-        print(ex)
-        return json.dumps({"error": "Failed To Sent Email"})
-
-@app.route('/api/get_all_users', methods=['POST'])
+@app.route('/api/get_all_users', methods=['GET'])
 @cross_origin()
 def get_users():
-    record = json.loads(request.data)
-    if 'user_name' in record:
-        user_name = record['user_name']
-    if 'password' in record:
-        password = record['password']
-
-    if user_name == "admin" and password == "admin@admin.com":
-        users = DriversData.objects().all()
-        users_list = []
-        if users:
-            for user in users:
-                users_list.append(user.to_data())
-            return jsonify(users_list)
-        else:
-            return jsonify({'error': 'Unnable to load users'})
-    if user_name != 'admin':
-        return jsonify({'error': 'Incorrect User Name'})
-    if password != 'admin@admin.com':
-        return jsonify({'error': 'Incorrect Password'})
+    users = DriversData.objects().all()
+    users_list = []
+    if users:
+        for user in users:
+            users_list.append(user.to_data())
+        return jsonify(users_list)
+    else:
+        return jsonify({'error': 'Unnable to load users'})
 
 #################### Start PDFS HTML###########################
 
